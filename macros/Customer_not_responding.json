@@ -1,0 +1,13 @@
+[
+    {
+        "field": "status",
+        "value": "pending"
+    },
+    {
+        "field": "comment_value",
+        "value": [
+            "channel:all",
+            "Hello {{ticket.requester.name}}, \nOur agent {{current_user.name}} has tried to contact you about this support request but we haven't heard back from you yet. Please let us know if we can be of further assistance. Thanks. "
+        ]
+    }
+]

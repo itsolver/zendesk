@@ -1,0 +1,18 @@
+[
+    {
+        "field": "status",
+        "value": "open"
+    },
+    {
+        "field": "current_tags",
+        "value": "reservation"
+    },
+    {
+        "field": "comment_value_html",
+        "value": "<h3>Thanks for making a reservation.</h3><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your remote support reservation.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b></p><p>When: <b>{{ticket.ticket_field_24288063 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_24288073 | date: \"%-I:%M %p\" | upcase}}</b></p><p>Why: <b>{{ticket.title}}</b></p><p>What's next? <b>Turn on affected computer for the above time. Wait for {{ticket.assignee.first_name}} to call you.</b></p><p><br></p><p>We look forward to helping you.</p>"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    }
+]

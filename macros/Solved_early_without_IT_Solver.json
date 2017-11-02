@@ -1,0 +1,25 @@
+[
+    {
+        "field": "status",
+        "value": "solved"
+    },
+    {
+        "field": "priority",
+        "value": "normal"
+    },
+    {
+        "field": "type",
+        "value": "problem"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    },
+    {
+        "field": "comment_value",
+        "value": [
+            "channel:all",
+            "## You're an IT pro\nDear {{ticket.requester.name}},\nWell done on resolving this issue quickly without any assistance. \n\nFeel free to contact IT Solver for help.\n\n**Thanks for using IT Solver.**"
+        ]
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "field": "status",
+        "value": "solved"
+    },
+    {
+        "field": "custom_fields_24347166",
+        "value": "billing"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    },
+    {
+        "field": "comment_value_html",
+        "value": "<p>Hi {{ticket.requester.name}},</p><p>Thanks for the remittance advice. Have a terrific day.</p>"
+    },
+    {
+        "field": "comment_value",
+        "value": "Hi {{ticket.requester.name}},\nThanks for the remittance advice. Have a terrific day.\n"
+    }
+]

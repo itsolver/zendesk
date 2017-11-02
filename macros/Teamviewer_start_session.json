@@ -1,0 +1,10 @@
+[
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    },
+    {
+        "field": "comment_value_html",
+        "value": "<p>Hi {{ticket.requester.first_name}},</p><p><br></p><p><a href=\"https://itsolver.net/qs\" data-nofollow=\"true\" style=\"font-size: 1.28571rem; font-weight: 600; background-color: rgb(255, 255, 255);\">Please click here to join a live support session.</a></p>"
+    }
+]

@@ -1,0 +1,25 @@
+[
+    {
+        "field": "status",
+        "value": "open"
+    },
+    {
+        "field": "current_tags",
+        "value": "waiting_appointment"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    },
+    {
+        "field": "comment_value",
+        "value": [
+            "channel:all",
+            "Dear {{ticket.requester.name}},\n**Thanks for your patience.**\nWe're currently waiting for more jobs at {{ticket.ticket_field_option_title_24375476}}. Soon as we have enough work lined up, we will contact you to schedule the work.\n\nWe will do our best to make this as early as possible."
+        ]
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    }
+]

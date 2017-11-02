@@ -1,0 +1,30 @@
+[
+    {
+        "field": "status",
+        "value": "solved"
+    },
+    {
+        "field": "assignee_id",
+        "value": "363487396"
+    },
+    {
+        "field": "group_id",
+        "value": "20683476"
+    },
+    {
+        "field": "current_tags",
+        "value": "beyond-economical"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    },
+    {
+        "field": "comment_value_html",
+        "value": "<div class=\"zd-comment\"><p>Hi <span class=\"atwho-inserted\">{{ticket.requester.name}}</span> ,<br></p><p>We've decided together this device is beyond economical to repair. </p><p><br></p><p>Let me know if you'd like more assistance.</p><p><br></p><p>Thanks for using IT Solver.</p></div>"
+    },
+    {
+        "field": "custom_fields_24347166",
+        "value": "ineligible_for_support_price_sensitive"
+    }
+]

@@ -1,0 +1,21 @@
+[
+    {
+        "field": "status",
+        "value": "open"
+    },
+    {
+        "field": "priority",
+        "value": "normal"
+    },
+    {
+        "field": "comment_value",
+        "value": [
+            "channel:all",
+            "We're currently experiencing unusually high traffic. We'll get back to you as soon as possible."
+        ]
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    }
+]

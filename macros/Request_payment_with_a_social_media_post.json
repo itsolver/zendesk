@@ -1,0 +1,13 @@
+[
+    {
+        "field": "current_tags",
+        "value": "paywithapost"
+    },
+    {
+        "field": "comment_value",
+        "value": [
+            "channel:all",
+            "Dear {{ticket.requester.name}},\nThank you for the question. In exchange for promoting our business online, we will provide an answer via email.\n\nPlease [click here to continue](http://www.paywithapost.de/pay?id=850daefe-f6eb-4ff7-96fc-e41f05d7e5bc).\n\nAlternatively, we can discuss paid support options."
+        ]
+    }
+]

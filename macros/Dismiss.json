@@ -1,0 +1,14 @@
+[
+    {
+        "field": "status",
+        "value": "solved"
+    },
+    {
+        "field": "current_tags",
+        "value": "internal_updates n_a dismissed no_email"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "false"
+    }
+]

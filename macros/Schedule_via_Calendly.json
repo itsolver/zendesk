@@ -1,0 +1,14 @@
+[
+    {
+        "field": "status",
+        "value": "pending"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    },
+    {
+        "field": "comment_value_html",
+        "value": "<p>Hi <span class=\"atwho-inserted\">{{ticket.requester.name}}</span>\u200d,</p><p>Want to schedule a time using my <a href=\"https://calendly.com/itsolver\" target=\"_blank\" rel=\"noreferrer\">Calendly link</a> so we can avoid the back and forth of finding a time?<br></p>"
+    }
+]

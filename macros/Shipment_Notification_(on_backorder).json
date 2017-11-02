@@ -1,0 +1,17 @@
+[
+    {
+        "field": "status",
+        "value": "open"
+    },
+    {
+        "field": "comment_mode_is_public",
+        "value": "true"
+    },
+    {
+        "field": "comment_value",
+        "value": [
+            "channel:all",
+            "# Your shipment is on its way. \n### Here are your shipment details.\n--- \n#### Items to be Shipped to {{ticket.requester.name}} \n&nbsp; \nAvailable to ship: On Backorder\nEstimated delivery: {{ticket.ticket_field_24291383 | date: \"%A, %d %B\"}} by Standard Shipping\n\n* **{{ticket.ticket_field_24325116}}**\n\n\n##### Shipping Address\n{{ticket.requester.name}} \n{{ticket.requester.phone}} \n{{ticket.requester.custom_fields.street}}\n{{ticket.requester.custom_fields.city_suburb}} {{ticket.requester.custom_fields.city_state}} {{ticket.requester.custom_fields.city_postal_code}}"
+        ]
+    }
+]

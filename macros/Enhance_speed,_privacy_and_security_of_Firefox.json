@@ -1,0 +1,9 @@
+[
+    {
+        "field": "comment_value",
+        "value": [
+            "channel:all",
+            "### Enhanced speed, privacy and security of Firefox\n- added uBlock to block ads and tracking.\n- added Web of Trust for website safety rating."
+        ]
+    }
+]
