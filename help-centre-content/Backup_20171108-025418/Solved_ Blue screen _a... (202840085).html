@@ -1,0 +1,27 @@
+﻿<h1>Solved: Blue screen "athrx.sys"</h1>
+<h2><span class="wysiwyg-font-size-large">Symptoms</span></h2>
+<p>Blue screen with white text mentioning</p>
+<ul type="disc">
+<li type="disc">DRIVER_IRQL_NOT_LESS_OR_EQUAL</li>
+<li type="disc">STOP: 0x000000D1</li>
+<li type="disc">athrx.sys</li>
+</ul>
+<p><strong><span class="wysiwyg-font-size-large">Affected Operating Systems</span></strong></p>
+<ul>
+<li><font size="1"><span class="wysiwyg-font-size-medium">Windows Vista</span><br /></font></li>
+<li><font size="1"><span class="wysiwyg-font-size-medium">Windows 7</span></font></li>
+</ul>
+<p><span class="wysiwyg-font-size-large"><strong>Cause</strong></span></p>
+<p>Device driver (usually installed by Windows Update) is not playing well with the wireless adapter</p>
+<h2><strong><span class="wysiwyg-font-size-large">Solution</span></strong></h2>
+<p>Uninstall and delete driver for wireless adapter:</p>
+<p> </p>
+<ol>
+<li>Click on the <strong>Start</strong> button and then choose <strong>Control Panel</strong>.</li>
+<li>Click on the <strong>System and Security</strong> link. <br /><strong>Note:</strong> If you're viewing the <em>Large icons</em> or <em>Small icons</em> view of Control Panel, you won't see this link. Simply click on <strong>Device Manager</strong> and then proceed to Step 4.</li>
+<li>In the <em>System and Security</em> window, click on the <strong>Device Manager</strong> link located under the <em>System</em> heading.</li>
+<li>Find the wireless adapter under <strong>Network Adapters</strong></li>
+<li>Right-click the Atheros wireless device, and then click <strong>Uninstall</strong>. You can also double-click the device, and then on the <strong>Driver</strong> tab, click <strong>Uninstall</strong>.</li>
+<li>In the <strong>Confirm Device Removal</strong> page, select <strong>Delete the driver software for this device</strong> if you also want to remove the device driver package from the driver store</li>
+</ol>
+<p>Install driver for wireless adapter from manufacturer website.</p>

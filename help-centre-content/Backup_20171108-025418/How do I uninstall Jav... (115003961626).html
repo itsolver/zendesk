@@ -1,0 +1,17 @@
+﻿<h1>How do I uninstall Java on my Mac?</h1>
+<p><span class="wysiwyg-font-size-medium">This is an improved version of <a href="https://www.java.com/en/download/help/mac_uninstall_java.xml">Oracle's official instructions</a>.</span></p>
+<h4>This article applies to:</h4>
+<ul>
+<li><strong>Platform(s): </strong>Macintosh OS X</li>
+<li><strong>Java version(s): </strong>7.0, 8.0</li>
+</ul>
+<h4>Uninstall Oracle Java using the Terminal</h4>
+<p><strong>Note:</strong> To uninstall Java, you must have Administrator privileges and execute the remove command either as root or by using the <code>sudo</code> tool.</p>
+<p>Remove one directory and one file (a symlink), as follows:</p>
+<ol>
+<li>Click on the <strong>Finder</strong> icon located in your dock</li>
+<li>Click on the <strong>Utilities</strong> folder</li>
+<li>Double-click on the <strong>Terminal</strong> icon</li>
+<li>In the Terminal window <strong>Copy and Paste</strong> the commands below:<br /><code>sudo rm -fr /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin</code> <br /><code>sudo rm -fr /Library/PreferencePanes/JavaControlPanel.prefPane</code> <br /><code>sudo rm -fr ~/Library/Application\ Support/Java</code><br /><code>sudo rm -fr /Library/LaunchAgents/com.oracle.java.*<br />sudo rm -fr /Library/LaunchDaemons/com.oracle.java.*<br />rm -fr ~/Library/LaunchAgents/com.oracle.java.*</code><code></code></li>
+</ol>
+<p><span class="bodytext">Do not attempt to uninstall Java by removing the Java tools from <code>/usr/bin</code>. This directory is part of the system software and any changes will be reset by Apple the next time you perform an update of the OS. </span></p>

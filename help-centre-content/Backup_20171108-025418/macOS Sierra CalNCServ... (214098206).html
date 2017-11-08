@@ -1,0 +1,38 @@
+﻿<h1>macOS Sierra CalNCService high CPU usage</h1>
+<div class="zd-comment">
+<div class="zd-comment">
+<div class="zd-comment">My Mac was running loud and hot so I do what most tech heads do, opened Activity Monitor to investigate. Discovered CalNCService process was using 80+ % CPU. </div>
+<div class="zd-comment"> </div>
+<div class="zd-comment">Affected OS: macOS Sierra 10.12<br />Unconfirmed affected OS: Mac OS Yosemite 10.10 and El Capitan 10.11, macOS High Sierra 10.13</div>
+<div class="zd-comment"> </div>
+<div class="zd-comment"><span class="wysiwyg-font-size-large">First try these quick fixes</span></div>
+<ul>
+<li class="zd-comment"><span class="wysiwyg-font-size-medium"><a href="https://support.itsolver.net/access/return_to?return_to=https://itsolver.zendesk.com/agent/users/6225454823/tickets" target="_zendesk_lotus">Don Rowlands</a> had success by disabling Google calendar sync in Internet Accounts System Preferences. Worked for me including re-enabling calendar sync.</span></li>
+<li class="zd-comment"><span class="wysiwyg-font-size-medium"><a href="https://apple.stackexchange.com/questions/256908/what-is-calncservice-and-why-does-it-run-hot-in-macos-sierra#comment321974_256908">Phong (apple.stackexchange.com)</a> suggested to remove Calendar and/or Reminders widgets from the Today Notification Center. Applied this now as I don't use the Today section of Notification Center.</span></li>
+<li class="zd-comment"><span class="wysiwyg-font-size-medium"><a href="https://apple.stackexchange.com/questions/256908/what-is-calncservice-and-why-does-it-run-hot-in-macos-sierra#comment325817_256908">user1559834 (apple.stackexchange.com)</a> went full hog and removed ALL <em>widgets</em> from Notifications Center's Today tab (i.e still leave notifications in place)</span></li>
+</ul>
+<div class="zd-comment"><span class="wysiwyg-font-size-large">Still running hot? Try this reset</span></div>
+<div class="zd-comment">On your own risk! Do a Time Machine backup first. This solution should also fix calendar sync issues.</div>
+<div class="zd-comment">
+<ol>
+<li>Open System Preferences, Internet accounts and untick Calendar for each account.</li>
+<li>Open Activity Monitor, search <code style="font-size: 13px;">calendar</code> and quit calendar processes.</li>
+<li>In Spotlight Search (⌘Space) open <code style="font-size: 13px;">/Library/Caches</code> and drag contents to trash.</li>
+<li>In Spotlight Search (⌘Space) open <code style="font-size: 13px;">~/Library/Caches</code> and drag contents to trash.</li>
+<li>Again, in Spotlight Search open <code style="font-size: 13px;">~/Library/Caches</code> and drag contents to trash.</li>
+<li>In Spotlight Search (⌘Space) open <code style="font-size: 13px;">~/Library/Containers</code>  and select <br /><code style="font-size: 13px;">com.apple.CalendarAgent</code>, <br /><code style="font-size: 13px;">com.apple.CalendarAgent.CalNCService</code>,<br /><code style="font-size: 13px;">com.apple.CalendarFileHandler,</code> <br /><code style="font-size: 13px;">com.apple.CalendarNotification.CalNCService</code> <br />Drag the selection to trash.</li>
+<li>In Spotlight Search (⌘Space) open <code style="font-size: 13px;">~/Library/Calendars</code> and drag contents of the folder to trash.</li>
+<li>Restart your computer.</li>
+<li>Empty trash.</li>
+<li>Open System Preferences, Internet accounts and tick Calendar for each account.</li>
+<li>Open Calendar and wait for Calendars to sync.</li>
+</ol>
+<div class="signature">
+<p dir="auto">Credit: <a href="https://miapple.me/fixing-mac-os-x-10-10-yosemite-notes-crashes-exchange-syncing-bugs/#comment-9299">Gee Are Pabst/miapple.me</a></p>
+<p dir="auto">Kind regards,</p>
+<p dir="auto">Angus McLauchlan | Customer Advocate | (07) 3123 6000 | <a href="mailto:support@itsolver.net">support@itsolver.net</a><br />IT Solver - Brilliant Tech Support - <a href="https://itsolver.net/Angus_McLauchlan.vcf">Add Angus to contacts</a></p>
+<p dir="auto"><span class="wysiwyg-font-size-small wysiwyg-color-black">Update: added quick fixes as discovered by others. 8 Sep 8 '17</span></p>
+</div>
+</div>
+</div>
+</div>
