@@ -1,0 +1,35 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/59784766.json",
+  "id": 59784766,
+  "title": "Tymeshift: Ticket Create",
+  "active": true,
+  "updated_at": "2017-09-13T14:43:08Z",
+  "created_at": "2017-09-13T14:43:08Z",
+  "actions": [
+    {
+      "field": "notification_target",
+      "value": [
+        20464783,
+        "{\"source\":\"Zendesk\",\"type\":\"{{ticket.type}}\",\"account_name\":\"{{ticket.account}}\",\"ticket_id\":\"{{ticket.id}}\",\"score\":\"{{ticket.score}}\",\"tags\":\"{{ticket.tags}}\",\"id\":\"{{ticket.id}}\",\"organization_id\":\"{{ticket.organization.id}}\",\"requester_id\":\"{{ticket.requester.id}}\",\"assignee_id\":\"{{ticket.assignee.id}}\",\"group_id\":\"{{ticket.group.id}}\",\"subject\":\"{{ticket.subject}}\",\"status\":\"{{ticket.status}}\",\"updated_at\":\"{{ticket.updated_at}}\",\"priority\":\"{{ticket.priority}}\",\"description\":\"{{ticket.description}}\",\"custom_fields\":\"{{ticket.custom_fields}}\"}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Create"
+      },
+      {
+        "field": "current_via_id",
+        "operator": "is",
+        "value": "0"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 44,
+  "raw_title": "Tymeshift: Ticket Create"
+}

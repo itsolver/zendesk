@@ -1,0 +1,32 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/50169083.json",
+  "id": 50169083,
+  "title": "Add invoiced tag",
+  "active": true,
+  "updated_at": "2017-11-08T06:44:17Z",
+  "created_at": "2016-06-01T13:49:59Z",
+  "actions": [
+    {
+      "field": "current_tags",
+      "value": "invoiced"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "custom_fields_24331873",
+        "operator": "is",
+        "value": "true"
+      },
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "solved"
+      }
+    ],
+    "any": []
+  },
+  "description": "If Invoiced is checked and status solved, add tag \"invoiced\".",
+  "position": 23,
+  "raw_title": "Add invoiced tag"
+}

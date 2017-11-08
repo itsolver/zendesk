@@ -1,0 +1,38 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/52791886.json",
+  "id": 52791886,
+  "title": "Remove tag \"callback\" if pending customer reply or solved",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2016-08-02T06:07:48Z",
+  "actions": [
+    {
+      "field": "remove_tags",
+      "value": "callback"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "callback"
+      }
+    ],
+    "any": [
+      {
+        "field": "status",
+        "operator": "value",
+        "value": "pending"
+      },
+      {
+        "field": "status",
+        "operator": "value",
+        "value": "solved"
+      }
+    ]
+  },
+  "description": null,
+  "position": 26,
+  "raw_title": "Remove tag \"callback\" if pending customer reply or solved"
+}

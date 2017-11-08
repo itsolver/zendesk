@@ -1,0 +1,37 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/43928319.json",
+  "id": 43928319,
+  "title": "Close Facebook Posts from IT Solver Blog Posts",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2015-06-01T08:58:21Z",
+  "actions": [
+    {
+      "field": "status",
+      "value": "closed"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "via_id",
+        "operator": "is",
+        "value": "38"
+      },
+      {
+        "field": "requester.custom_fields.street",
+        "operator": "is",
+        "value": "22 Pentecost Place"
+      },
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "new"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 20,
+  "raw_title": "Close Facebook Posts from IT Solver Blog Posts"
+}

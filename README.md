@@ -15,3 +15,8 @@
  - Tickets
  - People
  - Organisations
+
+# Archived to GitHub
+ - Macros. Used: [terrorbox/zendesk-macro-backup](https://github.com/terrorbox/zendesk-macro-backup)
+ - Help Centre Theme. Copied manually.
+ - Help Centre Content. Used: [Felix Stubner's kBackup](https://support.zendesk.com/hc/en-us/community/posts/210927837)

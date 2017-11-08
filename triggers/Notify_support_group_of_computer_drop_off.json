@@ -1,0 +1,41 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/43010867.json",
+  "id": 43010867,
+  "title": "Notify support group of computer drop off",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2014-05-15T00:50:46Z",
+  "actions": [
+    {
+      "field": "notification_group",
+      "value": [
+        "20683476",
+        "{{ticket.title}}",
+        "{{ticket.description}}\n{{ticket.link}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Create"
+      },
+      {
+        "field": "current_via_id",
+        "operator": "is",
+        "value": "5"
+      },
+      {
+        "field": "status",
+        "operator": "is_not",
+        "value": "solved"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 19,
+  "raw_title": "Notify support group of computer drop off"
+}

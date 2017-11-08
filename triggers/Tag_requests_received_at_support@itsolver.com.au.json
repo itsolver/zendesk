@@ -1,0 +1,37 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/58058043.json",
+  "id": 58058043,
+  "title": "Tag requests received at support@itsolver.com.au",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2017-08-15T10:57:18Z",
+  "actions": [
+    {
+      "field": "current_tags",
+      "value": "support@itsolver.com.au"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "new"
+      },
+      {
+        "field": "via_id",
+        "operator": "is",
+        "value": "4"
+      },
+      {
+        "field": "recipient",
+        "operator": "is",
+        "value": "support@itsolver.com.au"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 1,
+  "raw_title": "Tag requests received at support@itsolver.com.au"
+}

@@ -1,0 +1,37 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/51765146.json",
+  "id": 51765146,
+  "title": "Remove ticket from reservation waiting list once calendar item added",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2016-06-16T23:50:50Z",
+  "actions": [
+    {
+      "field": "remove_tags",
+      "value": "waiting_appointment"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "waiting_appointment"
+      },
+      {
+        "field": "status",
+        "operator": "less_than",
+        "value": "solved"
+      },
+      {
+        "field": "custom_fields_24288063",
+        "operator": "present",
+        "value": null
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 24,
+  "raw_title": "Remove ticket from reservation waiting list once calendar item added"
+}

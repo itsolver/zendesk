@@ -1,0 +1,30 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/59441186.json",
+  "id": 59441186,
+  "title": "[Hubspot Integration] - Ticket Created",
+  "active": true,
+  "updated_at": "2017-08-16T22:40:46Z",
+  "created_at": "2017-08-16T22:40:46Z",
+  "actions": [
+    {
+      "field": "notification_target",
+      "value": [
+        20448083,
+        "{\"ticketId\":\"{{ticket.id}}\",\"eventType\":\"ticketCreated\"}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Create"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 39,
+  "raw_title": "[Hubspot Integration] - Ticket Created"
+}

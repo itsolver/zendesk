@@ -1,0 +1,36 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/34574066.json",
+  "id": 34574066,
+  "title": "Notify all agents of received request",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2013-03-13T00:29:03Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "all_agents",
+        "[{{ticket.account}}] {{ticket.title}}",
+        "A ticket (#{{ticket.id}}) by {{ticket.requester.name}} has been received. It is unassigned.\n\n{{ticket.comments_formatted}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Create"
+      },
+      {
+        "field": "group_id",
+        "operator": "is",
+        "value": ""
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 14,
+  "raw_title": "Notify all agents of received request"
+}

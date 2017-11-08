@@ -1,0 +1,37 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/54363223.json",
+  "id": 54363223,
+  "title": "Tag calendly notifications with no_email",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2017-01-30T05:29:44Z",
+  "actions": [
+    {
+      "field": "current_tags",
+      "value": "no_email"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Create"
+      },
+      {
+        "field": "comment_includes_word",
+        "operator": "is",
+        "value": "Sent from Calendly"
+      },
+      {
+        "field": "subject_includes_word",
+        "operator": "includes",
+        "value": "New Canceled"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 2,
+  "raw_title": "Tag calendly notifications with no_email"
+}

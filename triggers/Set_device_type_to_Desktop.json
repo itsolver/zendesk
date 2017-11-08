@@ -1,0 +1,32 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/53962726.json",
+  "id": 53962726,
+  "title": "Set device type to Desktop",
+  "active": true,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2016-10-05T07:12:39Z",
+  "actions": [
+    {
+      "field": "custom_fields_22594308",
+      "value": "34329473"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "comment_includes_word",
+        "operator": "is",
+        "value": "desktop_case: Desktop"
+      },
+      {
+        "field": "custom_fields_22594308",
+        "operator": "is",
+        "value": ""
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 28,
+  "raw_title": "Set device type to Desktop"
+}

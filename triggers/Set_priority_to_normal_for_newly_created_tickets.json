@@ -1,0 +1,32 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/56205043.json",
+  "id": 56205043,
+  "title": "Set priority to normal for newly created tickets",
+  "active": false,
+  "updated_at": "2017-08-15T10:57:33Z",
+  "created_at": "2017-05-08T03:07:50Z",
+  "actions": [
+    {
+      "field": "priority",
+      "value": "normal"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "priority",
+        "operator": "is",
+        "value": null
+      },
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Create"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 33,
+  "raw_title": "Set priority to normal for newly created tickets"
+}
