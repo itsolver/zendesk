@@ -1,22 +1,33 @@
-[
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/56721306.json",
+  "id": 56721306,
+  "title": "Billing - remittance advice from customer",
+  "active": true,
+  "updated_at": "2017-09-25T21:09:44Z",
+  "created_at": "2017-03-29T23:29:04Z",
+  "position": 26,
+  "description": "Set support type as billing and mark as solved",
+  "actions": [
     {
-        "field": "status",
-        "value": "solved"
+      "field": "status",
+      "value": "solved"
     },
     {
-        "field": "custom_fields_24347166",
-        "value": "billing"
+      "field": "custom_fields_24347166",
+      "value": "billing"
     },
     {
-        "field": "comment_mode_is_public",
-        "value": "true"
+      "field": "comment_mode_is_public",
+      "value": "true"
     },
     {
-        "field": "comment_value_html",
-        "value": "<p>Hi {{ticket.requester.name}},</p><p>Thanks for the remittance advice. Have a terrific day.</p>"
+      "field": "comment_value_html",
+      "value": "<p>Hi {{ticket.requester.name}},</p><p>Thanks for the remittance advice. Have a terrific day.</p>"
     },
     {
-        "field": "comment_value",
-        "value": "Hi {{ticket.requester.name}},\nThanks for the remittance advice. Have a terrific day.\n"
+      "field": "comment_value",
+      "value": "Hi {{ticket.requester.name}},\nThanks for the remittance advice. Have a terrific day.\n"
     }
-]
+  ],
+  "restriction": null
+}

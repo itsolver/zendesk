@@ -1,0 +1,49 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/35230969.json",
+  "id": 35230969,
+  "title": "Request customer satisfaction rating",
+  "active": false,
+  "updated_at": "2017-04-26T23:52:12Z",
+  "created_at": "2014-09-18T09:37:50Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "requester_id",
+        "Request #{{ticket.id}}: How would you rate the support you received?",
+        "Hello {{ticket.requester.name}},\n\nWe'd love to hear what you think of our customer service. Please take a moment to answer one simple question by clicking either link below:\n\n{{satisfaction.rating_section}}\n\nHere's a reminder of what your ticket was about:\n\n{{ticket.comments_formatted}}\n"
+      ]
+    },
+    {
+      "field": "satisfaction_score",
+      "value": "offered"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "less_than",
+        "value": "closed"
+      },
+      {
+        "field": "SOLVED",
+        "operator": "is",
+        "value": "24"
+      },
+      {
+        "field": "satisfaction_score",
+        "operator": "is",
+        "value": "unoffered"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "nocsat nosurvey ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred solicitation"
+      }
+    ],
+    "any": []
+  },
+  "position": 6,
+  "raw_title": "Request customer satisfaction rating"
+}

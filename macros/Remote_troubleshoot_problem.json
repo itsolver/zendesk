@@ -1,14 +1,25 @@
-[
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/58824423.json",
+  "id": 58824423,
+  "title": "Remote troubleshoot problem",
+  "active": true,
+  "updated_at": "2017-10-11T06:38:42Z",
+  "created_at": "2017-10-11T06:38:42Z",
+  "position": 33,
+  "description": null,
+  "actions": [
     {
-        "field": "priority",
-        "value": "normal"
+      "field": "priority",
+      "value": "normal"
     },
     {
-        "field": "type",
-        "value": "problem"
+      "field": "type",
+      "value": "problem"
     },
     {
-        "field": "custom_fields_24347166",
-        "value": "remote"
+      "field": "custom_fields_24347166",
+      "value": "remote"
     }
-]
+  ],
+  "restriction": null
+}

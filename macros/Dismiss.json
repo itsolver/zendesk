@@ -1,14 +1,25 @@
-[
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/59710486.json",
+  "id": 59710486,
+  "title": "Dismiss",
+  "active": true,
+  "updated_at": "2017-09-06T23:40:14Z",
+  "created_at": "2017-09-06T23:40:14Z",
+  "position": 31,
+  "description": "Dismiss updates or another notifications.",
+  "actions": [
     {
-        "field": "status",
-        "value": "solved"
+      "field": "status",
+      "value": "solved"
     },
     {
-        "field": "current_tags",
-        "value": "internal_updates n_a dismissed no_email"
+      "field": "current_tags",
+      "value": "internal_updates n_a dismissed no_email"
     },
     {
-        "field": "comment_mode_is_public",
-        "value": "false"
+      "field": "comment_mode_is_public",
+      "value": "false"
     }
-]
+  ],
+  "restriction": null
+}

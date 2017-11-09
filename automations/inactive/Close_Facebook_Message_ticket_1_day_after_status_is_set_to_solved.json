@@ -1,0 +1,36 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/35280837.json",
+  "id": 35280837,
+  "title": "Close Facebook Message ticket 1 day after status is set to solved",
+  "active": false,
+  "updated_at": "2017-08-21T03:20:20Z",
+  "created_at": "2013-04-12T02:13:12Z",
+  "actions": [
+    {
+      "field": "status",
+      "value": "closed"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "solved"
+      },
+      {
+        "field": "SOLVED",
+        "operator": "is",
+        "value": "24"
+      },
+      {
+        "field": "via_id",
+        "operator": "is",
+        "value": "41"
+      }
+    ],
+    "any": []
+  },
+  "position": 12,
+  "raw_title": "Close Facebook Message ticket 1 day after status is set to solved"
+}

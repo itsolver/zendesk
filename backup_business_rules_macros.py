@@ -28,6 +28,14 @@ inactive_automations_backup_path = os.path.join(automations_backup_path, "inacti
 if not os.path.exists(inactive_automations_backup_path):
     os.makedirs(inactive_automations_backup_path)
 
+macros_backup_path = os.path.join("macros")
+if not os.path.exists(macros_backup_path):
+    os.makedirs(macros_backup_path)
+    
+inactive_macros_backup_path = os.path.join(macros_backup_path, "inactive/")
+if not os.path.exists(inactive_macros_backup_path):
+    os.makedirs(inactive_macros_backup_path)
+
 log = []
 
 triggers_endpoint = zendesk + '/api/v2/triggers.json'
@@ -99,3 +107,38 @@ with open(os.path.join(backup_path, '_log.csv'), mode='wt', encoding='utf-8') as
     writer.writerow( ('File', 'Title', 'Date Created', 'Date Updated') )
     for automation in log:
         writer.writerow(automation)
+
+macros_endpoint = zendesk + '/api/v2/macros.json'
+while macros_endpoint:
+    response = session.get(macros_endpoint)
+    if response.status_code != 200:
+        print('Failed to retrieve macros with error {}'.format(response.status_code))
+        exit()
+    data = response.json()
+
+    for macro in data['macros']:
+        url = macro['url']
+        id = macro['id']
+        title = macro['title']
+        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        active = macro['active']
+        if active:
+            backup_path = macros_backup_path
+        else: 
+            backup_path = inactive_macros_backup_path
+        filename = safe_title + '.json'
+        created = macro['created_at']
+        updated = macro['updated_at']
+        content = json.dumps(macro, indent=2)
+        with open(os.path.join(backup_path, filename), mode='w', encoding='utf-8') as f:
+           f.write(content) 
+        print(filename + ' - copied!')
+        log.append((filename, title, created, updated))
+
+    macros_endpoint = data['next_page']
+
+with open(os.path.join(backup_path, '_log.csv'), mode='wt', encoding='utf-8') as f:
+    writer = csv.writer(f)
+    writer.writerow( ('File', 'Title', 'Date Created', 'Date Updated') )
+    for macro in log:
+        writer.writerow(macro)

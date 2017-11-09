@@ -1,13 +1,24 @@
-[
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/42464897.json",
+  "id": 42464897,
+  "title": "Troubleshooting (PAIR)",
+  "active": true,
+  "updated_at": "2016-07-27T00:41:37Z",
+  "created_at": "2014-03-28T22:39:12Z",
+  "position": 18,
+  "description": null,
+  "actions": [
     {
-        "field": "comment_mode_is_public",
-        "value": "false"
+      "field": "comment_mode_is_public",
+      "value": "false"
     },
     {
-        "field": "comment_value",
-        "value": [
-            "channel:all",
-            "# Probing\n\n# Analysis\n\n# Isolation\n\n# Resolution\n\n## Cause\n\n## Solution\n"
-        ]
+      "field": "comment_value",
+      "value": [
+        "channel:all",
+        "# Probing\n\n# Analysis\n\n# Isolation\n\n# Resolution\n\n## Cause\n\n## Solution\n"
+      ]
     }
-]
+  ],
+  "restriction": null
+}

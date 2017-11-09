@@ -1,0 +1,54 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/55111183.json",
+  "id": 55111183,
+  "title": "Close FaceBook Post \"Help desk approaching\" after 8 hours of inactivity",
+  "active": false,
+  "updated_at": "2017-08-21T03:20:58Z",
+  "created_at": "2017-03-13T08:06:39Z",
+  "actions": [
+    {
+      "field": "status",
+      "value": "closed"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "internal_marketing"
+    },
+    {
+      "field": "custom_fields_22594308",
+      "value": "other"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "open"
+      },
+      {
+        "field": "via_id",
+        "operator": "is",
+        "value": "38"
+      },
+      {
+        "field": "description_includes_word",
+        "operator": "is",
+        "value": "Help desk approaching"
+      },
+      {
+        "field": "updated_at",
+        "operator": "greater_than",
+        "value": "8"
+      },
+      {
+        "field": "NEW",
+        "operator": "greater_than",
+        "value": "8"
+      }
+    ],
+    "any": []
+  },
+  "position": 11,
+  "raw_title": "Close FaceBook Post \"Help desk approaching\" after 8 hours of inactivity"
+}

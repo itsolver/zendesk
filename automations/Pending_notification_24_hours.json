@@ -1,0 +1,40 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/34574096.json",
+  "id": 34574096,
+  "title": "Pending notification 24 hours",
+  "active": true,
+  "updated_at": "2017-04-26T23:55:47Z",
+  "created_at": "2013-03-13T00:29:03Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "requester_id",
+        "[{{ticket.account}}] Pending request: {{ticket.title}}",
+        "This is an email to remind you that your request (#{{ticket.id}}) is pending and awaits your feedback.\n\n{{ticket.comments_formatted}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "PENDING",
+        "operator": "is",
+        "value": "24"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "pending_7_days pending_2_days"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "no_pending no_email"
+      }
+    ],
+    "any": []
+  },
+  "position": 2,
+  "raw_title": "Pending notification 24 hours"
+}

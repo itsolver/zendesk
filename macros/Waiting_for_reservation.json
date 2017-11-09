@@ -1,25 +1,36 @@
-[
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/49773523.json",
+  "id": 49773523,
+  "title": "Waiting for reservation",
+  "active": true,
+  "updated_at": "2017-07-16T23:51:35Z",
+  "created_at": "2016-05-06T05:27:47Z",
+  "position": 19,
+  "description": null,
+  "actions": [
     {
-        "field": "status",
-        "value": "open"
+      "field": "status",
+      "value": "open"
     },
     {
-        "field": "current_tags",
-        "value": "waiting_appointment"
+      "field": "current_tags",
+      "value": "waiting_appointment"
     },
     {
-        "field": "comment_mode_is_public",
-        "value": "true"
+      "field": "comment_mode_is_public",
+      "value": "true"
     },
     {
-        "field": "comment_value",
-        "value": [
-            "channel:all",
-            "Dear {{ticket.requester.name}},\n**Thanks for your patience.**\nWe're currently waiting for more jobs at {{ticket.ticket_field_option_title_24375476}}. Soon as we have enough work lined up, we will contact you to schedule the work.\n\nWe will do our best to make this as early as possible."
-        ]
+      "field": "comment_value",
+      "value": [
+        "channel:all",
+        "Dear {{ticket.requester.name}},\n**Thanks for your patience.**\nWe're currently waiting for more jobs at {{ticket.ticket_field_option_title_24375476}}. Soon as we have enough work lined up, we will contact you to schedule the work.\n\nWe will do our best to make this as early as possible."
+      ]
     },
     {
-        "field": "comment_mode_is_public",
-        "value": "true"
+      "field": "comment_mode_is_public",
+      "value": "true"
     }
-]
+  ],
+  "restriction": null
+}

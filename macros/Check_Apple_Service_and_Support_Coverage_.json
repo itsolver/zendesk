@@ -1,13 +1,24 @@
-[
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/43797829.json",
+  "id": 43797829,
+  "title": "Check Apple Service and Support Coverage ",
+  "active": true,
+  "updated_at": "2016-01-05T03:31:35Z",
+  "created_at": "2015-05-20T01:58:33Z",
+  "position": 1,
+  "description": null,
+  "actions": [
     {
-        "field": "comment_mode_is_public",
-        "value": "false"
+      "field": "comment_mode_is_public",
+      "value": "false"
     },
     {
-        "field": "comment_value",
-        "value": [
-            "channel:web",
-            "\nCheck Apple Service and Support Coverage: https://selfsolve.apple.com/agreementWarrantyDynamic.do?sn={{ticket.ticket_field_22725887}}&locale=en_AU&caller=sp\n\n - Valid Purchase Date? Yes / No\n - Telephone Technical Support: Available / Expired \n - Repairs and Service Coverage: Available / Expired\n - Less than 26 months since Purchase Date? Yes, you may assert Australian Consumer Law / Expired\n"
-        ]
+      "field": "comment_value",
+      "value": [
+        "channel:web",
+        "\nCheck Apple Service and Support Coverage: https://selfsolve.apple.com/agreementWarrantyDynamic.do?sn={{ticket.ticket_field_22725887}}&locale=en_AU&caller=sp\n\n - Valid Purchase Date? Yes / No\n - Telephone Technical Support: Available / Expired \n - Repairs and Service Coverage: Available / Expired\n - Less than 26 months since Purchase Date? Yes, you may assert Australian Consumer Law / Expired\n"
+      ]
     }
-]
+  ],
+  "restriction": null
+}
