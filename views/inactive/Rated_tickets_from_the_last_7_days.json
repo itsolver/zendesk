@@ -1,0 +1,108 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/35230979.json",
+  "id": 35230979,
+  "title": "Rated tickets from the last 7 days",
+  "active": false,
+  "updated_at": "2017-03-20T01:40:04Z",
+  "created_at": "2014-09-18T09:37:50Z",
+  "position": 15,
+  "execution": {
+    "group_by": "satisfaction_score",
+    "group_order": "desc",
+    "sort_by": "updated",
+    "sort_order": "asc",
+    "group": {
+      "id": "satisfaction_score",
+      "title": "Satisfaction",
+      "order": "desc"
+    },
+    "sort": {
+      "id": "updated",
+      "title": "Updated",
+      "order": "asc"
+    },
+    "columns": [
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      },
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      }
+    ],
+    "fields": [
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      },
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      }
+    ],
+    "custom_fields": []
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "greater_than",
+        "value": "new"
+      },
+      {
+        "field": "SOLVED",
+        "operator": "less_than",
+        "value": "169"
+      }
+    ],
+    "any": [
+      {
+        "field": "satisfaction_score",
+        "operator": "is",
+        "value": "good"
+      },
+      {
+        "field": "satisfaction_score",
+        "operator": "is",
+        "value": "good_with_comment"
+      },
+      {
+        "field": "satisfaction_score",
+        "operator": "is",
+        "value": "bad"
+      },
+      {
+        "field": "satisfaction_score",
+        "operator": "is",
+        "value": "bad_with_comment"
+      }
+    ]
+  },
+  "restriction": null,
+  "raw_title": "{{zd.recently_rated_tickets}}"
+}

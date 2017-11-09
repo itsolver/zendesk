@@ -1,0 +1,193 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24347166.json",
+  "id": 24347166,
+  "type": "tagger",
+  "title": "Support Type",
+  "raw_title": "Support Type",
+  "description": "",
+  "raw_description": "",
+  "position": 9,
+  "active": true,
+  "required": true,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Support Type",
+  "raw_title_in_portal": "Support Type",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2016-04-04T02:23:30Z",
+  "updated_at": "2017-11-08T04:35:41Z",
+  "removable": true,
+  "custom_field_options": [
+    {
+      "id": 64946846,
+      "name": "Billing",
+      "raw_name": "Billing",
+      "value": "billing",
+      "default": false
+    },
+    {
+      "id": 63788806,
+      "name": "Collection Point Walk-in",
+      "raw_name": "Collection Point Walk-in",
+      "value": "collection_point_walk_in",
+      "default": false
+    },
+    {
+      "id": 65240946,
+      "name": "Consultation",
+      "raw_name": "Consultation",
+      "value": "consultation",
+      "default": false
+    },
+    {
+      "id": 64742683,
+      "name": "Customer Feedback",
+      "raw_name": "Customer Feedback",
+      "value": "customer_feedback",
+      "default": false
+    },
+    {
+      "id": 64451863,
+      "name": "Ineligible for support - deferred",
+      "raw_name": "Ineligible for support - deferred",
+      "value": "ineligible_for_support_deferred",
+      "default": false
+    },
+    {
+      "id": 63670643,
+      "name": "Ineligible for support - DIY",
+      "raw_name": "Ineligible for support - DIY",
+      "value": "ineligible_for_support_diy",
+      "default": false
+    },
+    {
+      "id": 64451803,
+      "name": "Ineligible for support - price sensitive",
+      "raw_name": "Ineligible for support - price sensitive",
+      "value": "ineligible_for_support_price_sensitive",
+      "default": false
+    },
+    {
+      "id": 64451823,
+      "name": "Ineligible for support - referred",
+      "raw_name": "Ineligible for support - referred",
+      "value": "ineligible_for_support_referred",
+      "default": false
+    },
+    {
+      "id": 65573903,
+      "name": "Internal - Business Development",
+      "raw_name": "Internal - Business Development",
+      "value": "internal_business_development",
+      "default": false
+    },
+    {
+      "id": 65573883,
+      "name": "Internal - Marketing",
+      "raw_name": "Internal - Marketing",
+      "value": "internal_marketing",
+      "default": false
+    },
+    {
+      "id": 68968266,
+      "name": "Internal - Supplier interaction",
+      "raw_name": "Internal - Supplier interaction",
+      "value": "internal_supplier_interaction",
+      "default": false
+    },
+    {
+      "id": 67002023,
+      "name": "Internal - Updates",
+      "raw_name": "Internal - Updates",
+      "value": "internal_updates",
+      "default": false
+    },
+    {
+      "id": 65369686,
+      "name": "Knowledge base building",
+      "raw_name": "Knowledge base building",
+      "value": "knowledge_base_building",
+      "default": false
+    },
+    {
+      "id": 62033643,
+      "name": "Mail in",
+      "raw_name": "Mail in",
+      "value": "mail_in",
+      "default": false
+    },
+    {
+      "id": 66720766,
+      "name": "Managed Support",
+      "raw_name": "Managed Support",
+      "value": "managed_support",
+      "default": false
+    },
+    {
+      "id": 64685883,
+      "name": "Meeting point (e.g. cafe or pub)",
+      "raw_name": "Meeting point (e.g. cafe or pub)",
+      "value": "meeting_point_e_g_cafe_or_pub",
+      "default": false
+    },
+    {
+      "id": 67258263,
+      "name": "N/A - Social interaction",
+      "raw_name": "N/A - Social interaction",
+      "value": "n_a_social_interaction",
+      "default": false
+    },
+    {
+      "id": 63615386,
+      "name": "On-site",
+      "raw_name": "On-site",
+      "value": "on_site",
+      "default": false
+    },
+    {
+      "id": 65241486,
+      "name": "One time exception - free support",
+      "raw_name": "One time exception - free support",
+      "value": "one_time_exception_free_support",
+      "default": false
+    },
+    {
+      "id": 65241506,
+      "name": "Recycling",
+      "raw_name": "Recycling",
+      "value": "recycling",
+      "default": false
+    },
+    {
+      "id": 63615396,
+      "name": "Remote",
+      "raw_name": "Remote",
+      "value": "remote",
+      "default": false
+    },
+    {
+      "id": 63615416,
+      "name": "Repair Centre Walk-in",
+      "raw_name": "Repair Centre Walk-in",
+      "value": "repair_centre_walk_in",
+      "default": false
+    },
+    {
+      "id": 63670663,
+      "name": "Sales Query or Quote Request",
+      "raw_name": "Sales Query or Quote Request",
+      "value": "sales_query_or_quote_request",
+      "default": false
+    },
+    {
+      "id": 65994766,
+      "name": "Solicitation",
+      "raw_name": "Solicitation",
+      "value": "solicitation",
+      "default": false
+    }
+  ]
+}

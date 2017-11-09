@@ -1,0 +1,103 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/50184903.json",
+  "id": 50184903,
+  "title": "Action - Review procedure",
+  "active": true,
+  "updated_at": "2017-05-02T06:40:41Z",
+  "created_at": "2016-06-02T05:57:41Z",
+  "position": 3,
+  "execution": {
+    "group_by": null,
+    "group_order": "desc",
+    "sort_by": "nice_id",
+    "sort_order": "desc",
+    "group": null,
+    "sort": {
+      "id": "ticket_id",
+      "title": "ID",
+      "order": "desc"
+    },
+    "columns": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "fields": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "custom_fields": []
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "greater_than",
+        "value": "pending"
+      },
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "review-procedure"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is_not",
+        "value": "63788816"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is_not",
+        "value": "64048686"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is_not",
+        "value": "64048706"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is_not",
+        "value": "62615803"
+      }
+    ],
+    "any": []
+  },
+  "restriction": null,
+  "raw_title": "Action - Review procedure"
+}

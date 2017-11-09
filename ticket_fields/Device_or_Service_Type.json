@@ -1,0 +1,172 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/22594308.json",
+  "id": 22594308,
+  "type": "tagger",
+  "title": "Device or Service Type",
+  "raw_title": "Device or Service Type",
+  "description": "You may enter your own device type",
+  "raw_description": "You may enter your own device type",
+  "position": 10,
+  "active": true,
+  "required": true,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Enter related device or service type",
+  "raw_title_in_portal": "Enter related device or service type",
+  "visible_in_portal": true,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2013-04-25T08:09:09Z",
+  "updated_at": "2017-05-03T05:00:57Z",
+  "removable": true,
+  "custom_field_options": [
+    {
+      "id": 22967408,
+      "name": "Android phone or tablet",
+      "raw_name": "Android phone or tablet",
+      "value": "android",
+      "default": false
+    },
+    {
+      "id": 65765143,
+      "name": "Billing",
+      "raw_name": "Billing",
+      "value": "billing_service",
+      "default": false
+    },
+    {
+      "id": 23696622,
+      "name": "Email",
+      "raw_name": "Email",
+      "value": "email",
+      "default": false
+    },
+    {
+      "id": 64032426,
+      "name": "Hard drive - external and internal",
+      "raw_name": "Hard drive - external and internal",
+      "value": "hard_drive_external_and_internal",
+      "default": false
+    },
+    {
+      "id": 23726146,
+      "name": "Home Entertainment",
+      "raw_name": "Home Entertainment",
+      "value": "home_entertainment",
+      "default": false
+    },
+    {
+      "id": 22967398,
+      "name": "iPhone, iPad or iPod",
+      "raw_name": "iPhone, iPad or iPod",
+      "value": "ios",
+      "default": false
+    },
+    {
+      "id": 22967388,
+      "name": "Mac",
+      "raw_name": "Mac",
+      "value": "mac",
+      "default": false
+    },
+    {
+      "id": 62487323,
+      "name": "N/A",
+      "raw_name": "N/A",
+      "value": "n_a",
+      "default": false
+    },
+    {
+      "id": 67055266,
+      "name": "Networking",
+      "raw_name": "Networking",
+      "value": "networking",
+      "default": false
+    },
+    {
+      "id": 40977398,
+      "name": "Online Service",
+      "raw_name": "Online Service",
+      "value": "online_service",
+      "default": false
+    },
+    {
+      "id": 22967418,
+      "name": "Other",
+      "raw_name": "Other",
+      "value": "other",
+      "default": false
+    },
+    {
+      "id": 65713483,
+      "name": "PC - All In One",
+      "raw_name": "PC - All In One",
+      "value": "pc_all_in_one",
+      "default": false
+    },
+    {
+      "id": 65713503,
+      "name": "PC - Desktop",
+      "raw_name": "PC - Desktop",
+      "value": "pc_desktop",
+      "default": false
+    },
+    {
+      "id": 64659203,
+      "name": "PC - Hybrid (laptop/tablet)",
+      "raw_name": "PC - Hybrid (laptop/tablet)",
+      "value": "pc_hybrid",
+      "default": false
+    },
+    {
+      "id": 65713523,
+      "name": "PC - Laptop",
+      "raw_name": "PC - Laptop",
+      "value": "pc_laptop",
+      "default": false
+    },
+    {
+      "id": 40977378,
+      "name": "Printer or Multifunctional Device",
+      "raw_name": "Printer or Multifunctional Device",
+      "value": "printer_or_multifunctional_device",
+      "default": false
+    },
+    {
+      "id": 65713543,
+      "name": "Server",
+      "raw_name": "Server",
+      "value": "server",
+      "default": false
+    },
+    {
+      "id": 40977388,
+      "name": "Software",
+      "raw_name": "Software",
+      "value": "software",
+      "default": false
+    },
+    {
+      "id": 65565583,
+      "name": "Tech support scam",
+      "raw_name": "Tech support scam",
+      "value": "tech_support_scam",
+      "default": false
+    },
+    {
+      "id": 67055246,
+      "name": "VoIP Phone",
+      "raw_name": "VoIP Phone",
+      "value": "voip_phone",
+      "default": false
+    },
+    {
+      "id": 25746045,
+      "name": "Web Development",
+      "raw_name": "Web Development",
+      "value": "web_development",
+      "default": false
+    }
+  ]
+}

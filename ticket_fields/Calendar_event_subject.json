@@ -1,0 +1,23 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24820643.json",
+  "id": 24820643,
+  "type": "text",
+  "title": "Calendar event subject",
+  "raw_title": "Calendar event subject",
+  "description": "Calendar event subject",
+  "raw_description": "Calendar event subject",
+  "position": 9999,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Calendar event subject",
+  "raw_title_in_portal": "Calendar event subject",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2017-01-30T09:23:21Z",
+  "updated_at": "2017-01-30T14:52:01Z",
+  "removable": true
+}

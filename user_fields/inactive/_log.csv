@@ -1,0 +1,9 @@
+File,Title,Active,Date Created,Date Updated
+Phone.json,Phone,True,2014-03-14T06:51:49Z,2017-03-21T23:16:16Z
+Mobile.json,Mobile,True,2014-03-14T06:52:03Z,2017-03-21T23:16:16Z
+Street.json,Street,True,2014-03-14T06:54:07Z,2017-03-21T23:16:16Z
+City_Suburb.json,City/Suburb,True,2014-03-14T06:55:23Z,2017-03-21T23:16:16Z
+State.json,State,True,2014-03-14T06:56:31Z,2017-03-21T23:16:16Z
+Postal_Code.json,Postal Code,True,2014-03-14T06:56:45Z,2017-03-21T23:16:16Z
+Last_Seen.json,Last Seen,True,2017-03-21T23:16:16Z,2017-03-21T23:16:16Z
+Has_Mobile_Number.json,Has Mobile Number,False,2016-04-11T14:34:12Z,2017-02-01T05:24:52Z

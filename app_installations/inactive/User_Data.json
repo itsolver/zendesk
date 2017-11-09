@@ -1,0 +1,19 @@
+{
+  "id": 253683,
+  "app_id": 6536,
+  "product": "support",
+  "settings": {
+    "orgFieldsActivated": "false",
+    "name": "User Data",
+    "title": "User Data",
+    "selectedFields": "[\"mobile\",\"street\",\"city_suburb\",\"##builtin_details\"]",
+    "orgFields": "[]"
+  },
+  "enabled": false,
+  "updated": "20170920020850",
+  "updated_at": "2016-10-07T06:44:25Z",
+  "created_at": "2015-12-10T14:01:54Z",
+  "role_restrictions": null,
+  "recurring_payment": false,
+  "group_restrictions": []
+}

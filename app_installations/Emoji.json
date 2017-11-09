@@ -1,0 +1,26 @@
+{
+  "id": 514766,
+  "app_id": 110233,
+  "product": "support",
+  "settings": {
+    "Minimum": "1.1",
+    "Maximum": "6.1",
+    "Smiles & people": true,
+    "Animals & nature": true,
+    "Food & drink": true,
+    "Activities": true,
+    "Objects": true,
+    "Travel & places": true,
+    "Symbols": true,
+    "Flags": false,
+    "name": "Emoji",
+    "title": "Emoji"
+  },
+  "enabled": true,
+  "updated": "20170830200143",
+  "updated_at": "2017-05-11T03:44:48Z",
+  "created_at": "2017-05-11T03:44:47Z",
+  "role_restrictions": null,
+  "recurring_payment": false,
+  "group_restrictions": []
+}

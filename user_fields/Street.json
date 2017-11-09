@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/user_fields/55818.json",
+  "id": 55818,
+  "type": "text",
+  "key": "street",
+  "title": "Street",
+  "description": "",
+  "raw_title": "Street",
+  "raw_description": "",
+  "position": 2,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2014-03-14T06:54:07Z",
+  "updated_at": "2017-03-21T23:16:16Z"
+}

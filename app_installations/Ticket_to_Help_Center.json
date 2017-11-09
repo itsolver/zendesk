@@ -1,0 +1,18 @@
+{
+  "id": 125425,
+  "app_id": 40167,
+  "product": "support",
+  "settings": {
+    "name": "Ticket to Help Center",
+    "title": "Ticket to Help Center",
+    "restrict_to_moderators": true,
+    "force_draft": false
+  },
+  "enabled": true,
+  "updated": "20170130033611",
+  "updated_at": "2016-10-19T00:49:31Z",
+  "created_at": "2014-10-20T13:31:02Z",
+  "role_restrictions": null,
+  "recurring_payment": false,
+  "group_restrictions": []
+}

@@ -1,0 +1,83 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/51074636.json",
+  "id": 51074636,
+  "title": "Action - Callback",
+  "active": true,
+  "updated_at": "2017-05-02T06:40:41Z",
+  "created_at": "2016-05-07T09:40:19Z",
+  "position": 8,
+  "execution": {
+    "group_by": null,
+    "group_order": "desc",
+    "sort_by": "nice_id",
+    "sort_order": "desc",
+    "group": null,
+    "sort": {
+      "id": "ticket_id",
+      "title": "ID",
+      "order": "desc"
+    },
+    "columns": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "fields": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "custom_fields": []
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "callback"
+      },
+      {
+        "field": "status",
+        "operator": "less_than",
+        "value": "solved"
+      }
+    ],
+    "any": []
+  },
+  "restriction": null,
+  "raw_title": "Action - Callback"
+}

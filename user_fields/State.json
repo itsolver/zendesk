@@ -1,0 +1,60 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/user_fields/53113.json",
+  "id": 53113,
+  "type": "dropdown",
+  "key": "state",
+  "title": "State",
+  "description": "",
+  "raw_title": "State",
+  "raw_description": "",
+  "position": 4,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2014-03-14T06:56:31Z",
+  "updated_at": "2017-03-21T23:16:16Z",
+  "custom_field_options": [
+    {
+      "id": 143543,
+      "name": "QLD",
+      "raw_name": "QLD",
+      "value": "qld"
+    },
+    {
+      "id": 143553,
+      "name": "NSW",
+      "raw_name": "NSW",
+      "value": "nsw"
+    },
+    {
+      "id": 143563,
+      "name": "VIC",
+      "raw_name": "VIC",
+      "value": "vic"
+    },
+    {
+      "id": 143573,
+      "name": "SA",
+      "raw_name": "SA",
+      "value": "sa"
+    },
+    {
+      "id": 143583,
+      "name": "ACT",
+      "raw_name": "ACT",
+      "value": "act"
+    },
+    {
+      "id": 143593,
+      "name": "WA",
+      "raw_name": "WA",
+      "value": "wa"
+    },
+    {
+      "id": 143603,
+      "name": "TAS",
+      "raw_name": "TAS",
+      "value": "tas"
+    }
+  ]
+}

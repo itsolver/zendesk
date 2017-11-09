@@ -1,0 +1,78 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/35608298.json",
+  "id": 35608298,
+  "title": "New tickets",
+  "active": false,
+  "updated_at": "2017-03-20T01:40:04Z",
+  "created_at": "2013-04-24T16:06:01Z",
+  "position": 19,
+  "execution": {
+    "group_by": null,
+    "group_order": "desc",
+    "sort_by": "nice_id",
+    "sort_order": "desc",
+    "group": null,
+    "sort": {
+      "id": "ticket_id",
+      "title": "ID",
+      "order": "desc"
+    },
+    "columns": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "fields": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "custom_fields": []
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "new"
+      }
+    ],
+    "any": []
+  },
+  "restriction": null,
+  "raw_title": "New tickets"
+}

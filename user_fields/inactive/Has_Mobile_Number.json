@@ -1,0 +1,17 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/user_fields/130576.json",
+  "id": 130576,
+  "type": "checkbox",
+  "key": "has_mobile",
+  "title": "Has Mobile Number",
+  "description": "Whether the user's phone is a mobile number (and not a fixed line)",
+  "raw_title": "Has Mobile Number",
+  "raw_description": "Whether the user's phone is a mobile number (and not a fixed line)",
+  "position": 0,
+  "active": false,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2016-04-11T14:34:12Z",
+  "updated_at": "2017-02-01T05:24:52Z",
+  "tag": "has_mobile"
+}

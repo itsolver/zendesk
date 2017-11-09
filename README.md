@@ -1,18 +1,11 @@
 # Archived to GitHub
- - [Triggers, automations and macros](https://github.com/itsolver/zendesk/blob/master/backup_business_rules.py).
- - Help Centre Theme. Copied manually from [Guide admin](https://support.itsolver.net/hc/admin/appearance#customization).
- - Help Centre Content. Used [Felix Stubner's kBackup](https://support.zendesk.com/hc/en-us/community/posts/210927837). [kBackup source code](https://github.com/Fail2Reap/kBackup).
- - Agent signature. Copied manually from my profile in Zendesk.
+ - Triggers, automations, macros, views, ticket fields, user fields, organisation fields, app installations using [backup_zendesk.py](https://github.com/itsolver/zendesk/blob/master/backup_zendesk.py).
+  - Help Centre Content using [Felix Stubner's kBackup](https://support.zendesk.com/hc/en-us/community/posts/210927837). [kBackup source code](https://github.com/Fail2Reap/kBackup).
+ - Help Centre Theme copied manually from Guide admin > Customise design.
+ - Agent signature copied manually from my agent profile in Zendesk.
+ - Email template copied manually Zendesk Admin > Channels > Email.
 
 # To do
-
-## Archive to GitHub 
- - Views
- - Ticket Fields
- - User Fields
- - Organisation Fields
- - Apps in use
-
 ## Archive to private storage
  - Tickets
  - People

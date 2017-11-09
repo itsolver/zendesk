@@ -1,0 +1,23 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24892686.json",
+  "id": 24892686,
+  "type": "text",
+  "title": "Asset Name",
+  "raw_title": "Asset Name",
+  "description": "",
+  "raw_description": "",
+  "position": 9999,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Asset Name",
+  "raw_title_in_portal": "Asset Name",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2017-02-03T05:55:40Z",
+  "updated_at": "2017-02-03T05:55:40Z",
+  "removable": true
+}

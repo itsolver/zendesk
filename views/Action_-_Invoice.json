@@ -1,0 +1,107 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/51456326.json",
+  "id": 51456326,
+  "title": "Action - Invoice",
+  "active": true,
+  "updated_at": "2017-10-19T03:55:51Z",
+  "created_at": "2016-06-01T13:46:51Z",
+  "position": 2,
+  "execution": {
+    "group_by": null,
+    "group_order": "asc",
+    "sort_by": "nice_id",
+    "sort_order": "desc",
+    "group": null,
+    "sort": {
+      "id": "ticket_id",
+      "title": "ID",
+      "order": "desc"
+    },
+    "columns": [
+      {
+        "id": "ticket_id",
+        "title": "ID"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": 24347166,
+        "title": "Support Type",
+        "type": "tagger",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24347166.json"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "solved",
+        "title": "Solved"
+      }
+    ],
+    "fields": [
+      {
+        "id": "ticket_id",
+        "title": "ID"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "solved",
+        "title": "Solved"
+      }
+    ],
+    "custom_fields": [
+      {
+        "id": 24347166,
+        "title": "Support Type",
+        "type": "tagger",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24347166.json"
+      }
+    ]
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "greater_than",
+        "value": "new"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "invoiced warranty_job billing internal_business_development internal_updates customer_feedback ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred knowledge_base_building marketing internal_marketing one_time_exception_free_support recycling sales_query_or_quote_request solicitation managed_support business_development n_a_social_interaction"
+      }
+    ],
+    "any": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "solved"
+      },
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "solved"
+      }
+    ]
+  },
+  "restriction": null,
+  "raw_title": "Action - Invoice"
+}

@@ -1,0 +1,23 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24273729.json",
+  "id": 24273729,
+  "type": "text",
+  "title": "TeamViewer Session ID",
+  "raw_title": "TeamViewer Session ID",
+  "description": "",
+  "raw_description": "",
+  "position": 19,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "TeamViewer Session ID",
+  "raw_title_in_portal": "TeamViewer Session ID",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2015-04-09T22:58:08Z",
+  "updated_at": "2016-06-07T10:38:38Z",
+  "removable": true
+}

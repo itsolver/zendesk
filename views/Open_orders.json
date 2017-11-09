@@ -1,0 +1,96 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/54174806.json",
+  "id": 54174806,
+  "title": "Open orders",
+  "active": true,
+  "updated_at": "2017-05-02T06:40:41Z",
+  "created_at": "2016-10-19T01:28:19Z",
+  "position": 6,
+  "execution": {
+    "group_by": "requester",
+    "group_order": "desc",
+    "sort_by": "nice_id",
+    "sort_order": "desc",
+    "group": {
+      "id": "requester",
+      "title": "Requester",
+      "order": "desc"
+    },
+    "sort": {
+      "id": "ticket_id",
+      "title": "ID",
+      "order": "desc"
+    },
+    "columns": [
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": 24325116,
+        "title": "Items Ordered",
+        "type": "textarea",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24325116.json"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": 24291383,
+        "title": "Estimated delivery",
+        "type": "date",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24291383.json"
+      }
+    ],
+    "fields": [
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      }
+    ],
+    "custom_fields": [
+      {
+        "id": 24291383,
+        "title": "Estimated delivery",
+        "type": "date",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24291383.json"
+      },
+      {
+        "id": 24325116,
+        "title": "Items Ordered",
+        "type": "textarea",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24325116.json"
+      }
+    ]
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "less_than",
+        "value": "solved"
+      },
+      {
+        "field": "custom_fields_24291383",
+        "operator": "greater_than",
+        "value": "1970-01-01"
+      }
+    ],
+    "any": []
+  },
+  "restriction": null,
+  "raw_title": "Open orders"
+}

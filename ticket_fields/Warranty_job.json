@@ -1,0 +1,23 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24333453.json",
+  "id": 24333453,
+  "type": "checkbox",
+  "title": "Warranty job",
+  "raw_title": "Warranty job",
+  "description": "",
+  "raw_description": "",
+  "position": 1,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Warranty job",
+  "raw_title_in_portal": "Warranty job",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": "",
+  "created_at": "2016-05-09T04:38:38Z",
+  "updated_at": "2016-06-07T10:38:04Z",
+  "removable": true
+}

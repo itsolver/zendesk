@@ -1,0 +1,39 @@
+File,Title,Active,Date Created,Date Updated
+Invoiced.json,Invoiced,True,2016-05-06T04:30:02Z,2016-05-06T04:31:30Z
+Warranty_job.json,Warranty job,True,2016-05-09T04:38:38Z,2016-06-07T10:38:04Z
+Subject.json,Subject,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Description.json,Description,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Status.json,Status,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Type.json,Type,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Priority.json,Priority,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Group.json,Group,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Assignee.json,Assignee,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Support_Type.json,Support Type,True,2016-04-04T02:23:30Z,2017-11-08T04:35:41Z
+Device_or_Service_Type.json,Device or Service Type,True,2013-04-25T08:09:09Z,2017-05-03T05:00:57Z
+IT_Solver_Service_Tag.json,IT Solver Service Tag,True,2014-05-03T00:24:16Z,2017-07-07T06:46:22Z
+Serial_number.json,Serial number,True,2013-06-03T00:31:57Z,2016-06-07T10:38:04Z
+Brand.json,Brand,True,2013-06-01T06:42:53Z,2017-10-24T23:21:33Z
+Model_(if_a_device)_or_Service_Name.json,Model (if a device) or Service Name,True,2013-06-01T06:33:29Z,2016-06-07T10:38:04Z
+Operating_System.json,Operating System,True,2013-06-01T06:40:41Z,2017-11-08T03:42:36Z
+Items_Ordered.json,Items Ordered,True,2016-03-09T07:06:09Z,2016-06-07T10:38:04Z
+Estimated_delivery.json,Estimated delivery,True,2016-03-22T09:58:38Z,2016-06-07T10:38:38Z
+Collection_Point.json,Collection Point,True,2016-05-06T04:44:35Z,2016-06-07T10:38:38Z
+TeamViewer_Session_ID.json,TeamViewer Session ID,True,2015-04-09T22:58:08Z,2016-06-07T10:38:38Z
+Calendar_name.json,Calendar name,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
+Suburb_of_requester.json,Suburb of requester,True,2016-05-06T05:20:17Z,2017-08-10T00:44:47Z
+Calendar_event_date.json,Calendar event date,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
+Calendar_event_time.json,Calendar event time,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
+Calendar_event_time_zone.json,Calendar event time zone,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
+Calendar_event_duration_(in_minutes).json,Calendar event duration (in minutes),True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
+Calendar_event_link.json,Calendar event link,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
+Calendar_event_invite_CCs_[Created_by_Calendar].json,Calendar event invite CCs [Created by Calendar],True,2016-05-24T01:57:30Z,2017-02-22T01:03:07Z
+Calendar_event_subject_[Created_by_Calendar].json,Calendar event subject [Created by Calendar],True,2016-05-24T01:57:28Z,2017-02-22T01:03:12Z
+Calendar_event_description_[Created_by_Calendar].json,Calendar event description [Created by Calendar],True,2016-05-24T01:57:28Z,2017-02-22T01:03:17Z
+Calendar_event_invite_requester_[Created_by_Calendar].json,Calendar event invite requester [Created by Calendar],True,2016-05-24T01:57:29Z,2017-02-22T01:03:22Z
+Calendar_event_location_[Created_by_Calendar].json,Calendar event location [Created by Calendar],True,2016-05-24T01:57:29Z,2017-02-22T01:03:27Z
+Asset_Name.json,Asset Name,True,2017-02-03T05:55:40Z,2017-02-03T05:55:40Z
+Calendar_event_subject.json,Calendar event subject,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
+Calendar_event_description.json,Calendar event description,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
+Calendar_event_location.json,Calendar event location,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
+Calendar_event_invite_requester.json,Calendar event invite requester,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
+Calendar_event_invite_CCs.json,Calendar event invite CCs,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
