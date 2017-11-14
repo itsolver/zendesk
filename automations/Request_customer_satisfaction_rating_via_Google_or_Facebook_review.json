@@ -3,7 +3,7 @@
   "id": 55565446,
   "title": "Request customer satisfaction rating via Google or Facebook review",
   "active": true,
-  "updated_at": "2017-10-31T07:46:51Z",
+  "updated_at": "2017-11-14T03:38:53Z",
   "created_at": "2017-01-25T10:25:45Z",
   "actions": [
     {
@@ -11,7 +11,7 @@
       "value": [
         "requester_id",
         "Request #{{ticket.id}}: How would you rate the support you received?",
-        "Hello {{ticket.requester.name}},\n\nWe would love you to review our customer service. \n\n## Got positive feedback?\nPlease take a moment to <a href=\"https://www.google.com.au/search?q=it%20solver#lrd=0x6b916510942d8acf:0xf831a7625f6a263f,3,5\">write a review on Google</a> or <a href=\"https://www.facebook.com/itsolver.net/reviews/\">on Facebook</a>.\n\n## Got negative feedback?\nReply to this email with the feedback so we can change our processes to meet your expectation.\n\nHere's a reminder of what your ticket was about:\n\n{{ticket.comments_formatted}}\n"
+        "Hello {{ticket.requester.name}},\n\nWe would love you to review our customer service, if you haven't already done so. <a href=\"https://www.google.com.au/search?q=it%20solver#lrd=0x6b916510942d8acf:0xf831a7625f6a263f,3,5\">Write a review on Google</a> or <a href=\"https://www.facebook.com/itsolver.net/reviews/\">on Facebook</a>.\n\nIT Solver didn't meet expectations? Reply to this email with feedback so we can improve.\n\nHere's a reminder of what your ticket was about:\n\n{{ticket.comments_formatted}}\n"
       ]
     }
   ],

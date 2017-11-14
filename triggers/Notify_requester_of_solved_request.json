@@ -1,17 +1,17 @@
 {
   "url": "https://itsolver.zendesk.com/api/v2/triggers/41052113.json",
   "id": 41052113,
-  "title": "Notify requester of solved request & ask for review",
+  "title": "Notify requester of solved request",
   "active": true,
-  "updated_at": "2017-08-15T10:57:33Z",
+  "updated_at": "2017-11-13T04:23:57Z",
   "created_at": "2013-11-11T08:14:33Z",
   "actions": [
     {
       "field": "notification_user",
       "value": [
         "requester_id",
-        "[{{ticket.account}}] Re: {{ticket.title}}",
-        "Your request ({{ticket.id}}) has been solved. \n\nIf you need to reopen this case, please respond to this email.\n\n{{ticket.comments_formatted}}\n\n<a href=\"https://www.facebook.com/itsolver.net\">Like us on Facebook</a> | <a href=\"https://twitter.com/itsolvernet\">Follow us on Twitter</a> | <a href=\"https://www.google.com.au/search?q=it%20solver#lrd=0x6b916510942d8acf:0xf831a7625f6a263f,3,5\">Write a review on Google</a>"
+        "{{ticket.title}}",
+        "We\u2019re all set. Your ticket ({{ticket.id}}) has been resolved. Hopefully, you\u2019re happy with the outcome. If not, simply reply to this email or click the link below to let Angus know. Remember - Angus is here to help.\n\n{{ticket.url}}\n\nThanks,\nYour friend at IT Solver\n\n{{ticket.comments_formatted}}"
       ]
     }
   ],
@@ -36,6 +36,6 @@
     "any": []
   },
   "description": null,
-  "position": 16,
-  "raw_title": "Notify requester of solved request & ask for review"
+  "position": 18,
+  "raw_title": "Notify requester of solved request"
 }

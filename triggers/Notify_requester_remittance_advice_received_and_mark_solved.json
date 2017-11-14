@@ -3,7 +3,7 @@
   "id": 56753226,
   "title": "Notify requester remittance advice received and mark solved",
   "active": true,
-  "updated_at": "2017-08-15T10:57:33Z",
+  "updated_at": "2017-11-13T06:00:17Z",
   "created_at": "2017-03-31T10:19:49Z",
   "actions": [
     {
@@ -18,8 +18,8 @@
       "field": "notification_user",
       "value": [
         "requester_id",
-        "[{{ticket.account}}] Re: {{ticket.title}}",
-        "Hi {{ticket.requester.name}},\nThanks for the remittance advice. We will notify you when payment arrives.\n\nFor more technical support email support@itsolver.net or phone +617 3123 6000.\n\n{{ticket.public_comments_formatted}}\n\n<a href=\"https://www.facebook.com/itsolver.net\">Like us on Facebook</a> | <a href=\"https://twitter.com/itsolvernet\">Follow us on Twitter</a> | <a href=\"https://www.google.com.au/search?q=it%20solver#lrd=0x6b916510942d8acf:0xf831a7625f6a263f,3,5\">Write a review on Google</a>"
+        "{{ticket.title}}",
+        "Hi {{ticket.requester.name}},\nThanks for the remittance advice. We will notify you when payment arrives.\n\nFor more help, email support@itsolver.net, phone 07 3123 6000 or visit the help centre https://support.itsolver.net/hc.\n\n{{ticket.public_comments_formatted}}"
       ]
     },
     {
@@ -33,11 +33,6 @@
   ],
   "conditions": {
     "all": [
-      {
-        "field": "status",
-        "operator": "less_than",
-        "value": "solved"
-      },
       {
         "field": "current_tags",
         "operator": "not_includes",
@@ -79,6 +74,36 @@
         "field": "subject_includes_word",
         "operator": "is",
         "value": "Banking Payee Transfer - Copy of receipt"
+      },
+      {
+        "field": "subject_includes_word",
+        "operator": "is",
+        "value": "paid yesterday"
+      },
+      {
+        "field": "subject_includes_word",
+        "operator": "is",
+        "value": "paid today"
+      },
+      {
+        "field": "comment_includes_word",
+        "operator": "is",
+        "value": "paid yesterday"
+      },
+      {
+        "field": "comment_includes_word",
+        "operator": "is",
+        "value": "paid today"
+      },
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "force_trigger_56753226"
+      },
+      {
+        "field": "comment_includes_word",
+        "operator": "is",
+        "value": "paid the invoice"
       }
     ]
   },

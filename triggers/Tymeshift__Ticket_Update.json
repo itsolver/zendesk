@@ -3,7 +3,7 @@
   "id": 58440543,
   "title": "Tymeshift: Ticket Update",
   "active": true,
-  "updated_at": "2017-09-13T14:43:09Z",
+  "updated_at": "2017-11-13T02:19:13Z",
   "created_at": "2017-09-13T14:43:09Z",
   "actions": [
     {
@@ -51,6 +51,6 @@
     ]
   },
   "description": null,
-  "position": 45,
+  "position": 38,
   "raw_title": "Tymeshift: Ticket Update"
 }

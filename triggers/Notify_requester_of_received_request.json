@@ -3,7 +3,7 @@
   "id": 34573996,
   "title": "Notify requester of received request",
   "active": true,
-  "updated_at": "2017-09-08T03:33:15Z",
+  "updated_at": "2017-11-13T04:27:01Z",
   "created_at": "2013-03-13T00:29:03Z",
   "actions": [
     {
@@ -11,7 +11,7 @@
       "value": [
         "requester_id",
         "[Request received] {{ticket.title}}",
-        "Thank you for contacting IT Solver - our hours are 9AM-5PM AEST Monday - Friday. We look forward to helping you then.<br /><br />Kind regards,<br />IT Solver<br /><br />To add additional comments, reply to this email.<br /><br />{{ticket.comments_formatted}}"
+        "Thank you for contacting IT Solver - our hours are 9AM-5PM AEST Monday - Friday. Angus looks forward to helping you then.\n\nKind regards,\nIT Solver\n\nIf you\u2019d like to email an update, please reply to this email or use this link {{ticket.url}} to review status or add additional comments.\n\n{{ticket.comments_formatted}}"
       ]
     }
   ],
@@ -36,6 +36,6 @@
     "any": []
   },
   "description": null,
-  "position": 6,
+  "position": 5,
   "raw_title": "Notify requester of received request"
 }

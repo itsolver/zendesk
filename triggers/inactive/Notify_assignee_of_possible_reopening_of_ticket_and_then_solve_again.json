@@ -2,8 +2,8 @@
   "url": "https://itsolver.zendesk.com/api/v2/triggers/41054747.json",
   "id": 41054747,
   "title": "Notify assignee of possible reopening of ticket and then solve again",
-  "active": true,
-  "updated_at": "2017-09-08T03:34:32Z",
+  "active": false,
+  "updated_at": "2017-11-13T03:55:54Z",
   "created_at": "2013-11-11T08:23:53Z",
   "actions": [
     {
@@ -50,6 +50,6 @@
     "any": []
   },
   "description": null,
-  "position": 17,
+  "position": 15,
   "raw_title": "Notify assignee of possible reopening of ticket and then solve again"
 }

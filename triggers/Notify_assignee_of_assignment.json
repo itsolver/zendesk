@@ -3,7 +3,7 @@
   "id": 34574036,
   "title": "Notify assignee of assignment",
   "active": true,
-  "updated_at": "2017-08-15T10:57:33Z",
+  "updated_at": "2017-11-13T02:19:13Z",
   "created_at": "2013-03-13T00:29:03Z",
   "actions": [
     {
@@ -31,6 +31,6 @@
     "any": []
   },
   "description": null,
-  "position": 11,
+  "position": 10,
   "raw_title": "Notify assignee of assignment"
 }

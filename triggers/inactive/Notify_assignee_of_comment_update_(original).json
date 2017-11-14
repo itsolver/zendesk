@@ -3,7 +3,7 @@
   "id": 34574026,
   "title": "Notify assignee of comment update (original)",
   "active": false,
-  "updated_at": "2017-08-15T10:57:33Z",
+  "updated_at": "2017-11-13T02:19:13Z",
   "created_at": "2013-03-13T00:29:03Z",
   "actions": [
     {
@@ -46,6 +46,6 @@
     "any": []
   },
   "description": null,
-  "position": 10,
+  "position": 9,
   "raw_title": "Notify assignee of comment update (original)"
 }
