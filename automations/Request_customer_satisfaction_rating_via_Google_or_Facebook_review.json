@@ -3,7 +3,7 @@
   "id": 55565446,
   "title": "Request customer satisfaction rating via Google or Facebook review",
   "active": true,
-  "updated_at": "2017-11-14T03:38:53Z",
+  "updated_at": "2017-11-15T06:11:05Z",
   "created_at": "2017-01-25T10:25:45Z",
   "actions": [
     {
@@ -25,7 +25,7 @@
       {
         "field": "current_tags",
         "operator": "not_includes",
-        "value": "google_reviewed fb_reviewed archived no_email no_csat no_survey ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred solicitation internal_update customer_feedback billing archived vendor"
+        "value": "no_review no_csat google_reviewed fb_reviewed archived no_email ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred solicitation internal_update customer_feedback billing archived vendor"
       },
       {
         "field": "SOLVED",

@@ -3,7 +3,7 @@
   "id": 34574006,
   "title": "Notify requester of comment update",
   "active": true,
-  "updated_at": "2017-11-14T03:39:54Z",
+  "updated_at": "2017-11-17T01:51:43Z",
   "created_at": "2013-03-13T00:29:03Z",
   "actions": [
     {
@@ -36,6 +36,11 @@
         "field": "current_tags",
         "operator": "not_includes",
         "value": "archived no_email solicitation internal_update vendor"
+      },
+      {
+        "field": "status",
+        "operator": "not_value",
+        "value": "solved"
       }
     ],
     "any": []

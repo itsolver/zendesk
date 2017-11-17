@@ -18,7 +18,7 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-06-01T06:42:53Z",
-  "updated_at": "2017-10-24T23:21:33Z",
+  "updated_at": "2017-11-16T23:59:18Z",
   "removable": true,
   "custom_field_options": [
     {
@@ -89,6 +89,13 @@
       "name": "Asus",
       "raw_name": "Asus",
       "value": "asus",
+      "default": false
+    },
+    {
+      "id": 69045446,
+      "name": "Aussie Broadband",
+      "raw_name": "Aussie Broadband",
+      "value": "aussie_broadband",
       "default": false
     },
     {
@@ -453,6 +460,13 @@
       "name": "Logitech",
       "raw_name": "Logitech",
       "value": "logitech",
+      "default": false
+    },
+    {
+      "id": 69045426,
+      "name": "Malwarebytes",
+      "raw_name": "Malwarebytes",
+      "value": "malwarebytes",
       "default": false
     },
     {

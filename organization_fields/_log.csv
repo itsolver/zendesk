@@ -2,10 +2,10 @@ File,Title,Active,Date Created,Date Updated
 Tag_requests_received_at_support@itsolver.com.au.json,Tag requests received at support@itsolver.com.au,True,2017-08-15T10:57:18Z,2017-08-15T10:57:33Z
 Tag_calendly_notifications_with_no_email.json,Tag calendly notifications with no_email,True,2017-01-30T05:29:44Z,2017-08-15T10:57:33Z
 Set_support_type_to_billing_if_ticket_received_at_billing@itsolver.net.json,Set support type to billing if ticket received at billing@itsolver.net,True,2016-11-13T11:45:25Z,2017-11-13T04:28:48Z
-Notify_requester_remittance_advice_received_and_mark_solved.json,Notify requester remittance advice received and mark solved,True,2017-03-31T10:19:49Z,2017-11-13T06:00:17Z
-Notify_requester_of_received_request.json,Notify requester of received request,True,2013-03-13T00:29:03Z,2017-11-13T04:27:01Z
+Notify_requester_remittance_advice_received_and_mark_solved.json,Notify requester remittance advice received and mark solved,True,2017-03-31T10:19:49Z,2017-11-14T05:48:41Z
+Notify_requester_of_received_request.json,Notify requester of received request,True,2013-03-13T00:29:03Z,2017-11-17T01:48:01Z
 Notify_requester_of_IT_Solver_away_on_holiday.json,Notify requester of IT Solver away on holiday,False,2017-07-25T22:36:58Z,2017-11-13T02:19:13Z
-Notify_requester_of_comment_update.json,Notify requester of comment update,True,2013-03-13T00:29:03Z,2017-11-14T03:39:54Z
+Notify_requester_of_comment_update.json,Notify requester of comment update,True,2013-03-13T00:29:03Z,2017-11-17T01:51:43Z
 Notify_requester_of_solved_request_(original).json,Notify requester of solved request (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
 Notify_assignee_of_comment_update_(original).json,Notify assignee of comment update (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
 Notify_assignee_of_assignment.json,Notify assignee of assignment,True,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
@@ -47,7 +47,7 @@ Close_ticket_9_days_after_status_is_set_to_pending_7_days.json,Close ticket 9 da
 Close_ticket_9_days_after_status_is_set_to_pending_7_days.json,Close ticket 9 days after status is set to pending 7 days,True,2017-03-22T05:56:05Z,2017-04-27T00:37:54Z
 Close_ticket_90_days_after_status_is_set_to_solved.json,Close ticket 90 days after status is set to solved,True,2013-03-13T00:29:03Z,2017-11-09T01:47:34Z
 Close_Twitter_ticket_1_day_after_status_is_set_to_Solved.json,Close Twitter ticket 1 day after status is set to Solved,True,2013-04-16T14:11:55Z,2017-04-27T00:37:54Z
-Request_customer_satisfaction_rating_via_Google_or_Facebook_review.json,Request customer satisfaction rating via Google or Facebook review,True,2017-01-25T10:25:45Z,2017-11-14T03:38:53Z
+Request_customer_satisfaction_rating_via_Google_or_Facebook_review.json,Request customer satisfaction rating via Google or Facebook review,True,2017-01-25T10:25:45Z,2017-11-15T06:11:05Z
 Close_FaceBook_Post_by_IT_Solver_after_8_hours_of_inactivity.json,Close FaceBook Post by IT Solver after 8 hours of inactivity,True,2017-08-21T02:41:33Z,2017-08-21T03:21:20Z
 Check_Apple_Service_and_Support_Coverage_.json,Check Apple Service and Support Coverage ,True,2015-05-20T01:58:33Z,2016-01-05T03:31:35Z
 Close_because_customer_not_responding.json,Close because customer not responding,True,2016-02-21T23:33:32Z,2016-05-06T05:16:22Z
@@ -124,7 +124,7 @@ Support_Type.json,Support Type,True,2016-04-04T02:23:30Z,2017-11-08T04:35:41Z
 Device_or_Service_Type.json,Device or Service Type,True,2013-04-25T08:09:09Z,2017-05-03T05:00:57Z
 IT_Solver_Service_Tag.json,IT Solver Service Tag,True,2014-05-03T00:24:16Z,2017-07-07T06:46:22Z
 Serial_number.json,Serial number,True,2013-06-03T00:31:57Z,2016-06-07T10:38:04Z
-Brand.json,Brand,True,2013-06-01T06:42:53Z,2017-10-24T23:21:33Z
+Brand.json,Brand,True,2013-06-01T06:42:53Z,2017-11-16T23:59:18Z
 Model_(if_a_device)_or_Service_Name.json,Model (if a device) or Service Name,True,2013-06-01T06:33:29Z,2016-06-07T10:38:04Z
 Operating_System.json,Operating System,True,2013-06-01T06:40:41Z,2017-11-08T03:42:36Z
 Items_Ordered.json,Items Ordered,True,2016-03-09T07:06:09Z,2016-06-07T10:38:04Z
