@@ -18,7 +18,7 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2016-04-04T02:23:30Z",
-  "updated_at": "2017-11-08T04:35:41Z",
+  "updated_at": "2017-12-12T05:21:39Z",
   "removable": true,
   "custom_field_options": [
     {
@@ -29,10 +29,10 @@
       "default": false
     },
     {
-      "id": 63788806,
-      "name": "Collection Point Walk-in",
-      "raw_name": "Collection Point Walk-in",
-      "value": "collection_point_walk_in",
+      "id": 67814543,
+      "name": "Carry in",
+      "raw_name": "Carry in",
+      "value": "carry_in",
       "default": false
     },
     {
@@ -127,10 +127,10 @@
       "default": false
     },
     {
-      "id": 64685883,
-      "name": "Meeting point (e.g. cafe or pub)",
-      "raw_name": "Meeting point (e.g. cafe or pub)",
-      "value": "meeting_point_e_g_cafe_or_pub",
+      "id": 67814523,
+      "name": "Meeting point",
+      "raw_name": "Meeting point",
+      "value": "meeting_point",
       "default": false
     },
     {
@@ -166,13 +166,6 @@
       "name": "Remote",
       "raw_name": "Remote",
       "value": "remote",
-      "default": false
-    },
-    {
-      "id": 63615416,
-      "name": "Repair Centre Walk-in",
-      "raw_name": "Repair Centre Walk-in",
-      "value": "repair_centre_walk_in",
       "default": false
     },
     {

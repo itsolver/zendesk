@@ -3,9 +3,9 @@
   "id": 51182146,
   "title": "On-site reservation (pickup at jetty)",
   "active": true,
-  "updated_at": "2017-07-16T23:50:59Z",
+  "updated_at": "2017-12-19T22:41:40Z",
   "created_at": "2016-05-18T02:21:18Z",
-  "position": 13,
+  "position": 12,
   "description": null,
   "actions": [
     {
@@ -18,7 +18,11 @@
     },
     {
       "field": "comment_value_html",
-      "value": "<h3>Thanks for making a reservation.</h3><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b></p><p>When:<b> {{ticket.ticket_field_24288063 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_24288073 | date: \"%-I:%M %p\" | upcase}}</b></p><p>Where: <b>Please pickup {{ticket.assignee.first_name}} at {{ticket.requester.custom_fields.city_suburb}} jetty then we will proceed to {{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}</b></p><p>Why: <b>{{ticket.title}}</b></p><p><br></p><p>We look forward to seeing you.</p>"
+      "value": "<h3>Thanks for making a reservation.</h3><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b></p><p>When to pickup {{ticket.assignee.first_name}}\u200d from jetty:<b> {{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}}</b></p><p>Where: <b>Please pickup {{ticket.assignee.first_name}} at {{ticket.requester.custom_fields.city_suburb}} jetty then we go to {{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}</b></p><p>Why: <b>{{ticket.title}}</b></p><p><br></p><p>We look forward to seeing you.</p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Thanks for making a reservation.\n\nDear {{ticket.requester.name}},\n\nHere are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.\n\nWhat: {% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}\nWhen to pickup {{ticket.assignee.first_name}}\u200d from jetty: {{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}}\nWhere: Please pickup {{ticket.assignee.first_name}} at {{ticket.requester.custom_fields.city_suburb}} jetty then we go to {{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}\nWhy: {{ticket.title}}\n\nWe look forward to seeing you."
     },
     {
       "field": "comment_mode_is_public",

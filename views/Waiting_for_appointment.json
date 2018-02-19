@@ -3,15 +3,21 @@
   "id": 49773473,
   "title": "Waiting for appointment",
   "active": true,
-  "updated_at": "2017-08-21T05:38:39Z",
+  "updated_at": "2018-01-02T23:16:24Z",
   "created_at": "2016-05-06T05:14:42Z",
   "position": 11,
   "execution": {
-    "group_by": null,
+    "group_by": "24375476",
     "group_order": "asc",
     "sort_by": "nice_id",
     "sort_order": "desc",
-    "group": null,
+    "group": {
+      "id": 24375476,
+      "title": "Suburb of requester",
+      "type": "tagger",
+      "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24375476.json",
+      "order": "asc"
+    },
     "sort": {
       "id": "ticket_id",
       "title": "ID",
@@ -19,62 +25,33 @@
     },
     "columns": [
       {
-        "id": 24375476,
-        "title": "Suburb of requester",
-        "type": "tagger",
-        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24375476.json"
-      },
-      {
-        "id": "satisfaction_score",
-        "title": "Satisfaction"
+        "id": "requester",
+        "title": "Requester"
       },
       {
         "id": "subject",
         "title": "Subject"
       },
       {
-        "id": "requester",
-        "title": "Requester"
-      },
-      {
         "id": "created",
         "title": "Requested"
-      },
-      {
-        "id": "assignee",
-        "title": "Assignee"
       }
     ],
     "fields": [
       {
-        "id": "satisfaction_score",
-        "title": "Satisfaction"
+        "id": "requester",
+        "title": "Requester"
       },
       {
         "id": "subject",
         "title": "Subject"
       },
       {
-        "id": "requester",
-        "title": "Requester"
-      },
-      {
         "id": "created",
         "title": "Requested"
-      },
-      {
-        "id": "assignee",
-        "title": "Assignee"
       }
     ],
-    "custom_fields": [
-      {
-        "id": 24375476,
-        "title": "Suburb of requester",
-        "type": "tagger",
-        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24375476.json"
-      }
-    ]
+    "custom_fields": []
   },
   "conditions": {
     "all": [

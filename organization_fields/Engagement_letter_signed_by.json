@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/295466.json",
+  "id": 295466,
+  "type": "text",
+  "key": "engagement_letter_signed_by",
+  "title": "Engagement letter signed by",
+  "description": "Name of person who read and understood the engagement letter and the attached terms and conditions and accept their application to the engagement.",
+  "raw_title": "Engagement letter signed by",
+  "raw_description": "Name of person who read and understood the engagement letter and the attached terms and conditions and accept their application to the engagement.",
+  "position": 5,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2017-12-13T15:43:09Z",
+  "updated_at": "2017-12-13T15:43:09Z"
+}

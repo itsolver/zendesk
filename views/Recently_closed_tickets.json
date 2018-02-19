@@ -3,9 +3,9 @@
   "id": 58137863,
   "title": "Recently closed tickets",
   "active": true,
-  "updated_at": "2017-08-21T03:13:42Z",
+  "updated_at": "2017-12-12T01:05:55Z",
   "created_at": "2017-08-21T03:13:42Z",
-  "position": 28,
+  "position": 27,
   "execution": {
     "group_by": null,
     "group_order": "desc",

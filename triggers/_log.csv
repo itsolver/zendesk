@@ -2,38 +2,36 @@ File,Title,Active,Date Created,Date Updated
 Tag_requests_received_at_support@itsolver.com.au.json,Tag requests received at support@itsolver.com.au,True,2017-08-15T10:57:18Z,2017-08-15T10:57:33Z
 Tag_calendly_notifications_with_no_email.json,Tag calendly notifications with no_email,True,2017-01-30T05:29:44Z,2017-08-15T10:57:33Z
 Set_support_type_to_billing_if_ticket_received_at_billing@itsolver.net.json,Set support type to billing if ticket received at billing@itsolver.net,True,2016-11-13T11:45:25Z,2017-11-13T04:28:48Z
-Notify_requester_remittance_advice_received_and_mark_solved.json,Notify requester remittance advice received and mark solved,True,2017-03-31T10:19:49Z,2017-11-14T05:48:41Z
-Notify_requester_of_received_request.json,Notify requester of received request,True,2013-03-13T00:29:03Z,2017-11-17T01:48:01Z
+Notify_requester_remittance_advice_received_and_mark_solved.json,Notify requester remittance advice received and mark solved,True,2017-03-31T10:19:49Z,2018-01-16T23:43:59Z
+Notify_requester_of_received_request.json,Notify requester of received request,True,2013-03-13T00:29:03Z,2018-01-28T11:37:49Z
 Notify_requester_of_IT_Solver_away_on_holiday.json,Notify requester of IT Solver away on holiday,False,2017-07-25T22:36:58Z,2017-11-13T02:19:13Z
-Notify_requester_of_comment_update.json,Notify requester of comment update,True,2013-03-13T00:29:03Z,2017-11-17T01:51:43Z
-Notify_requester_of_solved_request_(original).json,Notify requester of solved request (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_comment_update_(original).json,Notify assignee of comment update (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_assignment.json,Notify assignee of assignment,True,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_reopened_ticket_(original).json,Notify assignee of reopened ticket (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_group_of_assignment.json,Notify group of assignment,True,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_all_agents_of_received_request.json,Notify all agents of received request,True,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Auto-assign_to_first_email_responding_agent.json,Auto-assign to first email responding agent,False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_possible_reopening_of_ticket_and_then_solve_again.json,Notify assignee of possible reopening of ticket and then solve again,False,2013-11-11T08:23:53Z,2017-11-13T03:55:54Z
-Notify_assignee_of_comment_update.json,Notify assignee of comment update,True,2013-11-11T08:24:41Z,2017-11-13T03:21:24Z
-Notify_requester_of_comment_update_after_solved..json,Notify requester of comment update after solved.,False,2017-11-13T02:19:12Z,2017-11-13T04:27:12Z
-Notify_requester_of_solved_request.json,Notify requester of solved request,True,2013-11-11T08:14:33Z,2017-11-13T04:23:57Z
-Notify_support_group_of_computer_drop_off.json,Notify support group of computer drop off,False,2014-05-15T00:50:46Z,2017-11-13T03:21:45Z
-Close_Facebook_Posts_from_IT_Solver_Blog_Posts.json,Close Facebook Posts from IT Solver Blog Posts,True,2015-06-01T08:58:21Z,2017-11-13T02:19:13Z
-Add_voicemail_tickets_to_callback_list.json,Add voicemail tickets to callback list,True,2016-05-21T02:08:37Z,2017-11-13T02:19:13Z
-Update_calendar_event_[Created_by_Calendar].json,Update calendar event [Created by Calendar],True,2016-05-24T01:57:31Z,2017-11-13T02:19:13Z
-Add_invoiced_tag.json,Add invoiced tag,True,2016-06-01T13:49:59Z,2017-11-13T02:19:13Z
-Remove_ticket_from_reservation_waiting_list_once_calendar_item_added.json,Remove ticket from reservation waiting list once calendar item added,True,2016-06-16T23:50:50Z,2017-11-13T02:19:13Z
-Warranty_job.json,Warranty job,True,2016-07-28T12:09:58Z,2017-11-13T02:19:13Z
-"Remove_tag_""callback""_if_pending_customer_reply_or_solved.json","Remove tag ""callback"" if pending customer reply or solved",True,2016-08-02T06:07:48Z,2017-11-13T02:19:13Z
-Set_request_type_to_Collection_Point_Walk-in.json,Set request type to Collection Point Walk-in,True,2016-10-05T07:05:40Z,2017-11-13T02:19:13Z
-Set_device_type_to_Desktop.json,Set device type to Desktop,True,2016-10-05T07:12:39Z,2017-11-13T02:19:13Z
-Set_high_priority_for_follow-up_requests.json,Set high priority for follow-up requests,True,2016-11-24T23:57:57Z,2017-11-13T02:19:13Z
-"Set_Support_Type_to_Marketing_if_facebook_post_subject_contains_""Help_desk_approaching"".json","Set Support Type to Marketing if facebook post subject contains ""Help desk approaching""",True,2017-03-23T13:28:34Z,2017-11-13T02:19:13Z
-Tymeshift__Satisfaction_Change.json,Tymeshift: Satisfaction Change,True,2017-06-02T17:08:29Z,2017-11-13T02:19:13Z
-[Hubspot_Integration]_-_Ticket_Created.json,[Hubspot Integration] - Ticket Created,True,2017-08-16T22:40:46Z,2017-11-13T02:19:13Z
-[Hubspot_Integration]_-_Ticket_Solved.json,[Hubspot Integration] - Ticket Solved,True,2017-08-16T22:40:46Z,2017-11-13T02:19:13Z
-[Hubspot_Integration]_-_Ticket_CSAT_Rating_Submitted.json,[Hubspot Integration] - Ticket CSAT Rating Submitted,True,2017-08-16T22:40:46Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Satisfaction_Change.json,Tymeshift: Ticket Satisfaction Change,True,2017-09-13T14:43:08Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Status_Change_to_Solved.json,Tymeshift: Ticket Status Change to Solved,True,2017-09-13T14:43:08Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Create.json,Tymeshift: Ticket Create,True,2017-09-13T14:43:08Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Update.json,Tymeshift: Ticket Update,True,2017-09-13T14:43:09Z,2017-11-13T02:19:13Z
+Notify_requester_of_comment_update.json,Notify requester of comment update,False,2013-03-13T00:29:03Z,2017-12-15T15:36:23Z
+Notify_requester_of_comment_update_with_CC_warning.json,Notify requester of comment update with CC warning,False,2017-12-14T04:17:29Z,2018-02-08T13:34:30Z
+Notify_assignee_of_assignment.json,Notify assignee of assignment,False,2013-03-13T00:29:03Z,2018-01-17T03:47:45Z
+Notify_group_of_assignment.json,Notify group of assignment,False,2013-03-13T00:29:03Z,2018-01-17T03:47:45Z
+Notify_all_agents_of_received_request.json,Notify all agents of received request,False,2013-03-13T00:29:03Z,2018-01-17T03:47:45Z
+Notify_assignee_of_possible_reopening_of_ticket_and_then_solve_again.json,Notify assignee of possible reopening of ticket and then solve again,False,2013-11-11T08:23:53Z,2017-12-14T04:17:29Z
+Notify_assignee_of_comment_update.json,Notify assignee of comment update,False,2013-11-11T08:24:41Z,2018-01-17T03:47:45Z
+Notify_requester_of_comment_update_after_solved..json,Notify requester of comment update after solved.,False,2017-11-13T02:19:12Z,2017-12-14T04:17:29Z
+Notify_requester_of_solved_request.json,Notify requester of solved request,True,2013-11-11T08:14:33Z,2017-12-14T04:17:29Z
+Close_Facebook_Posts_from_IT_Solver_Blog_Posts.json,Close Facebook Posts from IT Solver Blog Posts,True,2015-06-01T08:58:21Z,2017-12-18T03:01:08Z
+"Set_voicemail_ticket_to_""high_priority""_and_tag_""callback"".json","Set voicemail ticket to ""high priority"" and tag ""callback""",False,2016-05-21T02:08:37Z,2018-01-05T12:22:44Z
+Add_invoiced_tag.json,Add invoiced tag,True,2016-06-01T13:49:59Z,2017-12-18T03:01:08Z
+Remove_ticket_from_reservation_waiting_list_once_calendar_item_added.json,Remove ticket from reservation waiting list once calendar item added,False,2016-06-16T23:50:50Z,2017-12-18T03:01:08Z
+Warranty_job.json,Warranty job,True,2016-07-28T12:09:58Z,2017-12-18T03:01:08Z
+"Remove_tag_""callback""_if_pending_customer_reply_or_solved.json","Remove tag ""callback"" if pending customer reply or solved",True,2016-08-02T06:07:48Z,2017-12-18T03:01:08Z
+Set_request_type_to_Collection_Point_Walk-in.json,Set request type to Collection Point Walk-in,True,2016-10-05T07:05:40Z,2017-12-18T03:01:08Z
+Set_device_type_to_Desktop.json,Set device type to Desktop,True,2016-10-05T07:12:39Z,2017-12-18T03:01:08Z
+Set_high_priority_for_follow-up_requests.json,Set high priority for follow-up requests,False,2016-11-24T23:57:57Z,2018-01-05T12:23:01Z
+"Set_Support_Type_to_Marketing_if_facebook_post_subject_contains_""Help_desk_approaching"".json","Set Support Type to Marketing if facebook post subject contains ""Help desk approaching""",True,2017-03-23T13:28:34Z,2017-12-18T03:01:08Z
+Tymeshift__Satisfaction_Change.json,Tymeshift: Satisfaction Change,False,2017-06-02T17:08:29Z,2017-12-18T03:01:08Z
+[Hubspot_Integration]_-_Ticket_Created.json,[Hubspot Integration] - Ticket Created,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
+[Hubspot_Integration]_-_Ticket_Solved.json,[Hubspot Integration] - Ticket Solved,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
+[Hubspot_Integration]_-_Ticket_CSAT_Rating_Submitted.json,[Hubspot Integration] - Ticket CSAT Rating Submitted,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Satisfaction_Change.json,Tymeshift: Ticket Satisfaction Change,False,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Status_Change_to_Solved.json,Tymeshift: Ticket Status Change to Solved,True,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Create.json,Tymeshift: Ticket Create,True,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Update.json,Tymeshift: Ticket Update,True,2017-09-13T14:43:09Z,2017-12-18T03:01:08Z
+Update_calendar_event.json,Update calendar event,True,2017-12-13T05:39:42Z,2017-12-18T03:01:08Z
+Zapier__create_invoice.json,Zapier: create invoice,True,2017-12-11T01:20:11Z,2017-12-18T03:01:08Z
+"If_tagged_""phishing"",_advise_customer_about_phishing_threat_.json","If tagged ""phishing"", advise customer about phishing threat ",True,2018-02-05T05:00:17Z,2018-02-07T09:21:43Z

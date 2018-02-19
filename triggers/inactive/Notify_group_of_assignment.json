@@ -1,0 +1,41 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/34574056.json",
+  "id": 34574056,
+  "title": "Notify group of assignment",
+  "active": false,
+  "updated_at": "2018-01-17T03:47:45Z",
+  "created_at": "2013-03-13T00:29:03Z",
+  "actions": [
+    {
+      "field": "notification_group",
+      "value": [
+        "group_id",
+        "[{{ticket.account}}] \"{{ticket.group.name}}\" assignment:  {{ticket.title}}",
+        "This ticket (#{{ticket.id}}) has been assigned to group '{{ticket.group.name}}', of which you are a member.\n\n{{ticket.comments_formatted}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "group_id",
+        "operator": "changed",
+        "value": ""
+      },
+      {
+        "field": "group_id",
+        "operator": "is_not",
+        "value": ""
+      },
+      {
+        "field": "assignee_id",
+        "operator": "is",
+        "value": ""
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 10,
+  "raw_title": "Notify group of assignment"
+}

@@ -1,0 +1,60 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/360000050096.json",
+  "id": 360000050096,
+  "title": "If tagged \"phishing\", advise customer about phishing threat ",
+  "active": true,
+  "updated_at": "2018-02-07T09:21:43Z",
+  "created_at": "2018-02-05T05:00:17Z",
+  "actions": [
+    {
+      "field": "status",
+      "value": "pending"
+    },
+    {
+      "field": "notification_user",
+      "value": [
+        "current_user",
+        "{{ticket.title}}",
+        "Hi {{ticket.assignee.first_name}},\nThis email we received is a phishing a threat. Please take action to report the phishing site to Google. \n\nFor more information on what action to take, visit this help article:\nhttps://support.itsolver.net/hc/en-au/articles/360000032595-Prevent-report-phishing-attacks\n\nConcerned about security? At your request, Angus can do a Security Checkup.\n\n{{ticket.comments_formatted}}"
+      ]
+    },
+    {
+      "field": "type",
+      "value": "problem"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "one_time_exception_free_support"
+    },
+    {
+      "field": "custom_fields_22594308",
+      "value": "email"
+    },
+    {
+      "field": "current_tags",
+      "value": "phishing_advised"
+    },
+    {
+      "field": "remove_tags",
+      "value": "phishing"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "phishing"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "phishing_advised"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 36,
+  "raw_title": "If tagged \"phishing\", advise customer about phishing threat "
+}

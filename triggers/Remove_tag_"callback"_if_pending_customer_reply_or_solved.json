@@ -3,7 +3,7 @@
   "id": 52791886,
   "title": "Remove tag \"callback\" if pending customer reply or solved",
   "active": true,
-  "updated_at": "2017-11-13T02:19:13Z",
+  "updated_at": "2017-12-18T03:01:08Z",
   "created_at": "2016-08-02T06:07:48Z",
   "actions": [
     {
@@ -33,6 +33,6 @@
     ]
   },
   "description": null,
-  "position": 26,
+  "position": 21,
   "raw_title": "Remove tag \"callback\" if pending customer reply or solved"
 }

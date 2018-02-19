@@ -3,7 +3,7 @@
   "id": 34574086,
   "title": "Close ticket 90 days after status is set to solved",
   "active": true,
-  "updated_at": "2017-11-09T01:47:34Z",
+  "updated_at": "2017-12-18T11:43:23Z",
   "created_at": "2013-03-13T00:29:03Z",
   "actions": [
     {
@@ -26,6 +26,6 @@
     ],
     "any": []
   },
-  "position": 10,
+  "position": 9,
   "raw_title": "Close ticket 90 days after status is set to solved"
 }

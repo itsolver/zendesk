@@ -3,7 +3,7 @@
   "id": 35419468,
   "title": "Close Twitter ticket 1 day after status is set to Solved",
   "active": true,
-  "updated_at": "2017-04-27T00:37:54Z",
+  "updated_at": "2017-12-18T11:43:41Z",
   "created_at": "2013-04-16T14:11:55Z",
   "actions": [
     {
@@ -37,6 +37,6 @@
       }
     ]
   },
-  "position": 13,
+  "position": 11,
   "raw_title": "Close Twitter ticket 1 day after status is set to Solved"
 }

@@ -1,0 +1,30 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/56777823.json",
+  "id": 56777823,
+  "title": "Tymeshift: Satisfaction Change",
+  "active": false,
+  "updated_at": "2017-12-18T03:01:08Z",
+  "created_at": "2017-06-02T17:08:29Z",
+  "actions": [
+    {
+      "field": "notification_target",
+      "value": [
+        20248203,
+        "{\"source\": \"Zendesk\",\"type\": \"satisfaction\",\"user\": \"{{ticket.account}}\",\"ticket_id\":\"{{ticket.id}}\",\"score\": \"{{ticket.score}}\"}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "satisfaction_score",
+        "operator": "changed",
+        "value": null
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 26,
+  "raw_title": "Tymeshift: Satisfaction Change"
+}

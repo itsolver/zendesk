@@ -7,10 +7,10 @@
   "description": "",
   "raw_title": "City/Suburb",
   "raw_description": "",
-  "position": 3,
+  "position": 1,
   "active": true,
   "system": false,
   "regexp_for_validation": null,
   "created_at": "2014-03-14T06:55:23Z",
-  "updated_at": "2017-03-21T23:16:16Z"
+  "updated_at": "2017-12-13T12:37:22Z"
 }

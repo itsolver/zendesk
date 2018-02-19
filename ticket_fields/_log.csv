@@ -2,71 +2,71 @@ File,Title,Active,Date Created,Date Updated
 Tag_requests_received_at_support@itsolver.com.au.json,Tag requests received at support@itsolver.com.au,True,2017-08-15T10:57:18Z,2017-08-15T10:57:33Z
 Tag_calendly_notifications_with_no_email.json,Tag calendly notifications with no_email,True,2017-01-30T05:29:44Z,2017-08-15T10:57:33Z
 Set_support_type_to_billing_if_ticket_received_at_billing@itsolver.net.json,Set support type to billing if ticket received at billing@itsolver.net,True,2016-11-13T11:45:25Z,2017-11-13T04:28:48Z
-Notify_requester_remittance_advice_received_and_mark_solved.json,Notify requester remittance advice received and mark solved,True,2017-03-31T10:19:49Z,2017-11-14T05:48:41Z
-Notify_requester_of_received_request.json,Notify requester of received request,True,2013-03-13T00:29:03Z,2017-11-17T01:48:01Z
+Notify_requester_remittance_advice_received_and_mark_solved.json,Notify requester remittance advice received and mark solved,True,2017-03-31T10:19:49Z,2018-01-16T23:43:59Z
+Notify_requester_of_received_request.json,Notify requester of received request,True,2013-03-13T00:29:03Z,2018-01-28T11:37:49Z
 Notify_requester_of_IT_Solver_away_on_holiday.json,Notify requester of IT Solver away on holiday,False,2017-07-25T22:36:58Z,2017-11-13T02:19:13Z
-Notify_requester_of_comment_update.json,Notify requester of comment update,True,2013-03-13T00:29:03Z,2017-11-17T01:51:43Z
-Notify_requester_of_solved_request_(original).json,Notify requester of solved request (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_comment_update_(original).json,Notify assignee of comment update (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_assignment.json,Notify assignee of assignment,True,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_reopened_ticket_(original).json,Notify assignee of reopened ticket (original),False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_group_of_assignment.json,Notify group of assignment,True,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_all_agents_of_received_request.json,Notify all agents of received request,True,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Auto-assign_to_first_email_responding_agent.json,Auto-assign to first email responding agent,False,2013-03-13T00:29:03Z,2017-11-13T02:19:13Z
-Notify_assignee_of_possible_reopening_of_ticket_and_then_solve_again.json,Notify assignee of possible reopening of ticket and then solve again,False,2013-11-11T08:23:53Z,2017-11-13T03:55:54Z
-Notify_assignee_of_comment_update.json,Notify assignee of comment update,True,2013-11-11T08:24:41Z,2017-11-13T03:21:24Z
-Notify_requester_of_comment_update_after_solved..json,Notify requester of comment update after solved.,False,2017-11-13T02:19:12Z,2017-11-13T04:27:12Z
-Notify_requester_of_solved_request.json,Notify requester of solved request,True,2013-11-11T08:14:33Z,2017-11-13T04:23:57Z
-Notify_support_group_of_computer_drop_off.json,Notify support group of computer drop off,False,2014-05-15T00:50:46Z,2017-11-13T03:21:45Z
-Close_Facebook_Posts_from_IT_Solver_Blog_Posts.json,Close Facebook Posts from IT Solver Blog Posts,True,2015-06-01T08:58:21Z,2017-11-13T02:19:13Z
-Add_voicemail_tickets_to_callback_list.json,Add voicemail tickets to callback list,True,2016-05-21T02:08:37Z,2017-11-13T02:19:13Z
-Update_calendar_event_[Created_by_Calendar].json,Update calendar event [Created by Calendar],True,2016-05-24T01:57:31Z,2017-11-13T02:19:13Z
-Add_invoiced_tag.json,Add invoiced tag,True,2016-06-01T13:49:59Z,2017-11-13T02:19:13Z
-Remove_ticket_from_reservation_waiting_list_once_calendar_item_added.json,Remove ticket from reservation waiting list once calendar item added,True,2016-06-16T23:50:50Z,2017-11-13T02:19:13Z
-Warranty_job.json,Warranty job,True,2016-07-28T12:09:58Z,2017-11-13T02:19:13Z
-"Remove_tag_""callback""_if_pending_customer_reply_or_solved.json","Remove tag ""callback"" if pending customer reply or solved",True,2016-08-02T06:07:48Z,2017-11-13T02:19:13Z
-Set_request_type_to_Collection_Point_Walk-in.json,Set request type to Collection Point Walk-in,True,2016-10-05T07:05:40Z,2017-11-13T02:19:13Z
-Set_device_type_to_Desktop.json,Set device type to Desktop,True,2016-10-05T07:12:39Z,2017-11-13T02:19:13Z
-Set_high_priority_for_follow-up_requests.json,Set high priority for follow-up requests,True,2016-11-24T23:57:57Z,2017-11-13T02:19:13Z
-"Set_Support_Type_to_Marketing_if_facebook_post_subject_contains_""Help_desk_approaching"".json","Set Support Type to Marketing if facebook post subject contains ""Help desk approaching""",True,2017-03-23T13:28:34Z,2017-11-13T02:19:13Z
-Tymeshift__Satisfaction_Change.json,Tymeshift: Satisfaction Change,True,2017-06-02T17:08:29Z,2017-11-13T02:19:13Z
-[Hubspot_Integration]_-_Ticket_Created.json,[Hubspot Integration] - Ticket Created,True,2017-08-16T22:40:46Z,2017-11-13T02:19:13Z
-[Hubspot_Integration]_-_Ticket_Solved.json,[Hubspot Integration] - Ticket Solved,True,2017-08-16T22:40:46Z,2017-11-13T02:19:13Z
-[Hubspot_Integration]_-_Ticket_CSAT_Rating_Submitted.json,[Hubspot Integration] - Ticket CSAT Rating Submitted,True,2017-08-16T22:40:46Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Satisfaction_Change.json,Tymeshift: Ticket Satisfaction Change,True,2017-09-13T14:43:08Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Status_Change_to_Solved.json,Tymeshift: Ticket Status Change to Solved,True,2017-09-13T14:43:08Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Create.json,Tymeshift: Ticket Create,True,2017-09-13T14:43:08Z,2017-11-13T02:19:13Z
-Tymeshift__Ticket_Update.json,Tymeshift: Ticket Update,True,2017-09-13T14:43:09Z,2017-11-13T02:19:13Z
-Set_priority_to_normal_for_newly_created_tickets.json,Set priority to normal for newly created tickets,True,2016-12-13T22:50:31Z,2017-11-13T05:08:56Z
-Pending_notification_24_hours.json,Pending notification 24 hours,True,2013-03-13T00:29:03Z,2017-04-26T23:55:47Z
-Pending_notification_48_hours.json,Pending notification 48 hours,True,2013-03-13T00:29:03Z,2017-04-26T23:55:27Z
-Pending_notification_7_days.json,Pending notification 7 days,True,2017-02-08T04:19:47Z,2017-04-26T23:55:12Z
-Request_customer_satisfaction_rating.json,Request customer satisfaction rating,False,2014-09-18T09:37:50Z,2017-04-26T23:52:12Z
-Close_ticket_4_days_after_status_is_set_to_pending.json,Close ticket 4 days after status is set to pending,True,2016-05-13T03:37:30Z,2017-04-27T00:37:54Z
-Close_ticket_9_days_after_status_is_set_to_pending_7_days.json,Close ticket 9 days after status is set to pending 7 days,True,2016-08-17T03:10:44Z,2017-04-27T00:37:54Z
-Close_ticket_9_days_after_status_is_set_to_pending_7_days.json,Close ticket 9 days after status is set to pending 7 days,True,2017-03-22T05:56:05Z,2017-04-27T00:37:54Z
-Close_ticket_90_days_after_status_is_set_to_solved.json,Close ticket 90 days after status is set to solved,True,2013-03-13T00:29:03Z,2017-11-09T01:47:34Z
-Close_Twitter_ticket_1_day_after_status_is_set_to_Solved.json,Close Twitter ticket 1 day after status is set to Solved,True,2013-04-16T14:11:55Z,2017-04-27T00:37:54Z
-Request_customer_satisfaction_rating_via_Google_or_Facebook_review.json,Request customer satisfaction rating via Google or Facebook review,True,2017-01-25T10:25:45Z,2017-11-15T06:11:05Z
-Close_FaceBook_Post_by_IT_Solver_after_8_hours_of_inactivity.json,Close FaceBook Post by IT Solver after 8 hours of inactivity,True,2017-08-21T02:41:33Z,2017-08-21T03:21:20Z
+Notify_requester_of_comment_update.json,Notify requester of comment update,False,2013-03-13T00:29:03Z,2017-12-15T15:36:23Z
+Notify_requester_of_comment_update_with_CC_warning.json,Notify requester of comment update with CC warning,False,2017-12-14T04:17:29Z,2018-02-08T13:34:30Z
+Notify_assignee_of_assignment.json,Notify assignee of assignment,False,2013-03-13T00:29:03Z,2018-01-17T03:47:45Z
+Notify_group_of_assignment.json,Notify group of assignment,False,2013-03-13T00:29:03Z,2018-01-17T03:47:45Z
+Notify_all_agents_of_received_request.json,Notify all agents of received request,False,2013-03-13T00:29:03Z,2018-01-17T03:47:45Z
+Notify_assignee_of_possible_reopening_of_ticket_and_then_solve_again.json,Notify assignee of possible reopening of ticket and then solve again,False,2013-11-11T08:23:53Z,2017-12-14T04:17:29Z
+Notify_assignee_of_comment_update.json,Notify assignee of comment update,False,2013-11-11T08:24:41Z,2018-01-17T03:47:45Z
+Notify_requester_of_comment_update_after_solved..json,Notify requester of comment update after solved.,False,2017-11-13T02:19:12Z,2017-12-14T04:17:29Z
+Notify_requester_of_solved_request.json,Notify requester of solved request,True,2013-11-11T08:14:33Z,2017-12-14T04:17:29Z
+Close_Facebook_Posts_from_IT_Solver_Blog_Posts.json,Close Facebook Posts from IT Solver Blog Posts,True,2015-06-01T08:58:21Z,2017-12-18T03:01:08Z
+"Set_voicemail_ticket_to_""high_priority""_and_tag_""callback"".json","Set voicemail ticket to ""high priority"" and tag ""callback""",False,2016-05-21T02:08:37Z,2018-01-05T12:22:44Z
+Add_invoiced_tag.json,Add invoiced tag,True,2016-06-01T13:49:59Z,2017-12-18T03:01:08Z
+Remove_ticket_from_reservation_waiting_list_once_calendar_item_added.json,Remove ticket from reservation waiting list once calendar item added,False,2016-06-16T23:50:50Z,2017-12-18T03:01:08Z
+Warranty_job.json,Warranty job,True,2016-07-28T12:09:58Z,2017-12-18T03:01:08Z
+"Remove_tag_""callback""_if_pending_customer_reply_or_solved.json","Remove tag ""callback"" if pending customer reply or solved",True,2016-08-02T06:07:48Z,2017-12-18T03:01:08Z
+Set_request_type_to_Collection_Point_Walk-in.json,Set request type to Collection Point Walk-in,True,2016-10-05T07:05:40Z,2017-12-18T03:01:08Z
+Set_device_type_to_Desktop.json,Set device type to Desktop,True,2016-10-05T07:12:39Z,2017-12-18T03:01:08Z
+Set_high_priority_for_follow-up_requests.json,Set high priority for follow-up requests,False,2016-11-24T23:57:57Z,2018-01-05T12:23:01Z
+"Set_Support_Type_to_Marketing_if_facebook_post_subject_contains_""Help_desk_approaching"".json","Set Support Type to Marketing if facebook post subject contains ""Help desk approaching""",True,2017-03-23T13:28:34Z,2017-12-18T03:01:08Z
+Tymeshift__Satisfaction_Change.json,Tymeshift: Satisfaction Change,False,2017-06-02T17:08:29Z,2017-12-18T03:01:08Z
+[Hubspot_Integration]_-_Ticket_Created.json,[Hubspot Integration] - Ticket Created,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
+[Hubspot_Integration]_-_Ticket_Solved.json,[Hubspot Integration] - Ticket Solved,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
+[Hubspot_Integration]_-_Ticket_CSAT_Rating_Submitted.json,[Hubspot Integration] - Ticket CSAT Rating Submitted,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Satisfaction_Change.json,Tymeshift: Ticket Satisfaction Change,False,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Status_Change_to_Solved.json,Tymeshift: Ticket Status Change to Solved,True,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Create.json,Tymeshift: Ticket Create,True,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
+Tymeshift__Ticket_Update.json,Tymeshift: Ticket Update,True,2017-09-13T14:43:09Z,2017-12-18T03:01:08Z
+Update_calendar_event.json,Update calendar event,True,2017-12-13T05:39:42Z,2017-12-18T03:01:08Z
+Zapier__create_invoice.json,Zapier: create invoice,True,2017-12-11T01:20:11Z,2017-12-18T03:01:08Z
+"If_tagged_""phishing"",_advise_customer_about_phishing_threat_.json","If tagged ""phishing"", advise customer about phishing threat ",True,2018-02-05T05:00:17Z,2018-02-07T09:21:43Z
+Set_priority_to_normal_for_newly_created_tickets.json,Set priority to normal for newly created tickets,False,2016-12-13T22:50:31Z,2018-01-24T00:39:49Z
+Pending_notification_3_days.json,Pending notification 3 days,True,2013-03-13T00:29:03Z,2017-12-18T11:42:22Z
+Pending_notification_48_hours.json,Pending notification 48 hours,False,2013-03-13T00:29:03Z,2017-12-15T04:06:21Z
+Pending_notification_7_days.json,Pending notification 7 days,False,2017-02-08T04:19:47Z,2017-12-18T11:42:35Z
+Request_customer_satisfaction_rating.json,Request customer satisfaction rating,False,2014-09-18T09:37:50Z,2017-12-18T11:43:23Z
+Close_ticket_5_days_after_status_is_set_to_pending.json,Close ticket 5 days after status is set to pending,True,2016-05-13T03:37:30Z,2017-12-18T11:43:23Z
+Close_ticket_9_days_after_status_is_set_to_pending_7_days.json,Close ticket 9 days after status is set to pending 7 days,False,2016-08-17T03:10:44Z,2017-12-18T11:43:23Z
+Close_ticket_9_days_after_status_is_set_to_pending_7_days.json,Close ticket 9 days after status is set to pending 7 days,False,2017-03-22T05:56:05Z,2017-12-18T11:43:23Z
+Close_ticket_90_days_after_status_is_set_to_solved.json,Close ticket 90 days after status is set to solved,True,2013-03-13T00:29:03Z,2017-12-18T11:43:23Z
+Close_FaceBook_Post_by_IT_Solver_after_8_hours_of_inactivity.json,Close FaceBook Post by IT Solver after 8 hours of inactivity,True,2017-08-21T02:41:33Z,2017-12-18T11:43:41Z
+Close_Twitter_ticket_1_day_after_status_is_set_to_Solved.json,Close Twitter ticket 1 day after status is set to Solved,True,2013-04-16T14:11:55Z,2017-12-18T11:43:41Z
+Request_customer_satisfaction_rating_via_Google_or_Facebook_review.json,Request customer satisfaction rating via Google or Facebook review,True,2017-01-25T10:25:45Z,2018-01-28T22:54:04Z
+Pending_notification_3_days.json,Pending notification 3 days,False,2017-12-15T04:08:40Z,2017-12-18T11:43:41Z
 Check_Apple_Service_and_Support_Coverage_.json,Check Apple Service and Support Coverage ,True,2015-05-20T01:58:33Z,2016-01-05T03:31:35Z
 Close_because_customer_not_responding.json,Close because customer not responding,True,2016-02-21T23:33:32Z,2016-05-06T05:16:22Z
 Customer_not_responding.json,Customer not responding,True,2013-03-13T00:29:04Z,2017-01-25T10:29:29Z
-"Enhance_speed,_privacy_and_security_of_Firefox.json","Enhance speed, privacy and security of Firefox",True,2014-12-15T03:24:42Z,2016-04-01T01:01:25Z
+"Enhance_speed,_privacy_and_security_of_your_browser.json","Enhance speed, privacy and security of your browser",True,2014-12-15T03:24:42Z,2017-12-05T06:07:54Z
 "Enhanced_speed,_privacy_and_security.json","Enhanced speed, privacy and security",True,2014-12-15T03:25:16Z,2017-02-02T07:04:49Z
 Device_picked_up.json,Device picked up,True,2016-02-16T02:57:50Z,2016-05-10T06:25:09Z
-Mark_as_solved.json,Mark as solved,True,2013-05-13T23:54:58Z,2017-10-25T01:07:41Z
-Mark_as_solved_(troubleshoot_only_via_walk-in).json,Mark as solved (troubleshoot only via walk-in),True,2017-08-24T01:20:23Z,2017-08-24T01:21:06Z
+Mark_as_solved.json,Mark as solved,True,2013-05-13T23:54:58Z,2017-11-22T02:48:00Z
 Mark_as_solved_(troubleshoot_only_on-site).json,Mark as solved (troubleshoot only on-site),True,2017-08-24T01:21:36Z,2017-08-24T01:21:36Z
 Mark_as_solved_(ineligible_for_support_-_DIY).json,Mark as solved (ineligible for support - DIY),True,2016-11-09T05:49:20Z,2017-01-01T10:23:13Z
 Quick_acknowledgement.json,Quick acknowledgement,True,2013-04-24T16:04:21Z,2016-01-05T03:31:35Z
-On-site_reservation.json,On-site reservation,True,2016-03-17T06:12:37Z,2017-07-16T23:50:44Z
-On-site_reservation_(pickup_at_jetty).json,On-site reservation (pickup at jetty),True,2016-05-18T02:21:18Z,2017-07-16T23:50:59Z
-Walk_In_Reservation_at_IT_Solver_HQ.json,Walk In Reservation at IT Solver HQ,True,2017-06-20T04:12:49Z,2017-07-16T23:51:55Z
-Remote_support_reservation.json,Remote support reservation,True,2016-05-18T02:14:59Z,2017-07-16T23:51:16Z
+On-site_reservation.json,On-site reservation,True,2016-03-17T06:12:37Z,2018-01-30T08:32:03Z
+On-site_reservation_(pickup_at_jetty).json,On-site reservation (pickup at jetty),True,2016-05-18T02:21:18Z,2017-12-19T22:41:40Z
+Carry-in_Reservation_at_IT_Solver_HQ.json,Carry-in Reservation at IT Solver HQ,True,2017-06-20T04:12:49Z,2017-12-05T06:22:12Z
+On-site_reservation_(pickup_from_previous_job).json,On-site reservation (pickup from previous job),True,2018-01-09T00:05:55Z,2018-01-22T23:59:53Z
+Remote_support_reservation.json,Remote support reservation,True,2016-05-18T02:14:59Z,2018-01-30T08:32:36Z
 Shipment_Notification_(on_backorder).json,Shipment Notification (on backorder),True,2016-03-09T07:53:41Z,2016-05-09T06:27:46Z
 Teamviewer_start_session.json,Teamviewer start session,True,2014-03-29T13:15:50Z,2017-02-09T00:33:09Z
-Troubleshooting_(PAIR).json,Troubleshooting (PAIR),True,2014-03-28T22:39:12Z,2016-07-27T00:41:37Z
+Remote_Troubleshooting_(PAIR).json,Remote Troubleshooting (PAIR),True,2014-03-28T22:39:12Z,2017-12-05T03:19:13Z
+Troubleshooting_(PAIR).json,Troubleshooting (PAIR),True,2017-12-05T03:16:27Z,2017-12-05T03:16:27Z
 Waiting_for_reservation.json,Waiting for reservation,True,2016-05-06T05:27:47Z,2017-07-16T23:51:35Z
 Request_payment_with_a_social_media_post.json,Request payment with a social media post,True,2016-05-17T02:39:53Z,2016-05-17T02:45:02Z
 Referral__Website_development.json,Referral: Website development,True,2016-05-30T23:33:24Z,2017-02-08T14:19:52Z
@@ -81,71 +81,69 @@ Refer_request_and_mark_as_solved.json,Refer request and mark as solved,True,2017
 Schedule_via_Calendly.json,Schedule via Calendly,True,2017-08-28T07:22:47Z,2017-08-28T07:22:47Z
 Dismiss.json,Dismiss,True,2017-09-06T23:40:14Z,2017-09-06T23:40:14Z
 Mark_as_Solved_and_set_as_internal_business_development.json,Mark as Solved and set as internal business development,True,2017-09-20T23:44:18Z,2017-09-20T23:45:32Z
-Remote_troubleshoot_problem.json,Remote troubleshoot problem,True,2017-10-11T06:38:42Z,2017-10-11T06:38:42Z
+Remote_troubleshoot_problem.json,Remote troubleshoot problem,False,2017-10-11T06:38:42Z,2017-12-05T03:15:47Z
 "Social_interaction,_mark_as_solved..json","Social interaction, mark as solved.",True,2017-10-15T23:11:06Z,2017-10-20T08:02:27Z
-Action_-_Pick-up_from_Collection_Points.json,Action - Pick-up from Collection Points,False,2014-03-15T14:10:08Z,2017-05-02T06:41:00Z
-Action_-_Invoice.json,Action - Invoice,True,2016-06-01T13:46:51Z,2017-11-13T01:32:24Z
-Action_-_Review_procedure.json,Action - Review procedure,True,2016-06-02T05:57:41Z,2017-05-02T06:40:41Z
-Open_tickets.json,Open tickets,True,2016-09-17T00:59:46Z,2017-05-02T06:40:41Z
-Open_tickets_not_in_upcoming_events.json,Open tickets not in upcoming events,True,2017-02-13T14:31:27Z,2017-05-02T06:40:41Z
-Open_orders.json,Open orders,True,2016-10-19T01:28:19Z,2017-05-02T06:40:41Z
-Your_unsolved_tickets.json,Your unsolved tickets,False,2013-03-13T00:29:04Z,2017-05-02T06:40:41Z
-Action_-_Callback.json,Action - Callback,True,2016-05-07T09:40:19Z,2017-05-02T06:40:41Z
-Unassigned_tickets.json,Unassigned tickets,False,2013-03-13T00:29:04Z,2017-05-02T06:40:41Z
-Current_tasks.json,Current tasks,False,2013-03-13T00:29:04Z,2017-03-20T01:40:04Z
-Waiting_for_appointment.json,Waiting for appointment,True,2016-05-06T05:14:42Z,2017-08-21T05:38:39Z
-Overdue_tasks.json,Overdue tasks,False,2013-03-13T00:29:04Z,2017-03-20T01:40:04Z
-Recently_updated_tickets.json,Recently updated tickets,False,2013-03-13T00:29:04Z,2017-03-20T01:40:04Z
-Zapier_view_-_Recently_updated_tickets.json,Zapier view - Recently updated tickets,False,2017-02-11T14:23:14Z,2017-03-20T01:40:04Z
-Rated_tickets_from_the_last_7_days.json,Rated tickets from the last 7 days,False,2014-09-18T09:37:50Z,2017-03-20T01:40:04Z
-All_tickets_assigned_to_me_in_the_last_30_days.json,All tickets assigned to me in the last 30 days,False,2015-08-04T07:59:29Z,2017-03-20T01:40:04Z
-All_open_tickets_assigned_to_me.json,All open tickets assigned to me,False,2015-08-04T08:01:11Z,2017-03-20T01:40:04Z
-Referrals_in_the_last_60_days.json,Referrals in the last 60 days,False,2016-08-01T04:08:25Z,2017-03-20T01:40:04Z
-New_tickets.json,New tickets,False,2013-04-24T16:06:01Z,2017-03-20T01:40:04Z
-Unsolved_tickets_in_your_groups.json,Unsolved tickets in your groups,False,2013-03-13T00:29:04Z,2017-03-20T01:40:04Z
-New_tickets_in_your_groups.json,New tickets in your groups,False,2013-03-13T00:29:04Z,2017-03-20T01:40:04Z
-Copy_of_Collection_Point_Referrals_in_the_last_60_days.json,Copy of Collection Point Referrals in the last 60 days,False,2016-10-05T12:11:01Z,2017-03-20T01:40:04Z
-Pending_tickets.json,Pending tickets,True,2013-03-13T00:29:04Z,2017-03-20T01:40:04Z
-Recently_updated_tickets_(for_Zapier).json,Recently updated tickets (for Zapier),True,2017-02-09T15:20:18Z,2017-04-13T07:36:11Z
-Recently_solved_tickets.json,Recently solved tickets,True,2013-03-13T00:29:04Z,2017-04-06T00:08:51Z
-Referrals_in_the_last_31_days.json,Referrals in the last 31 days,True,2014-06-04T12:20:14Z,2017-03-31T11:56:09Z
-All_unsolved_tickets.json,All unsolved tickets,True,2013-03-13T00:29:04Z,2017-03-31T11:56:09Z
-Recently_closed_tickets.json,Recently closed tickets,True,2017-08-21T03:13:42Z,2017-08-21T03:13:42Z
+Solve_Vendor_supplier_interaction_.json,Solve Vendor/supplier interaction ,True,2017-12-13T14:15:49Z,2017-12-13T14:15:49Z
+Merry_Christmas.json,Merry Christmas,False,2017-12-18T07:55:13Z,2017-12-18T11:27:16Z
+Merry_Christmas_social_interaction.json,Merry Christmas social interaction,True,2017-12-18T10:07:01Z,2017-12-18T11:32:32Z
+Price_sensitive__Google_Drive_File_Stream_encountered_a_problem_and_has_stopped_.json,Price sensitive: Google Drive File Stream encountered a problem and has stopped ,True,2018-02-05T22:50:33Z,2018-02-05T22:50:33Z
+Action_-_Invoice.json,Action - Invoice,True,2016-06-01T13:46:51Z,2017-12-12T01:05:46Z
+All_unsolved_tickets.json,All unsolved tickets,True,2013-03-13T00:29:04Z,2017-12-12T01:05:46Z
+Action_-_Pick-up_from_Collection_Points.json,Action - Pick-up from Collection Points,False,2014-03-15T14:10:08Z,2017-12-12T01:05:46Z
+Open_tickets.json,Open tickets,True,2016-09-17T00:59:46Z,2017-12-12T01:05:55Z
+Open_tickets_not_in_upcoming_events.json,Open tickets not in upcoming events,True,2017-02-13T14:31:27Z,2017-12-12T01:05:55Z
+Open_orders.json,Open orders,True,2016-10-19T01:28:19Z,2017-12-12T01:05:55Z
+Your_unsolved_tickets.json,Your unsolved tickets,False,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Action_-_Callback.json,Action - Callback,True,2016-05-07T09:40:19Z,2017-12-12T01:05:55Z
+Unassigned_tickets.json,Unassigned tickets,False,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Current_tasks.json,Current tasks,False,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Waiting_for_appointment.json,Waiting for appointment,True,2016-05-06T05:14:42Z,2018-01-02T23:16:24Z
+Overdue_tasks.json,Overdue tasks,False,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Recently_updated_tickets.json,Recently updated tickets,False,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Zapier_view_-_Recently_updated_tickets.json,Zapier view - Recently updated tickets,False,2017-02-11T14:23:14Z,2017-12-12T01:05:55Z
+Rated_tickets_from_the_last_7_days.json,Rated tickets from the last 7 days,False,2014-09-18T09:37:50Z,2017-12-12T01:05:55Z
+All_tickets_assigned_to_me_in_the_last_30_days.json,All tickets assigned to me in the last 30 days,False,2015-08-04T07:59:29Z,2017-12-12T01:05:55Z
+All_open_tickets_assigned_to_me.json,All open tickets assigned to me,False,2015-08-04T08:01:11Z,2017-12-12T01:05:55Z
+Referrals_in_the_last_60_days.json,Referrals in the last 60 days,False,2016-08-01T04:08:25Z,2017-12-12T01:05:55Z
+New_tickets.json,New tickets,False,2013-04-24T16:06:01Z,2017-12-12T01:05:55Z
+Unsolved_tickets_in_your_groups.json,Unsolved tickets in your groups,False,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+New_tickets_in_your_groups.json,New tickets in your groups,False,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Copy_of_Collection_Point_Referrals_in_the_last_60_days.json,Copy of Collection Point Referrals in the last 60 days,False,2016-10-05T12:11:01Z,2017-12-12T01:05:55Z
+Pending_tickets.json,Pending tickets,True,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Recently_updated_tickets_(for_Zapier).json,Recently updated tickets (for Zapier),True,2017-02-09T15:20:18Z,2017-12-12T01:05:55Z
+Recently_solved_tickets.json,Recently solved tickets,True,2013-03-13T00:29:04Z,2017-12-12T01:05:55Z
+Referrals_in_the_last_31_days.json,Referrals in the last 31 days,True,2014-06-04T12:20:14Z,2017-12-12T01:05:55Z
+Recently_closed_tickets.json,Recently closed tickets,True,2017-08-21T03:13:42Z,2017-12-12T01:05:55Z
+Action_-_Review_procedure.json,Action - Review procedure,True,2016-06-02T05:57:41Z,2017-12-12T01:05:55Z
 Invoiced.json,Invoiced,True,2016-05-06T04:30:02Z,2016-05-06T04:31:30Z
 Warranty_job.json,Warranty job,True,2016-05-09T04:38:38Z,2016-06-07T10:38:04Z
 Subject.json,Subject,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
 Description.json,Description,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
 Status.json,Status,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
 Type.json,Type,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
-Priority.json,Priority,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
+Priority.json,Priority,True,2013-03-13T00:29:04Z,2018-01-05T12:20:09Z
 Group.json,Group,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
 Assignee.json,Assignee,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
-Support_Type.json,Support Type,True,2016-04-04T02:23:30Z,2017-11-08T04:35:41Z
-Device_or_Service_Type.json,Device or Service Type,True,2013-04-25T08:09:09Z,2017-05-03T05:00:57Z
-IT_Solver_Service_Tag.json,IT Solver Service Tag,True,2014-05-03T00:24:16Z,2017-07-07T06:46:22Z
-Serial_number.json,Serial number,True,2013-06-03T00:31:57Z,2016-06-07T10:38:04Z
-Brand.json,Brand,True,2013-06-01T06:42:53Z,2017-11-16T23:59:18Z
-Model_(if_a_device)_or_Service_Name.json,Model (if a device) or Service Name,True,2013-06-01T06:33:29Z,2016-06-07T10:38:04Z
-Operating_System.json,Operating System,True,2013-06-01T06:40:41Z,2017-11-08T03:42:36Z
-Items_Ordered.json,Items Ordered,True,2016-03-09T07:06:09Z,2016-06-07T10:38:04Z
-Estimated_delivery.json,Estimated delivery,True,2016-03-22T09:58:38Z,2016-06-07T10:38:38Z
-Collection_Point.json,Collection Point,True,2016-05-06T04:44:35Z,2016-06-07T10:38:38Z
-TeamViewer_Session_ID.json,TeamViewer Session ID,True,2015-04-09T22:58:08Z,2016-06-07T10:38:38Z
-Calendar_name.json,Calendar name,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
-Suburb_of_requester.json,Suburb of requester,True,2016-05-06T05:20:17Z,2017-08-10T00:44:47Z
-Calendar_event_date.json,Calendar event date,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
-Calendar_event_time.json,Calendar event time,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
-Calendar_event_time_zone.json,Calendar event time zone,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
-Calendar_event_duration_(in_minutes).json,Calendar event duration (in minutes),True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
-Calendar_event_link.json,Calendar event link,True,2016-03-17T04:14:08Z,2017-01-30T14:52:01Z
-Calendar_event_invite_CCs_[Created_by_Calendar].json,Calendar event invite CCs [Created by Calendar],True,2016-05-24T01:57:30Z,2017-02-22T01:03:07Z
-Calendar_event_subject_[Created_by_Calendar].json,Calendar event subject [Created by Calendar],True,2016-05-24T01:57:28Z,2017-02-22T01:03:12Z
-Calendar_event_description_[Created_by_Calendar].json,Calendar event description [Created by Calendar],True,2016-05-24T01:57:28Z,2017-02-22T01:03:17Z
-Calendar_event_invite_requester_[Created_by_Calendar].json,Calendar event invite requester [Created by Calendar],True,2016-05-24T01:57:29Z,2017-02-22T01:03:22Z
-Calendar_event_location_[Created_by_Calendar].json,Calendar event location [Created by Calendar],True,2016-05-24T01:57:29Z,2017-02-22T01:03:27Z
-Asset_Name.json,Asset Name,True,2017-02-03T05:55:40Z,2017-02-03T05:55:40Z
-Calendar_event_subject.json,Calendar event subject,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
-Calendar_event_description.json,Calendar event description,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
-Calendar_event_location.json,Calendar event location,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
-Calendar_event_invite_requester.json,Calendar event invite requester,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
-Calendar_event_invite_CCs.json,Calendar event invite CCs,True,2017-01-30T09:23:21Z,2017-01-30T14:52:01Z
+Support_Type.json,Support Type,True,2016-04-04T02:23:30Z,2017-12-12T05:21:39Z
+Device_or_Service_Type.json,Device or Service Type,True,2013-04-25T08:09:09Z,2018-02-07T09:32:11Z
+Total_time_spent_(minutes).json,Total time spent (minutes),True,2017-12-11T05:18:56Z,2017-12-11T05:24:31Z
+IT_Solver_Service_Tag.json,IT Solver Service Tag,True,2014-05-03T00:24:16Z,2017-12-11T05:24:31Z
+Serial_number.json,Serial number,True,2013-06-03T00:31:57Z,2017-12-11T05:24:31Z
+Brand.json,Brand,True,2013-06-01T06:42:53Z,2018-02-07T09:30:58Z
+Model_(if_a_device)_or_Service_Name.json,Model (if a device) or Service Name,True,2013-06-01T06:33:29Z,2017-12-11T05:24:31Z
+Operating_System.json,Operating System,True,2013-06-01T06:40:41Z,2017-12-11T05:24:31Z
+Items_Ordered.json,Items Ordered,True,2016-03-09T07:06:09Z,2017-12-11T05:24:31Z
+Estimated_delivery.json,Estimated delivery,True,2016-03-22T09:58:38Z,2017-12-11T05:24:31Z
+Suburb_of_requester.json,Suburb of requester,True,2016-05-06T05:20:17Z,2017-12-11T05:24:31Z
+Asset_Name.json,Asset Name,False,2017-02-03T05:55:40Z,2018-02-04T11:40:47Z
+Calendar_name.json,Calendar name,True,2017-12-13T05:39:41Z,2017-12-13T05:39:41Z
+Calendar_event_date.json,Calendar event date,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_time.json,Calendar event time,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_time_zone.json,Calendar event time zone,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_duration_(in_minutes).json,Calendar event duration (in minutes),True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_link.json,Calendar event link,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_subject.json,Calendar event subject,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_description.json,Calendar event description,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_location.json,Calendar event location,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_invite_requester.json,Calendar event invite requester,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Calendar_event_invite_CCs.json,Calendar event invite CCs,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z

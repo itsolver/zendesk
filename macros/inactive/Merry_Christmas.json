@@ -1,0 +1,33 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/61060586.json",
+  "id": 61060586,
+  "title": "Merry Christmas",
+  "active": false,
+  "updated_at": "2017-12-18T11:27:16Z",
+  "created_at": "2017-12-18T07:55:13Z",
+  "position": 37,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "priority",
+      "value": "normal"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<p>Thanks {{ticket.requester.first_name}}.<br></p><p><br></p><p>Hope you have a fun and relaxing festive season. :smile</p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Thanks {{ticket.requester.first_name}}.\n\nHope you have a fun and relaxing festive season. \n"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "n_a_social_interaction"
+    }
+  ],
+  "restriction": null
+}

@@ -1,0 +1,22 @@
+{
+  "id": 624206,
+  "app_id": 62130,
+  "product": "support",
+  "settings": {
+    "useOrLogic": false,
+    "name": "PandaDoc",
+    "title": "PandaDoc",
+    "ticketMetadata_document": null,
+    "ticketMetadata_list": null,
+    "userMetadata_document": null,
+    "userMetadata_list": null
+  },
+  "enabled": true,
+  "updated": "20170130034025",
+  "updated_at": "2017-12-21T05:19:09Z",
+  "created_at": "2017-12-13T00:20:52Z",
+  "role_restrictions": null,
+  "recurring_payment": false,
+  "collapsible": true,
+  "group_restrictions": []
+}

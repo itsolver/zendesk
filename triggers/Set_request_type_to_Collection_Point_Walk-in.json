@@ -3,12 +3,12 @@
   "id": 53962666,
   "title": "Set request type to Collection Point Walk-in",
   "active": true,
-  "updated_at": "2017-11-13T02:19:13Z",
+  "updated_at": "2017-12-18T03:01:08Z",
   "created_at": "2016-10-05T07:05:40Z",
   "actions": [
     {
       "field": "custom_fields_24347166",
-      "value": "collection_point_walk_in"
+      "value": "63788806"
     }
   ],
   "conditions": {
@@ -32,6 +32,6 @@
     "any": []
   },
   "description": null,
-  "position": 27,
+  "position": 22,
   "raw_title": "Set request type to Collection Point Walk-in"
 }

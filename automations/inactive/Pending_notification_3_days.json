@@ -1,0 +1,35 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/61044106.json",
+  "id": 61044106,
+  "title": "Pending notification 3 days",
+  "active": false,
+  "updated_at": "2017-12-18T11:43:41Z",
+  "created_at": "2017-12-15T04:08:40Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "requester_id",
+        "[{{ticket.account}}] Pending request: {{ticket.title}}",
+        "Hi {{ticket.requester.first_name}},\n\nWe\u2019re just wondering if you've had a chance to review the latest update from {{ticket.assignee.first_name}}, the Customer Advocate assigned to your support request?\n\n{{ticket.assignee.first_name}} provided an update some time ago but we haven't heard back from you.\n\nIf you'd like to provide an update, or require more time to work through our latest comment, simply reply to this email or go to {{ticket.url}} and let us know.\n\nIf we don't hear back from you we\u2019ll solve this ticket within the next few days.\n\nThanks!\n\nIT Solver"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "PENDING",
+        "operator": "is",
+        "value": "72"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "pending_7_days no_pending no_email"
+      }
+    ],
+    "any": []
+  },
+  "position": 13,
+  "raw_title": "Pending notification 3 days"
+}

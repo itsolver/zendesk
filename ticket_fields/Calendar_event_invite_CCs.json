@@ -1,6 +1,6 @@
 {
-  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24820723.json",
-  "id": 24820723,
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/25486306.json",
+  "id": 25486306,
   "type": "checkbox",
   "title": "Calendar event invite CCs",
   "raw_title": "Calendar event invite CCs",
@@ -17,7 +17,7 @@
   "editable_in_portal": false,
   "required_in_portal": false,
   "tag": null,
-  "created_at": "2017-01-30T09:23:21Z",
-  "updated_at": "2017-01-30T14:52:01Z",
+  "created_at": "2017-12-13T05:39:42Z",
+  "updated_at": "2017-12-13T05:39:42Z",
   "removable": true
 }

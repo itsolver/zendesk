@@ -1,0 +1,53 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/59703183.json",
+  "id": 59703183,
+  "title": "Merry Christmas social interaction",
+  "active": true,
+  "updated_at": "2017-12-18T11:32:32Z",
+  "created_at": "2017-12-18T10:07:01Z",
+  "position": 38,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "priority",
+      "value": "normal"
+    },
+    {
+      "field": "assignee_id",
+      "value": "363487396"
+    },
+    {
+      "field": "group_id",
+      "value": "20683476"
+    },
+    {
+      "field": "current_tags",
+      "value": "n_a_social_interaction"
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<p>Thanks {{ticket.requester.first_name}}\u200d,<br>Have a fun and relaxing time this festive season. \ud83c\udfd6 \ud83d\ude0e </p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Thanks {{ticket.requester.first_name}}\u200d,\nHave a fun and relaxing time this festive season. \ud83c\udfd6 \ud83d\ude0e"
+    },
+    {
+      "field": "custom_fields_22594308",
+      "value": "n_a"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "n_a_social_interaction"
+    }
+  ],
+  "restriction": null
+}

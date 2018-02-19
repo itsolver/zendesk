@@ -7,12 +7,12 @@
   "description": "",
   "raw_title": "State",
   "raw_description": "",
-  "position": 4,
+  "position": 2,
   "active": true,
   "system": false,
   "regexp_for_validation": null,
   "created_at": "2014-03-14T06:56:31Z",
-  "updated_at": "2017-11-09T06:06:14Z",
+  "updated_at": "2017-12-13T12:37:22Z",
   "custom_field_options": [
     {
       "id": 143583,
@@ -25,6 +25,12 @@
       "name": "NSW",
       "raw_name": "NSW",
       "value": "nsw"
+    },
+    {
+      "id": 726926,
+      "name": "NT",
+      "raw_name": "NT",
+      "value": "nt"
     },
     {
       "id": 143543,
@@ -55,12 +61,6 @@
       "name": "WA",
       "raw_name": "WA",
       "value": "wa"
-    },
-    {
-      "id": 726926,
-      "name": "NT",
-      "raw_name": "NT",
-      "value": "nt"
     }
   ]
 }

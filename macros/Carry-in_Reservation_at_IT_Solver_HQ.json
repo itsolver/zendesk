@@ -1,0 +1,49 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/57084003.json",
+  "id": 57084003,
+  "title": "Carry-in Reservation at IT Solver HQ",
+  "active": true,
+  "updated_at": "2017-12-05T06:22:12Z",
+  "created_at": "2017-06-20T04:12:49Z",
+  "position": 13,
+  "description": "Customer's reservation for meeting Angus at his home office",
+  "actions": [
+    {
+      "field": "status",
+      "value": "open"
+    },
+    {
+      "field": "priority",
+      "value": "normal"
+    },
+    {
+      "field": "type",
+      "value": "problem"
+    },
+    {
+      "field": "assignee_id",
+      "value": "363487396"
+    },
+    {
+      "field": "group_id",
+      "value": "20683476"
+    },
+    {
+      "field": "current_tags",
+      "value": "repair_centre_walk_in reservation"
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<h3>Thanks for making a reservation.<br></h3><p><br></p><p>Dear {{ticket.requester.name}},<br><br>Here are the details of your upcoming carry-in reservation with {{ticket.assignee.first_name}}\u200d.<br>When: <b>{{ticket.ticket_field_24288063 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_24288073 | date: \"%-I:%M %p\" | upcase}}</b><br></p><p>Where: <b><a href=\"https://www.google.com.au/maps?hl=en&amp;q=37+mcwilliam+street+redland+bay\" target=\"_blank\" rel=\"noreferrer\">37 McWilliam Street, Redland Bay</a></b><br>Why: <b>{{ticket.title}}</b></p><p>What to bring:<b> <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b><br></b></p><p><b><b><br></b></b></p><p><b><b><br></b></b></p><p>{% if {{ticket.ticket_field_option_title_22594308}} == 'PC - Laptop' %}</p><h2>Get ready for service</h2><p>Before you bring your laptop to us, be sure to back up your data. You may need the backup if your laptop needs to be reformatted during the repair process. IT Solver isn\u2019t responsible for lost data. Except, we will take care to restore data if requested.{%endif %}</p><p><b><b><br></b></b></p><p><br>We look forward to seeing you.</p>"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "63615416"
+    }
+  ],
+  "restriction": null
+}

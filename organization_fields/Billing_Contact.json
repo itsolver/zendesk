@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/290166.json",
+  "id": 290166,
+  "type": "text",
+  "key": "billing_contact",
+  "title": "Billing Contact",
+  "description": "",
+  "raw_title": "Billing Contact",
+  "raw_description": "",
+  "position": 1,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2017-11-28T03:07:59Z",
+  "updated_at": "2017-12-13T01:38:52Z"
+}

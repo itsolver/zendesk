@@ -3,9 +3,9 @@
   "id": 49255293,
   "title": "On-site reservation",
   "active": true,
-  "updated_at": "2017-07-16T23:50:44Z",
+  "updated_at": "2018-01-30T08:32:03Z",
   "created_at": "2016-03-17T06:12:37Z",
-  "position": 12,
+  "position": 11,
   "description": null,
   "actions": [
     {
@@ -18,7 +18,11 @@
     },
     {
       "field": "comment_value_html",
-      "value": "<h3>Thanks for making a reservation.</h3><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b> </p><p>When: <b>{{ticket.ticket_field_24288063 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_24288073 | date: \"%-I:%M %p\" | upcase}}</b></p><p>Where: <b>{{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}</b></p><p>Why: <b>{{ticket.title}}</b><br><br></p><p>We look forward to seeing you.</p>"
+      "value": "<h1>Thanks for making a reservation.</h1><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b> </p><p>When: <b><b>{{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}}</b></b></p><p>Where: <b>{{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}</b></p><p>Why: <b>{{ticket.title}}</b><br><br></p><p>We look forward to seeing you.</p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Dear {{ticket.requester.name}},\nHere are the details of your upcoming reservation.\n\nWhat: {% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}\nWhen: {{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}}\nWhere: {{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}\nWhy: {{ticket.title}}\n\nWe look forward to seeing you."
     },
     {
       "field": "comment_mode_is_public",

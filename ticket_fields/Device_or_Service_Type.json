@@ -18,7 +18,7 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-04-25T08:09:09Z",
-  "updated_at": "2017-05-03T05:00:57Z",
+  "updated_at": "2018-02-07T09:32:11Z",
   "removable": true,
   "custom_field_options": [
     {
@@ -33,6 +33,13 @@
       "name": "Billing",
       "raw_name": "Billing",
       "value": "billing_service",
+      "default": false
+    },
+    {
+      "id": 360000046035,
+      "name": "Digital signage",
+      "raw_name": "Digital signage",
+      "value": "digital_signage",
       "default": false
     },
     {
@@ -131,6 +138,13 @@
       "name": "Printer or Multifunctional Device",
       "raw_name": "Printer or Multifunctional Device",
       "value": "printer_or_multifunctional_device",
+      "default": false
+    },
+    {
+      "id": 360000054656,
+      "name": "Security cameras",
+      "raw_name": "Security cameras",
+      "value": "security_cameras",
       "default": false
     },
     {

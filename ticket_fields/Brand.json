@@ -6,7 +6,7 @@
   "raw_title": "Brand",
   "description": "Select the Brand of your device or service",
   "raw_description": "Select the Brand of your device or service",
-  "position": 13,
+  "position": 14,
   "active": true,
   "required": false,
   "collapsed_for_agents": false,
@@ -18,7 +18,7 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-06-01T06:42:53Z",
-  "updated_at": "2017-11-16T23:59:18Z",
+  "updated_at": "2018-02-07T09:30:58Z",
   "removable": true,
   "custom_field_options": [
     {
@@ -386,6 +386,13 @@
       "default": false
     },
     {
+      "id": 360000054636,
+      "name": "Intel",
+      "raw_name": "Intel",
+      "value": "intel",
+      "default": false
+    },
+    {
       "id": 27875569,
       "name": "JVC",
       "raw_name": "JVC",
@@ -624,6 +631,13 @@
       "default": false
     },
     {
+      "id": 69397866,
+      "name": "Rockend",
+      "raw_name": "Rockend",
+      "value": "rockend",
+      "default": false
+    },
+    {
       "id": 23723236,
       "name": "Samsung",
       "raw_name": "Samsung",
@@ -719,6 +733,13 @@
       "name": "TeamViewer",
       "raw_name": "TeamViewer",
       "value": "teamviewer",
+      "default": false
+    },
+    {
+      "id": 67669423,
+      "name": "Technicolor",
+      "raw_name": "Technicolor",
+      "value": "technicolor",
       "default": false
     },
     {

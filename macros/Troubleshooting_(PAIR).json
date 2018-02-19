@@ -1,11 +1,11 @@
 {
-  "url": "https://itsolver.zendesk.com/api/v2/macros/42464897.json",
-  "id": 42464897,
+  "url": "https://itsolver.zendesk.com/api/v2/macros/59562783.json",
+  "id": 59562783,
   "title": "Troubleshooting (PAIR)",
   "active": true,
-  "updated_at": "2016-07-27T00:41:37Z",
-  "created_at": "2014-03-28T22:39:12Z",
-  "position": 18,
+  "updated_at": "2017-12-05T03:16:27Z",
+  "created_at": "2017-12-05T03:16:27Z",
+  "position": 19,
   "description": null,
   "actions": [
     {
@@ -13,11 +13,16 @@
       "value": "false"
     },
     {
+      "field": "comment_value_html",
+      "value": "<h1>Probing</h1><p><br></p><h1>Analysis</h1><p><br></p><h1>Isolation</h1><p><br></p><h1>Resolution</h1><p><br></p><h2>Issue</h2><p><br></p><h2>Solution</h2><p><br></p><h2>Tested</h2>"
+    },
+    {
       "field": "comment_value",
-      "value": [
-        "channel:all",
-        "# Probing\n\n# Analysis\n\n# Isolation\n\n# Resolution\n\n## Cause\n\n## Solution\n"
-      ]
+      "value": "# Probing\n\n# Analysis\n\n# Isolation\n\n# Resolution\n\n## Issue\n\n## Solution\n\n## Test\n"
+    },
+    {
+      "field": "type",
+      "value": "problem"
     }
   ],
   "restriction": null

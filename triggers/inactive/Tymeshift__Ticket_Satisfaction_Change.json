@@ -1,0 +1,30 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/59784726.json",
+  "id": 59784726,
+  "title": "Tymeshift: Ticket Satisfaction Change",
+  "active": false,
+  "updated_at": "2017-12-18T03:01:08Z",
+  "created_at": "2017-09-13T14:43:08Z",
+  "actions": [
+    {
+      "field": "notification_target",
+      "value": [
+        20464763,
+        "{\"source\":\"Zendesk\",\"type\":\"{{ticket.type}}\",\"account_name\":\"{{ticket.account}}\",\"ticket_id\":\"{{ticket.id}}\",\"score\":\"{{ticket.score}}\",\"tags\":\"{{ticket.tags}}\",\"id\":\"{{ticket.id}}\",\"organization_id\":\"{{ticket.organization.id}}\",\"requester_id\":\"{{ticket.requester.id}}\",\"assignee_id\":\"{{ticket.assignee.id}}\",\"group_id\":\"{{ticket.group.id}}\",\"subject\":\"{{ticket.subject}}\",\"status\":\"{{ticket.status}}\",\"updated_at\":\"{{ticket.updated_at}}\",\"priority\":\"{{ticket.priority}}\",\"description\":\"{{ticket.description}}\",\"custom_fields\":\"{{ticket.custom_fields}}\"}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "satisfaction_score",
+        "operator": "changed",
+        "value": null
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 30,
+  "raw_title": "Tymeshift: Ticket Satisfaction Change"
+}

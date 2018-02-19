@@ -1,7 +1,7 @@
 {
   "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/22396376.json",
   "id": 22396376,
-  "type": "basic_priority",
+  "type": "priority",
   "title": "Priority",
   "raw_title": "Priority",
   "description": "Request priority",
@@ -18,9 +18,13 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-03-13T00:29:04Z",
-  "updated_at": "2016-06-07T10:38:04Z",
+  "updated_at": "2018-01-05T12:20:09Z",
   "removable": true,
   "system_field_options": [
+    {
+      "name": "Low",
+      "value": "low"
+    },
     {
       "name": "Normal",
       "value": "normal"
@@ -28,6 +32,11 @@
     {
       "name": "High",
       "value": "high"
+    },
+    {
+      "name": "Urgent",
+      "value": "urgent"
     }
-  ]
+  ],
+  "sub_type_id": 0
 }

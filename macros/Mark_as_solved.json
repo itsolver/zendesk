@@ -3,7 +3,7 @@
   "id": 35985568,
   "title": "Mark as solved",
   "active": true,
-  "updated_at": "2017-10-25T01:07:41Z",
+  "updated_at": "2017-11-22T02:48:00Z",
   "created_at": "2013-05-13T23:54:58Z",
   "position": 7,
   "description": null,
@@ -22,11 +22,11 @@
     },
     {
       "field": "comment_value_html",
-      "value": "<p>Hi {{ticket.requester.first_name}},</p><p>Your request regarding {% if ticket.ticket_field_option_title_22726266 != \"-\" %}{{ticket.ticket_field_option_title_22726266}} {% endif %}{% if ticket.ticket_field_option_title_22726236 != \"\" %} {{ticket.ticket_field_option_title_22726236}}{% endif %} is resolved.</p><p><br></p><h2>Issue</h2><p><br></p><h2>Solution</h2><p><br></p><p>Thanks for using IT Solver.</p>"
+      "value": "<p>Hi {{ticket.requester.first_name}},</p><p>Your request regarding {% if ticket.ticket_field_option_title_22726266 != \"-\" %}{{ticket.ticket_field_option_title_22726266}} {% endif %}{% if ticket.ticket_field_option_title_22726236 != \"-\" %} {{ticket.ticket_field_option_title_22726236}}{% endif %} is resolved.</p><p><br></p><h2>Issue</h2><p><br></p><h2>Solution</h2><p><br></p><p>Thanks for using IT Solver.</p>"
     },
     {
       "field": "comment_value",
-      "value": "Hi {{ticket.requester.first_name}},\nYour request regarding {% if ticket.ticket_field_option_title_22726266 != \"-\" %}{{ticket.ticket_field_option_title_22726266}} {% endif %}{% if ticket.ticket_field_option_title_22726236 != \"\" %} {{ticket.ticket_field_option_title_22726236}}{% endif %} is resolved.\n\n#### Issue\n\n#### Solution\n\nThanks for using IT Solver.\n"
+      "value": "Hi {{ticket.requester.first_name}},\nYour request regarding {% if ticket.ticket_field_option_title_22726266 != \"-\" %}{{ticket.ticket_field_option_title_22726266}} {% endif %}{% if ticket.ticket_field_option_title_22726236 != \"\" %} {{ticket.ticket_field_option_title_22726236}}{% endif %} is resolved.\n\n## Issue\n\n## Solution\n\nThanks for using IT Solver."
     },
     {
       "field": "comment_mode_is_public",

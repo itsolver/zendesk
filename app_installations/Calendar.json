@@ -1,18 +1,18 @@
 {
-  "id": 287723,
+  "id": 633043,
   "app_id": 77153,
   "product": "support",
   "settings": {
     "name": "Calendar",
-    "title": "Calendar",
-    "provisioned": "true"
+    "title": "Calendar"
   },
   "has_active_subscription": true,
   "enabled": true,
-  "updated": "20170620210453",
-  "updated_at": "2017-02-07T05:45:14Z",
-  "created_at": "2016-03-17T04:14:06Z",
+  "updated": "20171212004530",
+  "updated_at": "2017-12-14T02:12:19Z",
+  "created_at": "2017-12-13T05:39:39Z",
   "role_restrictions": null,
   "recurring_payment": true,
+  "collapsible": true,
   "group_restrictions": []
 }

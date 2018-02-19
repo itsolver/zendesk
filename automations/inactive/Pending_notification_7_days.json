@@ -1,0 +1,40 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/55822166.json",
+  "id": 55822166,
+  "title": "Pending notification 7 days",
+  "active": false,
+  "updated_at": "2017-12-18T11:42:35Z",
+  "created_at": "2017-02-08T04:19:47Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "requester_id",
+        "[{{ticket.account}}] Pending request: {{ticket.title}}",
+        "Hi {{ticket.requester.first_name}},\n\nIt's been 7 days since I last heard from you and I wanted to check in with you to see if you had received my last update.\n\nPlease let me know if you have any questions about my reply or if you need more time to respond. If the issue is fixed or resolved, I would love to know that as well.\n\nI look forward to hearing from you. If I don't hear back from you in 2 days from today, I will mark this request as closed.\n\n{{ticket.comments_formatted}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "PENDING",
+        "operator": "is",
+        "value": "168"
+      },
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "pending_7_days "
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "no_pending no_email"
+      }
+    ],
+    "any": []
+  },
+  "position": 4,
+  "raw_title": "Pending notification 7 days"
+}

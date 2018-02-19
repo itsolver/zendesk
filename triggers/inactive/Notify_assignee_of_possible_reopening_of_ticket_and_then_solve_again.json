@@ -3,7 +3,7 @@
   "id": 41054747,
   "title": "Notify assignee of possible reopening of ticket and then solve again",
   "active": false,
-  "updated_at": "2017-11-13T03:55:54Z",
+  "updated_at": "2017-12-14T04:17:29Z",
   "created_at": "2013-11-11T08:23:53Z",
   "actions": [
     {
@@ -50,6 +50,6 @@
     "any": []
   },
   "description": null,
-  "position": 15,
+  "position": 12,
   "raw_title": "Notify assignee of possible reopening of ticket and then solve again"
 }

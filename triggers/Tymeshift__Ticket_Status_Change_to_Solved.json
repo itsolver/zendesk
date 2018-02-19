@@ -3,14 +3,14 @@
   "id": 59784746,
   "title": "Tymeshift: Ticket Status Change to Solved",
   "active": true,
-  "updated_at": "2017-11-13T02:19:13Z",
+  "updated_at": "2017-12-18T03:01:08Z",
   "created_at": "2017-09-13T14:43:08Z",
   "actions": [
     {
       "field": "notification_target",
       "value": [
         20469746,
-        "{\"source\":\"Zendesk\",\"type\":\"{{ticket.type}}\",\"account_name\":\"{{ticket.account}}\",\"ticket_id\":\"{{ticket.id}}\",\"score\":\"{{ticket.score}}\",\"tags\":\"{{ticket.tags}}\",\"id\":\"{{ticket.id}}\",\"organization_id\":\"{{ticket.organization.id}}\",\"requester_id\":\"{{ticket.requester.id}}\",\"assignee_id\":\"{{ticket.assignee.id}}\",\"group_id\":\"{{ticket.group.id}}\",\"subject\":\"{{ticket.subject}}\",\"status\":\"{{ticket.status}}\",\"updated_at\":\"{{ticket.updated_at}}\",\"priority\":\"{{ticket.priority}}\",\"description\":\"{{ticket.description}}\",\"custom_fields\":\"{{ticket.custom_fields}}\"}"
+        "{\"source\":\"Zendesk\",\"type\":\"{{ticket.type}}\",\"account_name\":\"{{ticket.account}}\",\"ticket_id\":\"{{ticket.id}}\",\"score\":\"{{ticket.score}}\",\"tags\":\"{{ticket.tags}}\",\"id\":\"{{ticket.id}}\",\"organization_id\":\"{{ticket.organization.id}}\",\"requester_id\":\"{{ticket.requester.id}}\",\"assignee_id\":\"{{ticket.assignee.id}}\",\"group_id\":\"{{ticket.group.id}}\",\"subject\":\"{{ticket.subject}}\",\"status\":\"{{ticket.status}}\",\"updated_at\":\"{{ticket.updated_at}}\",\"priority\":\"{{ticket.priority}}\"}"
       ]
     }
   ],
@@ -36,6 +36,6 @@
     ]
   },
   "description": null,
-  "position": 36,
+  "position": 31,
   "raw_title": "Tymeshift: Ticket Status Change to Solved"
 }

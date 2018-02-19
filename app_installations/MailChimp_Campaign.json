@@ -9,9 +9,10 @@
   "enabled": true,
   "updated": "20170629223144",
   "has_oauth": true,
-  "updated_at": "2017-09-13T05:06:35Z",
+  "updated_at": "2017-12-18T03:19:19Z",
   "created_at": "2017-09-13T05:06:35Z",
   "role_restrictions": null,
   "recurring_payment": false,
+  "collapsible": true,
   "group_restrictions": []
 }
