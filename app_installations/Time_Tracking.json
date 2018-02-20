@@ -1,0 +1,28 @@
+{
+  "id": 360000005255,
+  "app_id": 35111,
+  "product": "support",
+  "settings": {
+    "display_timelogs": true,
+    "hide_from_agents": false,
+    "auto_pause_resume": true,
+    "manual_pause_resume": true,
+    "reset": true,
+    "resume_on_changes": false,
+    "time_submission": true,
+    "simple_submission": false,
+    "debug_prevent_huge_times": false,
+    "name": "Time Tracking",
+    "title": "Time Tracking",
+    "time_field_id": null,
+    "total_time_field_id": null
+  },
+  "enabled": true,
+  "updated": "20180129012503",
+  "updated_at": "2018-02-20T01:23:13Z",
+  "created_at": "2018-02-20T01:09:55Z",
+  "role_restrictions": null,
+  "recurring_payment": false,
+  "collapsible": true,
+  "group_restrictions": []
+}

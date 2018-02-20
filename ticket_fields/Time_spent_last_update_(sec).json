@@ -1,0 +1,23 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/360000026756.json",
+  "id": 360000026756,
+  "type": "integer",
+  "title": "Time spent last update (sec)",
+  "raw_title": "Time spent last update (sec)",
+  "description": "Time spent last update (sec)",
+  "raw_description": "Time spent last update (sec)",
+  "position": 9999,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": "\\A[-+]?\\d+\\z",
+  "title_in_portal": "Time spent last update (sec)",
+  "raw_title_in_portal": "Time spent last update (sec)",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2018-02-20T01:09:59Z",
+  "updated_at": "2018-02-20T01:09:59Z",
+  "removable": true
+}

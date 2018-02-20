@@ -126,7 +126,7 @@ Group.json,Group,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
 Assignee.json,Assignee,True,2013-03-13T00:29:04Z,2016-06-07T10:38:04Z
 Support_Type.json,Support Type,True,2016-04-04T02:23:30Z,2017-12-12T05:21:39Z
 Device_or_Service_Type.json,Device or Service Type,True,2013-04-25T08:09:09Z,2018-02-07T09:32:11Z
-Total_time_spent_(minutes).json,Total time spent (minutes),True,2017-12-11T05:18:56Z,2017-12-11T05:24:31Z
+Total_time_spent_(minutes).json,Total time spent (minutes),False,2017-12-11T05:18:56Z,2018-02-20T01:10:38Z
 IT_Solver_Service_Tag.json,IT Solver Service Tag,True,2014-05-03T00:24:16Z,2017-12-11T05:24:31Z
 Serial_number.json,Serial number,True,2013-06-03T00:31:57Z,2017-12-11T05:24:31Z
 Brand.json,Brand,True,2013-06-01T06:42:53Z,2018-02-07T09:30:58Z
@@ -141,7 +141,9 @@ Calendar_event_date.json,Calendar event date,True,2017-12-13T05:39:42Z,2017-12-1
 Calendar_event_time.json,Calendar event time,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
 Calendar_event_time_zone.json,Calendar event time zone,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
 Calendar_event_duration_(in_minutes).json,Calendar event duration (in minutes),True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Total_time_spent_(sec).json,Total time spent (sec),True,2018-02-20T01:09:59Z,2018-02-20T01:09:59Z
 Calendar_event_link.json,Calendar event link,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
+Time_spent_last_update_(sec).json,Time spent last update (sec),True,2018-02-20T01:09:59Z,2018-02-20T01:09:59Z
 Calendar_event_subject.json,Calendar event subject,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
 Calendar_event_description.json,Calendar event description,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
 Calendar_event_location.json,Calendar event location,True,2017-12-13T05:39:42Z,2017-12-13T05:39:42Z
