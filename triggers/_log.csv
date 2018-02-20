@@ -24,14 +24,6 @@ Set_request_type_to_Collection_Point_Walk-in.json,Set request type to Collection
 Set_device_type_to_Desktop.json,Set device type to Desktop,True,2016-10-05T07:12:39Z,2017-12-18T03:01:08Z
 Set_high_priority_for_follow-up_requests.json,Set high priority for follow-up requests,False,2016-11-24T23:57:57Z,2018-01-05T12:23:01Z
 "Set_Support_Type_to_Marketing_if_facebook_post_subject_contains_""Help_desk_approaching"".json","Set Support Type to Marketing if facebook post subject contains ""Help desk approaching""",True,2017-03-23T13:28:34Z,2017-12-18T03:01:08Z
-Tymeshift__Satisfaction_Change.json,Tymeshift: Satisfaction Change,False,2017-06-02T17:08:29Z,2017-12-18T03:01:08Z
-[Hubspot_Integration]_-_Ticket_Created.json,[Hubspot Integration] - Ticket Created,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
-[Hubspot_Integration]_-_Ticket_Solved.json,[Hubspot Integration] - Ticket Solved,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
-[Hubspot_Integration]_-_Ticket_CSAT_Rating_Submitted.json,[Hubspot Integration] - Ticket CSAT Rating Submitted,True,2017-08-16T22:40:46Z,2017-12-18T03:01:08Z
-Tymeshift__Ticket_Satisfaction_Change.json,Tymeshift: Ticket Satisfaction Change,False,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
-Tymeshift__Ticket_Status_Change_to_Solved.json,Tymeshift: Ticket Status Change to Solved,True,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
-Tymeshift__Ticket_Create.json,Tymeshift: Ticket Create,True,2017-09-13T14:43:08Z,2017-12-18T03:01:08Z
-Tymeshift__Ticket_Update.json,Tymeshift: Ticket Update,True,2017-09-13T14:43:09Z,2017-12-18T03:01:08Z
 Update_calendar_event.json,Update calendar event,True,2017-12-13T05:39:42Z,2017-12-18T03:01:08Z
-Zapier__create_invoice.json,Zapier: create invoice,True,2017-12-11T01:20:11Z,2017-12-18T03:01:08Z
+Zapier__create_invoice.json,Zapier: create invoice,True,2017-12-11T01:20:11Z,2018-02-20T02:06:25Z
 "If_tagged_""phishing"",_advise_customer_about_phishing_threat_.json","If tagged ""phishing"", advise customer about phishing threat ",True,2018-02-05T05:00:17Z,2018-02-07T09:21:43Z

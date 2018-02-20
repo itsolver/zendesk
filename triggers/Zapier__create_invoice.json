@@ -3,7 +3,7 @@
   "id": 60987606,
   "title": "Zapier: create invoice",
   "active": true,
-  "updated_at": "2017-12-18T03:01:08Z",
+  "updated_at": "2018-02-20T02:06:25Z",
   "created_at": "2017-12-11T01:20:11Z",
   "actions": [
     {
@@ -32,8 +32,12 @@
             "{{ticket.organization.name}}"
           ],
           [
-            "ticket.totaltimespentminutes",
-            "{{ticket.ticket_field_25483726}}"
+            "ticket.total_time_spent_seconds",
+            "{{ticket.ticket_field_360000026736}}"
+          ],
+          [
+            "ticket.total_time_spent_seconds_since_update",
+            "{{ticket.ticket_field_360000026756}}"
           ],
           [
             "ticket.support.type",
