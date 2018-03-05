@@ -83,5 +83,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Open tickets not in upcoming events"
 }

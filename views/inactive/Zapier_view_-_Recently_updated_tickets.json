@@ -63,5 +63,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Zapier view - Recently updated tickets"
 }

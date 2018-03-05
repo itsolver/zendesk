@@ -95,5 +95,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "{{zd.recently_solved_tickets}}"
 }

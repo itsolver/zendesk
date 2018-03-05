@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/290166.json",
+  "id": 290166,
+  "type": "text",
+  "key": "billing_contact",
+  "title": "Billing Contact Name",
+  "description": "This field is deprecated by 'Billing Contact - First Name' and 'Billing Contact - Last Name', and will be deactivated soon.",
+  "raw_title": "Billing Contact Name",
+  "raw_description": "This field is deprecated by 'Billing Contact - First Name' and 'Billing Contact - Last Name', and will be deactivated soon.",
+  "position": 11,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2017-11-28T03:07:59Z",
+  "updated_at": "2018-03-02T04:58:01Z"
+}

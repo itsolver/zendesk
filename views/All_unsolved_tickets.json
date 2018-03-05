@@ -74,5 +74,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "{{zd.all_unsolved_tickets}}"
 }

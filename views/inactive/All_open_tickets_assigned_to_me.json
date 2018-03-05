@@ -79,5 +79,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "All open tickets assigned to me"
 }

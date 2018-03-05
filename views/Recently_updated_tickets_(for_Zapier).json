@@ -87,5 +87,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Recently updated tickets (for Zapier)"
 }

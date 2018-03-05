@@ -3,7 +3,7 @@
   "id": 41052113,
   "title": "Notify requester of solved request",
   "active": true,
-  "updated_at": "2017-12-14T04:17:29Z",
+  "updated_at": "2018-03-05T05:10:46Z",
   "created_at": "2013-11-11T08:14:33Z",
   "actions": [
     {
@@ -36,6 +36,6 @@
     "any": []
   },
   "description": null,
-  "position": 15,
+  "position": 9,
   "raw_title": "Notify requester of solved request"
 }

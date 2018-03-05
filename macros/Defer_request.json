@@ -3,9 +3,9 @@
   "id": 59460826,
   "title": "Defer request",
   "active": true,
-  "updated_at": "2017-08-18T02:29:41Z",
+  "updated_at": "2018-02-20T05:07:18Z",
   "created_at": "2017-08-18T02:29:41Z",
-  "position": 29,
+  "position": 30,
   "description": "Customer chose to abort or defer request",
   "actions": [
     {
@@ -30,7 +30,11 @@
     },
     {
       "field": "comment_value_html",
-      "value": "<p>Hi <span class=\"atwho-inserted\">{{ticket.requester.first_name}}</span>\u200d ,<br>Alright we'll close this request. <br><br>Should there be anything further I can help you with, please do not hesitate to contact me. Have a terrific day!<br></p>"
+      "value": "<p>Hi {{ticket.requester.first_name}}\u200d,<br>Alright we'll defer this request. <br><br>Should there be anything further I can help you with, please do not hesitate to contact me. </p><p><br></p><p>Have a terrific day!<br></p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Hi {{ticket.requester.first_name}}\u200d,\nAlright we'll defer this request. \n\nShould there be anything further I can help you with, please do not hesitate to contact me. \n\nHave a terrific day!"
     },
     {
       "field": "custom_fields_24347166",

@@ -84,5 +84,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Action - Pick-up from Collection Points"
 }

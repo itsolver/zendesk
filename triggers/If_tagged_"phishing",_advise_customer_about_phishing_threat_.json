@@ -3,7 +3,7 @@
   "id": 360000050096,
   "title": "If tagged \"phishing\", advise customer about phishing threat ",
   "active": true,
-  "updated_at": "2018-02-07T09:21:43Z",
+  "updated_at": "2018-03-05T05:10:46Z",
   "created_at": "2018-02-05T05:00:17Z",
   "actions": [
     {
@@ -55,6 +55,6 @@
     "any": []
   },
   "description": null,
-  "position": 36,
+  "position": 18,
   "raw_title": "If tagged \"phishing\", advise customer about phishing threat "
 }

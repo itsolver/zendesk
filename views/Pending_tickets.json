@@ -82,5 +82,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "{{zd.pending_tickets}}"
 }

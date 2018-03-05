@@ -79,5 +79,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "All tickets assigned to me in the last 30 days"
 }

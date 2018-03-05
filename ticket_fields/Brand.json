@@ -18,7 +18,7 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-06-01T06:42:53Z",
-  "updated_at": "2018-02-07T09:30:58Z",
+  "updated_at": "2018-03-02T00:34:10Z",
   "removable": true,
   "custom_field_options": [
     {
@@ -64,6 +64,13 @@
       "default": false
     },
     {
+      "id": 360000086956,
+      "name": "AMD",
+      "raw_name": "AMD",
+      "value": "amd",
+      "default": false
+    },
+    {
       "id": 66695426,
       "name": "Antec",
       "raw_name": "Antec",
@@ -89,6 +96,13 @@
       "name": "Asus",
       "raw_name": "Asus",
       "value": "asus",
+      "default": false
+    },
+    {
+      "id": 360000086936,
+      "name": "ATI",
+      "raw_name": "ATI",
+      "value": "ati",
       "default": false
     },
     {
@@ -428,6 +442,13 @@
       "default": false
     },
     {
+      "id": 360000086976,
+      "name": "Leadtek",
+      "raw_name": "Leadtek",
+      "value": "leadtek",
+      "default": false
+    },
+    {
       "id": 23723206,
       "name": "Lenovo",
       "raw_name": "Lenovo",
@@ -537,6 +558,13 @@
       "name": "Norton",
       "raw_name": "Norton",
       "value": "norton",
+      "default": false
+    },
+    {
+      "id": 360000086916,
+      "name": "NVIDIA",
+      "raw_name": "NVIDIA",
+      "value": "nvidia",
       "default": false
     },
     {

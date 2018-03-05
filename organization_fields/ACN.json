@@ -7,10 +7,10 @@
   "description": "Australian Company Number. Useful in risk assessment.",
   "raw_title": "ACN",
   "raw_description": "Australian Company Number. Useful in risk assessment.",
-  "position": 3,
+  "position": 13,
   "active": true,
   "system": false,
   "regexp_for_validation": null,
   "created_at": "2017-11-09T06:02:29Z",
-  "updated_at": "2017-12-13T01:38:52Z"
+  "updated_at": "2018-03-02T03:51:20Z"
 }

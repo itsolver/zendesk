@@ -103,5 +103,6 @@
     ]
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Action - Invoice"
 }

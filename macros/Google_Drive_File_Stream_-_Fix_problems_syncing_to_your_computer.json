@@ -1,0 +1,37 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/360000085056.json",
+  "id": 360000085056,
+  "title": "Google Drive File Stream - Fix problems syncing to your computer",
+  "active": true,
+  "updated_at": "2018-02-22T22:28:12Z",
+  "created_at": "2018-02-22T22:24:51Z",
+  "position": 1,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "pending"
+    },
+    {
+      "field": "priority",
+      "value": "normal"
+    },
+    {
+      "field": "type",
+      "value": "problem"
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<p>Hi <span class=\"atwho-inserted\">{{ticket.requester.name}}</span>\u200d, <br>Sorry to hear Google Drive File Stream isn't working as expected.<br><br>We can troubleshoot this issue over the internet for <a href=\"https://www.itsolver.net/on-demand/\" target=\"_blank\" rel=\"noreferrer\">AUD$168</a> including up to 60 minutes of support.<br><br>Please book in a time at <a href=\"https://itsolver.net/cal\" target=\"_blank\" rel=\"noreferrer\">https://itsolver.net/cal</a><br><br>Alternatively, for free support, refer to this article: <a href=\"https://support.itsolver.net/hc/en-au/articles/115005123203-Google-Drive-File-Stream-encountered-a-problem-and-has-stopped\" target=\"_blank\" rel=\"noreferrer\">https://support.itsolver.net/hc/en-au/articles/115005123203-Google-Drive-File-Stream-encountered-a-problem-and-has-stopped</a><br></p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Hi {{ticket.requester.name}}\u200d,\nSorry to hear Google Drive File Stream isn't working as expected.\n\nWe can troubleshoot this issue over the internet for AUD$168 including up to 60 minutes of support.\n\nPlease book in a time at https://itsolver.net/cal\n\nAlternatively, for free support, refer to this article: https://support.itsolver.net/hc/en-au/articles/115005123203-Google-Drive-File-Stream-encountered-a-problem-and-has-stopped\n\n"
+    }
+  ],
+  "restriction": null
+}

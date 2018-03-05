@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/360000002595.json",
+  "id": 360000002595,
+  "type": "text",
+  "key": "state",
+  "title": "Office location - State",
+  "description": "Office State",
+  "raw_title": "Office location - State",
+  "raw_description": "Office State",
+  "position": 2,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2018-03-02T01:13:01Z",
+  "updated_at": "2018-03-02T01:15:00Z"
+}

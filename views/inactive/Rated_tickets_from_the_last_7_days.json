@@ -104,5 +104,6 @@
     ]
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "{{zd.recently_rated_tickets}}"
 }

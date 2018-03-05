@@ -99,5 +99,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Action - Review procedure"
 }

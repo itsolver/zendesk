@@ -3,7 +3,7 @@
   "id": 56591726,
   "title": "Set Support Type to Marketing if facebook post subject contains \"Help desk approaching\"",
   "active": true,
-  "updated_at": "2017-12-18T03:01:08Z",
+  "updated_at": "2018-03-05T05:10:46Z",
   "created_at": "2017-03-23T13:28:34Z",
   "actions": [
     {
@@ -27,6 +27,6 @@
     "any": []
   },
   "description": null,
-  "position": 25,
+  "position": 16,
   "raw_title": "Set Support Type to Marketing if facebook post subject contains \"Help desk approaching\""
 }

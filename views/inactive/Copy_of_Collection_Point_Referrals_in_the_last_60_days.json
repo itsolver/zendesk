@@ -89,5 +89,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Copy of Collection Point Referrals in the last 60 days"
 }

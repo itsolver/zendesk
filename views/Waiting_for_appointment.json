@@ -69,5 +69,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "Waiting for appointment"
 }

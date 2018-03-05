@@ -1,0 +1,55 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/60643226.json",
+  "id": 60643226,
+  "title": "Notify requester of comment update after solved.",
+  "active": true,
+  "updated_at": "2018-03-05T05:10:46Z",
+  "created_at": "2017-11-13T02:19:12Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "assignee_id",
+        "[{{ticket.account}}] Re: {{ticket.title}}",
+        "This ticket (#{{ticket.id}}) has been considered resolved.  Angus will review your comment during business hours Mon-Fri 9AM-5PM.\nIf there is another issue, [submit a request online](https://support.itsolver.net/hc/en-au/requests/new), via email support@itsolver.net or call 07 3123 6000.\n\nTo add additional comments to this ticket, just reply to this email.<br />\n{{ticket.comments_formatted}}"
+      ]
+    },
+    {
+      "field": "status",
+      "value": "solved"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "assignee_id",
+        "operator": "not_changed",
+        "value": ""
+      },
+      {
+        "field": "status",
+        "operator": "value_previous",
+        "value": "solved"
+      },
+      {
+        "field": "status",
+        "operator": "not_value",
+        "value": "closed"
+      },
+      {
+        "field": "role",
+        "operator": "is_not",
+        "value": "agent"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "archived no_email no_csat no_survey ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred solicitation internal_update customer_feedback billing archived vendor"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 8,
+  "raw_title": "Notify requester of comment update after solved."
+}

@@ -88,5 +88,6 @@
     "any": []
   },
   "restriction": null,
+  "countable": true,
   "raw_title": "{{zd.new_tickets_in_group}}"
 }
