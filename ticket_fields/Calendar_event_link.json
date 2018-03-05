@@ -1,6 +1,6 @@
 {
-  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/25486206.json",
-  "id": 25486206,
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/360000038036.json",
+  "id": 360000038036,
   "type": "text",
   "title": "Calendar event link",
   "raw_title": "Calendar event link",
@@ -17,7 +17,7 @@
   "editable_in_portal": false,
   "required_in_portal": false,
   "tag": null,
-  "created_at": "2017-12-13T05:39:42Z",
-  "updated_at": "2017-12-13T05:39:42Z",
+  "created_at": "2018-03-05T07:32:40Z",
+  "updated_at": "2018-03-05T07:32:40Z",
   "removable": true
 }
