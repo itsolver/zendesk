@@ -77,7 +77,7 @@ input[disabled] {
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url("/hc/assets/dropdown-arrow.svg") no-repeat #fff;
+  background: url("$assets-zd-dropdown-arrow-svg") no-repeat #fff;
   background-position: right 10px center;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -366,7 +366,7 @@ ul {
 
 [data-loading="true"] input,
 [data-loading="true"] textarea {
-  background: transparent url("/hc/assets/loader.gif") 99% 50% no-repeat;
+  background: transparent url("$assets-zd-loader-gif") 99% 50% no-repeat;
   background-size: 16px 16px;
 }
 
