@@ -1,0 +1,21 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/40877765.json",
+  "id": 40877765,
+  "title": "Enhance speed, privacy and security of your browser",
+  "active": false,
+  "updated_at": "2018-03-08T00:27:23Z",
+  "created_at": "2014-12-15T03:24:42Z",
+  "position": 9,
+  "description": null,
+  "actions": [
+    {
+      "field": "comment_value_html",
+      "value": "<h3>Enhanced your web browsing experience</h3><p>Added [uBlock Origin](<a href=\"https://github.com/gorhill/uBlock\" target=\"_blank\">https://github.com/gorhill/uBlock</a>) to block ads and tracking. Speeds up browsing, improves security and privacy. If you want to allow ads on a certain page, visit [this help article](<a href=\"https://support.itsolver.net/hc/en-au/articles/115005641043\" target=\"_blank\" data-nofollow=\"true\">https://support.itsolver.net/hc/en-au/articles/115005641043</a>).</p><p><br></p><p><br></p><p><br></p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "## Enhanced your web browsing experience\nAdded [uBlock Origin](https://github.com/gorhill/uBlock) to block ads and tracking. Speeds up browsing, improves security and privacy. If you want to allow ads on a certain page, visit [this help article](https://support.itsolver.net/hc/en-au/articles/115005641043).\n\n\n\n"
+    }
+  ],
+  "restriction": null
+}

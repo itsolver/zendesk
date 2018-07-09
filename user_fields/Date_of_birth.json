@@ -7,10 +7,10 @@
   "description": "",
   "raw_title": "Date of birth",
   "raw_description": "",
-  "position": 5,
+  "position": 6,
   "active": true,
   "system": false,
   "regexp_for_validation": "\\A([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])\\z",
   "created_at": "2018-02-04T11:41:17Z",
-  "updated_at": "2018-03-02T03:57:34Z"
+  "updated_at": "2018-06-22T00:34:08Z"
 }

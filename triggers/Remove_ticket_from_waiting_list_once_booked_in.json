@@ -3,7 +3,7 @@
   "id": 51765146,
   "title": "Remove ticket from waiting list once booked in",
   "active": true,
-  "updated_at": "2018-03-05T05:10:46Z",
+  "updated_at": "2018-05-24T09:46:19Z",
   "created_at": "2016-06-16T23:50:50Z",
   "actions": [
     {
@@ -27,6 +27,6 @@
     "any": []
   },
   "description": "Requires both tags \"waiting\" and \"event_*\" be present",
-  "position": 12,
+  "position": 14,
   "raw_title": "Remove ticket from waiting list once booked in"
 }

@@ -6,6 +6,7 @@
   "updated_at": "2017-12-12T01:05:46Z",
   "created_at": "2014-03-15T14:10:08Z",
   "position": 3,
+  "description": null,
   "execution": {
     "group_by": null,
     "group_order": "desc",
@@ -84,6 +85,6 @@
     "any": []
   },
   "restriction": null,
-  "countable": true,
+  "watchable": true,
   "raw_title": "Action - Pick-up from Collection Points"
 }

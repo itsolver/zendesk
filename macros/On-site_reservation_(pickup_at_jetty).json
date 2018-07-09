@@ -3,9 +3,9 @@
   "id": 51182146,
   "title": "On-site reservation (pickup at jetty)",
   "active": true,
-  "updated_at": "2018-03-04T23:53:58Z",
+  "updated_at": "2018-05-22T02:09:35Z",
   "created_at": "2016-05-18T02:21:18Z",
-  "position": 13,
+  "position": 18,
   "description": null,
   "actions": [
     {
@@ -18,11 +18,11 @@
     },
     {
       "field": "comment_value_html",
-      "value": "<h1>Thanks for making a reservation.</h1><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b></p><p>When:<b> {{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}}</b></p><p>Where: <b>Please pickup {{ticket.assignee.first_name}} at {{ticket.requester.custom_fields.city_suburb}} jetty</b></p><p>Why: <b>{{ticket.title}}</b></p><p><br></p><p>We look forward to seeing you.</p>"
+      "value": "<h1>Thanks for making a reservation.</h1><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b></p><p>When: <b>Once on ferry, </b><b>Angus will call to confirm we meet {{ticket.ticket_field_360000037956 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_360000037976 | date: \"%-I:%M %p\" | upcase}}</b></p><p>Where: <b>Please pickup {{ticket.assignee.first_name}} at {{ticket.requester.custom_fields.city_suburb}} jetty</b></p><p>Why: <b>{{ticket.title}}</b></p><p><br></p><p>We look forward to seeing you.</p>"
     },
     {
       "field": "comment_value",
-      "value": "Thanks for making a reservation.\n\nDear {{ticket.requester.name}},\n\nHere are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.\nWhat: {% if {{ticket.ticket_field_option_title_22726236}} %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}\nWhen: {{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}}\nWhere: Please pickup {{ticket.assignee.first_name}} at {{ticket.requester.custom_fields.city_suburb}} jetty\nWhy: {{ticket.title}}\n\nWe look forward to seeing you."
+      "value": "Thanks for making a reservation.\n\nDear {{ticket.requester.name}},\n\nHere are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.\nWhat: {% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}\nWhen: Once on ferry, Angus will call to confirm we meet {{ticket.ticket_field_360000037956 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_360000037976 | date: \"%-I:%M %p\" | upcase}}\nWhere: Please pickup {{ticket.assignee.first_name}} at {{ticket.requester.custom_fields.city_suburb}} jetty\nWhy: {{ticket.title}}\n\nWe look forward to seeing you."
     },
     {
       "field": "comment_mode_is_public",

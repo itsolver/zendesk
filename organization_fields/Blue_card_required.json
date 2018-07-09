@@ -7,11 +7,11 @@
   "description": "Blue card required for on-site visits.",
   "raw_title": "Blue card required",
   "raw_description": "Blue card required for on-site visits.",
-  "position": 17,
+  "position": 15,
   "active": true,
   "system": false,
   "regexp_for_validation": null,
   "created_at": "2018-03-02T01:16:42Z",
-  "updated_at": "2018-03-02T03:51:20Z",
+  "updated_at": "2018-03-14T08:27:22Z",
   "tag": "blue_card_required"
 }

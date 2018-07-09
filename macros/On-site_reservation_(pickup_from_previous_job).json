@@ -3,9 +3,9 @@
   "id": 333757057216,
   "title": "On-site reservation (pickup from previous job)",
   "active": true,
-  "updated_at": "2018-03-05T00:07:58Z",
+  "updated_at": "2018-04-27T07:14:12Z",
   "created_at": "2018-01-09T00:05:55Z",
-  "position": 15,
+  "position": 20,
   "description": null,
   "actions": [
     {
@@ -18,11 +18,11 @@
     },
     {
       "field": "comment_value_html",
-      "value": "<h3>Thanks for making a reservation.</h3><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b></p><p>When to pickup {{ticket.assignee.first_name}}\u200d from jetty: <b>{{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} - At approximately {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}} to {{ticket.ticket_field_25486146 | date: '%s' | plus : 3600 | date: \"%-I:%M %p\" </b><b>| </b><b>upcase}}. </b></p><p>Where: <b>Address will be given by phone shortly before Angus is ready for pickup</b></p><p>Why: <b>{{ticket.title}}</b></p><p><br></p><p>We look forward to seeing you.</p>"
+      "value": "<h3>Thanks for making a reservation.</h3><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.</p><p><br></p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% else %}{{ticket.ticket_field_option_title_22594308}}{% endif %}</b></p><p>When: <b>{{ticket.ticket_field_360000037956 | date: \"%A, %-d %B\"}} at approximately {{ticket.ticket_field_360000037976 | date: \"%-I:%M %p\" | upcase}} to {{ticket.ticket_field_360000037976 | date: '%s' | plus : 7200 | date: \"%-I:%M %p\" </b><b>| </b><b>upcase}}</b></p><p>Where:<b> {{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}</b></p><p>Why: <b>{{ticket.title}}</b></p><p><b><br></b></p><p><b>Shortly before the start time, {{ticket.assignee.first_name}} might call asking for a pickup from an earlier job.</b><br></p><p><br></p><p>We look forward to seeing you.</p>"
     },
     {
       "field": "comment_value",
-      "value": "Thanks for making a reservation.\n\nDear {{ticket.requester.name}},\n\nHere are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.\n\nWhat: {% if {{ticket.ticket_field_option_title_22726236}} %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}\nWhen to pickup {{ticket.assignee.first_name}}\u200d from jetty: {{ticket.ticket_field_25486126 | date: \"%A, %-d %B\"}} - At approximately {{ticket.ticket_field_25486146 | date: \"%-I:%M %p\" | upcase}} to {{ticket.ticket_field_25486146 | date: '%s' | plus : 3600 | date: \"%-I:%M %p\" | upcase}}. \nWhere: Address will be given by phone shortly before Angus is ready for pickup\nWhy: {{ticket.title}}\n\nWe look forward to seeing you."
+      "value": "Thanks for making a reservation.\n\nDear {{ticket.requester.name}},\nHere are the details of your upcoming reservation with {{ticket.assignee.first_name}}\u200d.\n\nWhat: {% if {{ticket.ticket_field_option_title_22726236}} %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% else %}{{ticket.ticket_field_option_title_22594308}}{% endif %}\nWhen: {{ticket.ticket_field_360000037956 | date: \"%A, %-d %B\"}} at approximately {{ticket.ticket_field_360000037976 | date: \"%-I:%M %p\" | upcase}} to {{ticket.ticket_field_360000037976 | date: '%s' | plus : 7200 | date: \"%-I:%M %p\" | upcase}}\nWhere: {{ticket.requester.custom_fields.street}}, {{ticket.requester.custom_fields.city_suburb}}\nWhy: {{ticket.title}}\n\nShortly before the start time, {{ticket.assignee.first_name}} might call asking for a pickup from an earlier job.\n\nWe look forward to seeing you."
     },
     {
       "field": "comment_mode_is_public",

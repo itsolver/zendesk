@@ -6,7 +6,7 @@
   "raw_title": "Total time spent (sec)",
   "description": "Total time spent (sec)",
   "raw_description": "Total time spent (sec)",
-  "position": 9999,
+  "position": 21,
   "active": true,
   "required": false,
   "collapsed_for_agents": false,
@@ -18,6 +18,7 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2018-02-20T01:09:59Z",
-  "updated_at": "2018-02-20T01:09:59Z",
-  "removable": true
+  "updated_at": "2018-06-15T16:04:28Z",
+  "removable": true,
+  "agent_description": null
 }

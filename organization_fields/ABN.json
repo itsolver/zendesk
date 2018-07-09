@@ -7,10 +7,10 @@
   "description": "Australian Business Number. Useful in risk assessment.",
   "raw_title": "ABN",
   "raw_description": "Australian Business Number. Useful in risk assessment.",
-  "position": 12,
+  "position": 10,
   "active": true,
   "system": false,
   "regexp_for_validation": null,
   "created_at": "2017-11-09T06:02:24Z",
-  "updated_at": "2018-03-02T03:51:20Z"
+  "updated_at": "2018-03-14T08:27:22Z"
 }

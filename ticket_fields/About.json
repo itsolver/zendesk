@@ -1,0 +1,61 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/360000112556.json",
+  "id": 360000112556,
+  "type": "tagger",
+  "title": "About",
+  "raw_title": "About",
+  "description": "",
+  "raw_description": "",
+  "position": 9999,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "",
+  "raw_title_in_portal": "",
+  "visible_in_portal": true,
+  "editable_in_portal": true,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2018-06-29T08:38:53Z",
+  "updated_at": "2018-06-29T08:38:53Z",
+  "removable": true,
+  "agent_description": "One of the most common questions that any customer support team needs to be able to answer, is what their customers are asking about. If you start categorising your tickets now, that will be incredibly useful data to have when it\u2019s time to look back.",
+  "custom_field_options": [
+    {
+      "id": 360000283436,
+      "name": "Account accessibility",
+      "raw_name": "Account accessibility",
+      "value": "account_accessibility",
+      "default": false
+    },
+    {
+      "id": 360000283456,
+      "name": "Billing & subscription questions",
+      "raw_name": "Billing & subscription questions",
+      "value": "billing___subscription_questions",
+      "default": false
+    },
+    {
+      "id": 360000283476,
+      "name": "Paid Professional Services",
+      "raw_name": "Paid Professional Services",
+      "value": "paid_professional_services",
+      "default": false
+    },
+    {
+      "id": 360000283496,
+      "name": "User Management",
+      "raw_name": "User Management",
+      "value": "user_management",
+      "default": false
+    },
+    {
+      "id": 360000283516,
+      "name": "Other",
+      "raw_name": "Other",
+      "value": "about_other",
+      "default": false
+    }
+  ]
+}

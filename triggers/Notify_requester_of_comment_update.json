@@ -3,7 +3,7 @@
   "id": 34574006,
   "title": "Notify requester of comment update",
   "active": true,
-  "updated_at": "2018-03-05T05:10:46Z",
+  "updated_at": "2018-05-17T07:18:25Z",
   "created_at": "2013-03-13T00:29:03Z",
   "actions": [
     {
@@ -11,7 +11,7 @@
       "value": [
         "requester_id",
         "{{ticket.title}}",
-        "Your request ({{ticket.id}}) has been updated. Reply to this email or follow the link below:\n{{ticket.url}}\n{{ticket.comments_formatted}}"
+        "Your request (#{{ticket.id}}) has been updated. If you\u2019d like to email an update, reply to this email or follow this link https://support.itsolver.net/hc/requests/{{ticket.id}}\n\n{% if ticket.cc_names != empty %}There are multiple people included in this request. Replies to this email are sent to the following:\n\n{% capture ccedusers %}{{ ticket.requester.name | append: ' '}} {{ticket.requester.email | prepend:'<' | append: '>, ' }}{% for cc in ticket.ccs %}{% unless forloop.last %}{{ cc.name append: ' '}} {{ cc.email | prepend:'<' | append: '>, ' }}{% else %}{{ cc.name | append: ' '}} {{ cc.email | prepend:'<' | append: '>' }}{% endunless %}{% endfor %}{% endcapture %}{{ ccedusers | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>' | replace:';','' }} and {% capture assigneeemail %}{{ticket.assignee.name}} <support@itsolver.net>{% endcapture %}{{ assigneeemail | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>'}}\n{% endif %}\n{{ticket.comments_formatted}}"
       ]
     }
   ],
@@ -35,7 +35,7 @@
       {
         "field": "current_tags",
         "operator": "not_includes",
-        "value": "archived no_email solicitation internal_update vendor"
+        "value": "archived no_email solicitation internal_update"
       },
       {
         "field": "status",
@@ -46,6 +46,6 @@
     "any": []
   },
   "description": null,
-  "position": 6,
+  "position": 5,
   "raw_title": "Notify requester of comment update"
 }

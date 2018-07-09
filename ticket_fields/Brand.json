@@ -6,7 +6,7 @@
   "raw_title": "Brand",
   "description": "Select the Brand of your device or service",
   "raw_description": "Select the Brand of your device or service",
-  "position": 14,
+  "position": 10,
   "active": true,
   "required": false,
   "collapsed_for_agents": false,
@@ -18,8 +18,9 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-06-01T06:42:53Z",
-  "updated_at": "2018-03-02T00:34:10Z",
+  "updated_at": "2018-06-15T16:04:28Z",
   "removable": true,
+  "agent_description": "",
   "custom_field_options": [
     {
       "id": 23723196,
@@ -449,6 +450,13 @@
       "default": false
     },
     {
+      "id": 360000138456,
+      "name": "Ledger",
+      "raw_name": "Ledger",
+      "value": "ledger",
+      "default": false
+    },
+    {
       "id": 23723206,
       "name": "Lenovo",
       "raw_name": "Lenovo",
@@ -796,6 +804,13 @@
       "name": "TPG",
       "raw_name": "TPG",
       "value": "tpg",
+      "default": false
+    },
+    {
+      "id": 360000138476,
+      "name": "Trezor",
+      "raw_name": "Trezor",
+      "value": "trezor",
       "default": false
     },
     {

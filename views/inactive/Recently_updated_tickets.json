@@ -6,6 +6,7 @@
   "updated_at": "2017-12-12T01:05:55Z",
   "created_at": "2013-03-13T00:29:04Z",
   "position": 13,
+  "description": null,
   "execution": {
     "group_by": "status",
     "group_order": "asc",
@@ -91,6 +92,6 @@
     "any": []
   },
   "restriction": null,
-  "countable": true,
+  "watchable": false,
   "raw_title": "{{zd.recently_updated_tickets}}"
 }

@@ -3,7 +3,7 @@
   "id": 51127036,
   "title": "Close ticket 5 days after status is set to pending",
   "active": true,
-  "updated_at": "2017-12-18T11:43:23Z",
+  "updated_at": "2018-03-22T01:31:04Z",
   "created_at": "2016-05-13T03:37:30Z",
   "actions": [
     {
@@ -22,11 +22,6 @@
         "field": "PENDING",
         "operator": "is",
         "value": "120"
-      },
-      {
-        "field": "current_tags",
-        "operator": "not_includes",
-        "value": "pending7days no_email no_pending"
       }
     ],
     "any": []

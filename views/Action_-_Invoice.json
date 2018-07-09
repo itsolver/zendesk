@@ -6,6 +6,7 @@
   "updated_at": "2017-12-12T01:05:46Z",
   "created_at": "2016-06-01T13:46:51Z",
   "position": 1,
+  "description": null,
   "execution": {
     "group_by": null,
     "group_order": "asc",
@@ -103,6 +104,6 @@
     ]
   },
   "restriction": null,
-  "countable": true,
+  "watchable": true,
   "raw_title": "Action - Invoice"
 }

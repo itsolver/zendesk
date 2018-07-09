@@ -4,11 +4,15 @@
   "product": "support",
   "settings": {
     "name": "Knowledge Capture",
-    "title": "Knowledge Capture"
+    "title": "Knowledge Capture",
+    "allowCreation": true,
+    "allowFlagging": true,
+    "alwaysShowInEditor": true,
+    "alwaysShowInSidebar": true
   },
   "enabled": true,
-  "updated": "20180110132216",
-  "updated_at": "2017-12-14T22:59:53Z",
+  "updated": "20180619120545",
+  "updated_at": "2018-06-27T01:47:56Z",
   "created_at": "2017-12-01T00:19:55Z",
   "role_restrictions": null,
   "recurring_payment": false,

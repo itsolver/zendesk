@@ -3,7 +3,7 @@
   "id": 360000050096,
   "title": "If tagged \"phishing\", advise customer about phishing threat ",
   "active": true,
-  "updated_at": "2018-03-05T05:10:46Z",
+  "updated_at": "2018-05-24T09:46:19Z",
   "created_at": "2018-02-05T05:00:17Z",
   "actions": [
     {
@@ -15,7 +15,7 @@
       "value": [
         "current_user",
         "{{ticket.title}}",
-        "Hi {{ticket.assignee.first_name}},\nThis email we received is a phishing a threat. Please take action to report the phishing site to Google. \n\nFor more information on what action to take, visit this help article:\nhttps://support.itsolver.net/hc/en-au/articles/360000032595-Prevent-report-phishing-attacks\n\nConcerned about security? At your request, Angus can do a Security Checkup.\n\n{{ticket.comments_formatted}}"
+        "Hi {{ticket.assignee.first_name}},\nThis email we received is a phishing a threat. Please take action to report the phishing site to Google. \n\nFor more information on what action to take, visit this help article:\nhttps://support.itsolver.net/hc/en-au/articles/360000032595-Prevent-report-phishing-attacks\n\nConcerned about security? Contact IT Solver to report or ask about a security issue.\n\n{% if ticket.cc_names != empty %}There are multiple people included in this request. Replies to this email are sent to the following:\n{% capture ccedusers %}{{ ticket.requester.name | append: ' '}} {{ticket.requester.email | prepend:'<' | append: '>, ' }}{% for cc in ticket.ccs %}{% unless forloop.last %}{{ cc.name append: ' '}} {{ cc.email | prepend:'<' | append: '>, ' }}{% else %}{{ cc.name | append: ' '}} {{ cc.email | prepend:'<' | append: '>' }}{% endunless %}{% endfor %}{% endcapture %}{{ ccedusers | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>' | replace:';','' }} and {% capture assigneeemail %}{{ticket.assignee.name}} <support@itsolver.net>{% endcapture %}{{ assigneeemail | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>'}}{% endif %}\n{{ticket.comments_formatted}}"
       ]
     },
     {
@@ -55,6 +55,6 @@
     "any": []
   },
   "description": null,
-  "position": 18,
+  "position": 17,
   "raw_title": "If tagged \"phishing\", advise customer about phishing threat "
 }

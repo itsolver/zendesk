@@ -3,7 +3,7 @@
   "id": 50169083,
   "title": "Add invoiced tag",
   "active": true,
-  "updated_at": "2018-03-05T05:10:46Z",
+  "updated_at": "2018-05-24T09:46:19Z",
   "created_at": "2016-06-01T13:49:59Z",
   "actions": [
     {
@@ -27,6 +27,6 @@
     "any": []
   },
   "description": "If Invoiced is checked and status solved, add tag \"invoiced\".",
-  "position": 11,
+  "position": 13,
   "raw_title": "Add invoiced tag"
 }

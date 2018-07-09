@@ -6,6 +6,7 @@
   "updated_at": "2018-01-02T23:16:24Z",
   "created_at": "2016-05-06T05:14:42Z",
   "position": 11,
+  "description": null,
   "execution": {
     "group_by": "24375476",
     "group_order": "asc",
@@ -69,6 +70,6 @@
     "any": []
   },
   "restriction": null,
-  "countable": true,
+  "watchable": false,
   "raw_title": "Waiting for appointment"
 }

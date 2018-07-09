@@ -6,7 +6,7 @@
   "raw_title": "Operating System",
   "description": "Please choose your Operating System - if relevant or known.",
   "raw_description": "Please choose your Operating System - if relevant or known.",
-  "position": 16,
+  "position": 12,
   "active": true,
   "required": false,
   "collapsed_for_agents": false,
@@ -18,8 +18,9 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-06-01T06:40:41Z",
-  "updated_at": "2017-12-11T05:24:31Z",
+  "updated_at": "2018-06-15T16:04:28Z",
   "removable": true,
+  "agent_description": null,
   "custom_field_options": [
     {
       "id": 63250596,

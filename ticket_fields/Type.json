@@ -6,7 +6,7 @@
   "raw_title": "Type",
   "description": "Request type",
   "raw_description": "Request type",
-  "position": 5,
+  "position": 4,
   "active": true,
   "required": false,
   "collapsed_for_agents": false,
@@ -18,8 +18,9 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-03-13T00:29:04Z",
-  "updated_at": "2016-06-07T10:38:04Z",
+  "updated_at": "2018-06-15T16:04:27Z",
   "removable": true,
+  "agent_description": null,
   "system_field_options": [
     {
       "name": "Question",

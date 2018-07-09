@@ -1,0 +1,22 @@
+{
+  "id": 360000027995,
+  "app_id": 19078,
+  "product": "support",
+  "settings": {
+    "disable_conflicts_prevention": false,
+    "name": "Conditional Fields",
+    "title": "Conditional Fields",
+    "rules": null,
+    "rules_1": null,
+    "user_rules": null,
+    "user_rules_1": null
+  },
+  "enabled": true,
+  "updated": "20180424014229",
+  "updated_at": "2018-07-03T03:19:42Z",
+  "created_at": "2018-07-03T03:19:42Z",
+  "role_restrictions": null,
+  "recurring_payment": false,
+  "collapsible": true,
+  "group_restrictions": []
+}

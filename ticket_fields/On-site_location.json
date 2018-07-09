@@ -1,0 +1,47 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/360000112396.json",
+  "id": 360000112396,
+  "type": "tagger",
+  "title": "On-site location",
+  "raw_title": "On-site location",
+  "description": "",
+  "raw_description": "",
+  "position": 30,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "On-site location",
+  "raw_title_in_portal": "On-site location",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2018-06-29T02:19:47Z",
+  "updated_at": "2018-06-29T07:39:16Z",
+  "removable": true,
+  "agent_description": "Select location for customer on-site visit",
+  "custom_field_options": [
+    {
+      "id": 360000273735,
+      "name": "Home",
+      "raw_name": "Home",
+      "value": "onsite_home_location",
+      "default": false
+    },
+    {
+      "id": 360000273755,
+      "name": "Work",
+      "raw_name": "Work",
+      "value": "onsite_work_location",
+      "default": false
+    },
+    {
+      "id": 360000273775,
+      "name": "Other location",
+      "raw_name": "Other location",
+      "value": "onsite_other_location",
+      "default": false
+    }
+  ]
+}

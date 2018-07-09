@@ -1,0 +1,29 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/360000252516.json",
+  "id": 360000252516,
+  "title": "Troubleshooting Apple TV",
+  "active": true,
+  "updated_at": "2018-05-22T02:00:23Z",
+  "created_at": "2018-05-22T02:00:23Z",
+  "position": 3,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "open"
+    },
+    {
+      "field": "type",
+      "value": "problem"
+    },
+    {
+      "field": "custom_fields_22594308",
+      "value": "home_entertainment"
+    },
+    {
+      "field": "custom_fields_22726266",
+      "value": "apple"
+    }
+  ],
+  "restriction": null
+}

@@ -19,5 +19,6 @@
   "tag": null,
   "created_at": "2013-03-13T00:29:04Z",
   "updated_at": "2016-06-07T10:38:04Z",
-  "removable": false
+  "removable": false,
+  "agent_description": null
 }

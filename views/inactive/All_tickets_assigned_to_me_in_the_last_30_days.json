@@ -6,6 +6,7 @@
   "updated_at": "2017-12-12T01:05:55Z",
   "created_at": "2015-08-04T07:59:29Z",
   "position": 16,
+  "description": null,
   "execution": {
     "group_by": null,
     "group_order": "desc",
@@ -79,6 +80,6 @@
     "any": []
   },
   "restriction": null,
-  "countable": true,
+  "watchable": false,
   "raw_title": "All tickets assigned to me in the last 30 days"
 }

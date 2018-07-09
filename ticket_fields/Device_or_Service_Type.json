@@ -6,7 +6,7 @@
   "raw_title": "Device or Service Type",
   "description": "You may enter your own device type",
   "raw_description": "You may enter your own device type",
-  "position": 10,
+  "position": 7,
   "active": true,
   "required": true,
   "collapsed_for_agents": false,
@@ -18,8 +18,9 @@
   "required_in_portal": false,
   "tag": null,
   "created_at": "2013-04-25T08:09:09Z",
-  "updated_at": "2018-02-07T09:32:11Z",
+  "updated_at": "2018-06-15T16:04:28Z",
   "removable": true,
+  "agent_description": "",
   "custom_field_options": [
     {
       "id": 22967408,
@@ -33,6 +34,20 @@
       "name": "Billing",
       "raw_name": "Billing",
       "value": "billing_service",
+      "default": false
+    },
+    {
+      "id": 360000138496,
+      "name": "Cryptocurrency",
+      "raw_name": "Cryptocurrency",
+      "value": "cryptocurrency",
+      "default": false
+    },
+    {
+      "id": 64032426,
+      "name": "Data Recovery",
+      "raw_name": "Data Recovery",
+      "value": "hard_drive_external_and_internal",
       "default": false
     },
     {
@@ -50,13 +65,6 @@
       "default": false
     },
     {
-      "id": 64032426,
-      "name": "Hard drive - external and internal",
-      "raw_name": "Hard drive - external and internal",
-      "value": "hard_drive_external_and_internal",
-      "default": false
-    },
-    {
       "id": 23726146,
       "name": "Home Entertainment",
       "raw_name": "Home Entertainment",
@@ -71,10 +79,45 @@
       "default": false
     },
     {
+      "id": 360000223815,
+      "name": "IT Solver Business Support",
+      "raw_name": "IT Solver Business Support",
+      "value": "it_solver_business_support",
+      "default": false
+    },
+    {
+      "id": 360000223835,
+      "name": "IT Solver Enterprise Support",
+      "raw_name": "IT Solver Enterprise Support",
+      "value": "it_solver_enterprise_support",
+      "default": false
+    },
+    {
+      "id": 360000221435,
+      "name": "IT Solver Maintenance",
+      "raw_name": "IT Solver Maintenance",
+      "value": "it_solver_maintenance",
+      "default": false
+    },
+    {
+      "id": 360000239776,
+      "name": "IT Solver Services",
+      "raw_name": "IT Solver Services",
+      "value": "it_solver_services",
+      "default": false
+    },
+    {
       "id": 22967388,
       "name": "Mac",
       "raw_name": "Mac",
       "value": "mac",
+      "default": false
+    },
+    {
+      "id": 360000223855,
+      "name": "Maintenance",
+      "raw_name": "Maintenance",
+      "value": "maintenance",
       "default": false
     },
     {
@@ -89,6 +132,13 @@
       "name": "Networking",
       "raw_name": "Networking",
       "value": "networking",
+      "default": false
+    },
+    {
+      "id": 360000223875,
+      "name": "On-Demand",
+      "raw_name": "On-Demand",
+      "value": "on-demand",
       "default": false
     },
     {
@@ -148,6 +198,20 @@
       "default": false
     },
     {
+      "id": 360000138516,
+      "name": "Security incident - Other",
+      "raw_name": "Security incident - Other",
+      "value": "security_incident_-_other",
+      "default": false
+    },
+    {
+      "id": 65565583,
+      "name": "Security incident - Tech Support Scam",
+      "raw_name": "Security incident - Tech Support Scam",
+      "value": "tech_support_scam",
+      "default": false
+    },
+    {
       "id": 65713543,
       "name": "Server",
       "raw_name": "Server",
@@ -159,13 +223,6 @@
       "name": "Software",
       "raw_name": "Software",
       "value": "software",
-      "default": false
-    },
-    {
-      "id": 65565583,
-      "name": "Tech support scam",
-      "raw_name": "Tech support scam",
-      "value": "tech_support_scam",
       "default": false
     },
     {

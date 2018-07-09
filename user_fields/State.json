@@ -12,55 +12,55 @@
   "system": false,
   "regexp_for_validation": null,
   "created_at": "2014-03-14T06:56:31Z",
-  "updated_at": "2017-12-13T12:37:22Z",
+  "updated_at": "2018-06-22T00:33:31Z",
   "custom_field_options": [
     {
       "id": 143583,
       "name": "ACT",
       "raw_name": "ACT",
-      "value": "act"
+      "value": "ACT"
     },
     {
       "id": 143553,
       "name": "NSW",
       "raw_name": "NSW",
-      "value": "nsw"
+      "value": "NSW"
     },
     {
       "id": 726926,
       "name": "NT",
       "raw_name": "NT",
-      "value": "nt"
+      "value": "NT"
     },
     {
       "id": 143543,
       "name": "QLD",
       "raw_name": "QLD",
-      "value": "qld"
+      "value": "QLD"
     },
     {
       "id": 143573,
       "name": "SA",
       "raw_name": "SA",
-      "value": "sa"
+      "value": "SA"
     },
     {
       "id": 143603,
       "name": "TAS",
       "raw_name": "TAS",
-      "value": "tas"
+      "value": "TAS"
     },
     {
       "id": 143563,
       "name": "VIC",
       "raw_name": "VIC",
-      "value": "vic"
+      "value": "VIC"
     },
     {
       "id": 143593,
       "name": "WA",
       "raw_name": "WA",
-      "value": "wa"
+      "value": "WA"
     }
   ]
 }
