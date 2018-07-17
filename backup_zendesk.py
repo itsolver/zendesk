@@ -5,15 +5,14 @@ import json
 import requests
 import getpass
 import time
+import shutil
+from config import *
 
 backup_date = time.strftime("%Y %B %e")
-
+source_folder = os.path.join("support/" + backup_date)
 session = requests.Session()
-zendesk_subdomain = input('Zendesk subdomain (include ".zendesk.com"): ')
-zendesk_user = input('Zendesk username or username/token: ')
-zendesk_secret = getpass.getpass('Zendesk password or api_token: ')
-session.auth = (zendesk_user, zendesk_secret)
 zendesk = 'https://' + zendesk_subdomain
+session.auth = (zendesk_user, zendesk_secret)
 
 # Organise Support backups into a directory named {date of backup} and in relevant sub directories.
 triggers_backup_path = os.path.join("support/" + backup_date + "/triggers")
@@ -357,3 +356,21 @@ with open(os.path.join(backup_path, '_log.csv'), mode='wt', encoding='utf-8') as
     writer.writerow( ('File', 'Title', 'ID', 'App ID', 'Active') )
     for app_installation in log:
         writer.writerow(app_installation)
+
+# Get a copy of everything into a private backup folder
+
+# def copyrecursively(source_folder, destination_folder):
+# for root, dirs, files in os.walk(source_folder):
+#     for item in files:
+#         src_path = os.path.join(root, item)
+#         dst_path = os.path.join(destination_folder, src_path.replace(source_folder, ""))
+#         if os.path.exists(dst_path):
+#             if os.stat(src_path).st_mtime > os.stat(dst_path).st_mtime:
+#                 shutil.copy2(src_path, dst_path)
+#         else:
+#             shutil.copy2(src_path, dst_path)
+#     for item in dirs:
+#         src_path = os.path.join(root, item)
+#         dst_path = os.path.join(destination_folder, src_path.replace(source_folder, ""))
+#         if not os.path.exists(dst_path):
+#             os.mkdir(dst_path)
