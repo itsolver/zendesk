@@ -5,3 +5,5 @@ temp
 .DS_Store
 .vscode/launch.json
 .vscode/settings.json
+__pycache__/config.cpython-36.pyc
+.DS_Store
