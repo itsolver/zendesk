@@ -1,14 +1,29 @@
-# Archived to GitHub
- - Triggers, automations, macros, views, ticket fields, user fields, organisation fields, app installations using [backup_zendesk.py](https://github.com/itsolver/zendesk/blob/master/backup_zendesk.py).
+# Question
+How can I export all my Zendesk data
+
+# Answer
+For all plans:
+You can use the Zendesk Rest API endpoints along with these custom scripts (does not get everything yet): (https://github.com/itsolver/zendesk/blob/master/backup_zendesk.py)). 
+ - Support: triggers, automations, macros, views, ticket fields, user fields, organisation fields, app installations using [backup_zendesk.py](https://github.com/itsolver/zendesk/blob/master/backup_zendesk.py).
   - Help Centre Content using [Felix Stubner's kBackup](https://support.zendesk.com/hc/en-us/community/posts/210927837). [kBackup source code](https://github.com/Fail2Reap/kBackup).
- - Help Centre Theme copied manually from Guide admin > Customise design.
- - Agent signature copied manually from my agent profile in Zendesk.
- - Email template copied manually Zendesk Admin > Channels > Email.
+   - Help Centre Theme copied manually from Guide admin > Customise design.
+
+For Professional and Enterprise customers:
+You can export data as a CSV or XML.
 
 # To do
-## Archive to private storage
+## Add to backup script: 
+- tickets, users and organizations.
+- agent profile
+- zendesk settings
+
+## Add option to encrypt and move sensitive data to a private location
  - Tickets
  - People
- - Organisations
+ - Organizations
+ 
+## Script as much as possible
+
+## Automate backup schedule
 
 ## Create instructions on usage
