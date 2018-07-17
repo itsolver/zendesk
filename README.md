@@ -9,7 +9,7 @@ You can use the Zendesk Rest API endpoints along with your own custom scripts, o
    - Help Centre Theme copied manually from Guide admin > Customise design.
 
 For Professional and Enterprise customers:
-You can export data as a CSV or XML.
+You can [export data](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file-Professional-and-Enterprise-) as a CSV or XML.
 
 # To do
 ## Add to backup script: 
