@@ -4,15 +4,19 @@ import re
 import json
 import requests
 import getpass
+import time
+
+backup_date = time.strftime("%Y %B %e")
 
 session = requests.Session()
-zendesk_subdomain = input('Zendesk subdomain: ')
-zendesk_user = input('Zendesk username/token or username: ')
-zendesk_secret = getpass.getpass('Zendesk api_token or password: ')
+zendesk_subdomain = input('Zendesk subdomain (include ".zendesk.com"): ')
+zendesk_user = input('Zendesk username or username/token: ')
+zendesk_secret = getpass.getpass('Zendesk password or api_token: ')
 session.auth = (zendesk_user, zendesk_secret)
-zendesk = 'https://' + zendesk_subdomain + '.zendesk.com'
+zendesk = 'https://' + zendesk_subdomain
 
-triggers_backup_path = os.path.join("triggers")
+# Organise Support backups into a directory named {date of backup} and in relevant sub directories.
+triggers_backup_path = os.path.join("support/" + backup_date + "/triggers")
 if not os.path.exists(triggers_backup_path):
     os.makedirs(triggers_backup_path)
     
@@ -20,7 +24,7 @@ inactive_triggers_backup_path = os.path.join(triggers_backup_path, "inactive/")
 if not os.path.exists(inactive_triggers_backup_path):
     os.makedirs(inactive_triggers_backup_path)
 
-automations_backup_path = os.path.join("automations")
+automations_backup_path = os.path.join("support/" + backup_date + "/automations")
 if not os.path.exists(automations_backup_path):
     os.makedirs(automations_backup_path)
     
@@ -28,7 +32,7 @@ inactive_automations_backup_path = os.path.join(automations_backup_path, "inacti
 if not os.path.exists(inactive_automations_backup_path):
     os.makedirs(inactive_automations_backup_path)
 
-macros_backup_path = os.path.join("macros")
+macros_backup_path = os.path.join("support/" + backup_date + "/macros")
 if not os.path.exists(macros_backup_path):
     os.makedirs(macros_backup_path)
     
@@ -36,7 +40,7 @@ inactive_macros_backup_path = os.path.join(macros_backup_path, "inactive/")
 if not os.path.exists(inactive_macros_backup_path):
     os.makedirs(inactive_macros_backup_path)
 
-views_backup_path = os.path.join("views")
+views_backup_path = os.path.join("support/" + backup_date + "/views")
 if not os.path.exists(views_backup_path):
     os.makedirs(views_backup_path)
     
@@ -44,7 +48,7 @@ inactive_views_backup_path = os.path.join(views_backup_path, "inactive/")
 if not os.path.exists(inactive_views_backup_path):
     os.makedirs(inactive_views_backup_path)
 
-ticket_fields_backup_path = os.path.join("ticket_fields")
+ticket_fields_backup_path = os.path.join("support/" + backup_date + "/ticket_fields")
 if not os.path.exists(ticket_fields_backup_path):
     os.makedirs(ticket_fields_backup_path)
     
@@ -52,7 +56,7 @@ inactive_ticket_fields_backup_path = os.path.join(ticket_fields_backup_path, "in
 if not os.path.exists(inactive_ticket_fields_backup_path):
     os.makedirs(inactive_ticket_fields_backup_path)
 
-user_fields_backup_path = os.path.join("user_fields")
+user_fields_backup_path = os.path.join("support/" + backup_date + "/user_fields")
 if not os.path.exists(user_fields_backup_path):
     os.makedirs(user_fields_backup_path)
     
@@ -60,7 +64,7 @@ inactive_user_fields_backup_path = os.path.join(user_fields_backup_path, "inacti
 if not os.path.exists(inactive_user_fields_backup_path):
     os.makedirs(inactive_user_fields_backup_path)
 
-organization_fields_backup_path = os.path.join("organization_fields")
+organization_fields_backup_path = os.path.join("support/" + backup_date + "/organization_fields")
 if not os.path.exists(organization_fields_backup_path):
     os.makedirs(organization_fields_backup_path)
     
@@ -68,7 +72,7 @@ inactive_organization_fields_backup_path = os.path.join(organization_fields_back
 if not os.path.exists(inactive_organization_fields_backup_path):
     os.makedirs(inactive_organization_fields_backup_path)
 
-app_installations_backup_path = os.path.join("app_installations")
+app_installations_backup_path = os.path.join("support/" + backup_date + "/app_installations")
 if not os.path.exists(app_installations_backup_path):
     os.makedirs(app_installations_backup_path)
     

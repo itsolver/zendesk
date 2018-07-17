@@ -1,0 +1,943 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/22726266.json",
+  "id": 22726266,
+  "type": "tagger",
+  "title": "Brand",
+  "raw_title": "Brand",
+  "description": "Select the Brand of your device or service",
+  "raw_description": "Select the Brand of your device or service",
+  "position": 10,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Brand",
+  "raw_title_in_portal": "Brand",
+  "visible_in_portal": true,
+  "editable_in_portal": true,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2013-06-01T06:42:53Z",
+  "updated_at": "2018-07-11T00:51:32Z",
+  "removable": true,
+  "agent_description": "",
+  "custom_field_options": [
+    {
+      "id": 23723196,
+      "name": "Acer",
+      "raw_name": "Acer",
+      "value": "acer",
+      "default": false
+    },
+    {
+      "id": 63812606,
+      "name": "Adobe",
+      "raw_name": "Adobe",
+      "value": "adobe",
+      "default": false
+    },
+    {
+      "id": 63302196,
+      "name": "Alcatel",
+      "raw_name": "Alcatel",
+      "value": "alcatel",
+      "default": false
+    },
+    {
+      "id": 63302186,
+      "name": "Aldimobile",
+      "raw_name": "Aldimobile",
+      "value": "aldimobile",
+      "default": false
+    },
+    {
+      "id": 27994279,
+      "name": "Amaysim",
+      "raw_name": "Amaysim",
+      "value": "amaysim",
+      "default": false
+    },
+    {
+      "id": 65718483,
+      "name": "Amazon",
+      "raw_name": "Amazon",
+      "value": "amazon",
+      "default": false
+    },
+    {
+      "id": 360000086956,
+      "name": "AMD",
+      "raw_name": "AMD",
+      "value": "amd",
+      "default": false
+    },
+    {
+      "id": 66695426,
+      "name": "Antec",
+      "raw_name": "Antec",
+      "value": "antec",
+      "default": false
+    },
+    {
+      "id": 23723226,
+      "name": "Apple",
+      "raw_name": "Apple",
+      "value": "apple",
+      "default": false
+    },
+    {
+      "id": 27088429,
+      "name": "ASrock",
+      "raw_name": "ASrock",
+      "value": "asrock",
+      "default": false
+    },
+    {
+      "id": 23723166,
+      "name": "Asus",
+      "raw_name": "Asus",
+      "value": "asus",
+      "default": false
+    },
+    {
+      "id": 360000086936,
+      "name": "ATI",
+      "raw_name": "ATI",
+      "value": "ati",
+      "default": false
+    },
+    {
+      "id": 69045446,
+      "name": "Aussie Broadband",
+      "raw_name": "Aussie Broadband",
+      "value": "aussie_broadband",
+      "default": false
+    },
+    {
+      "id": 63812596,
+      "name": "Autodesk",
+      "raw_name": "Autodesk",
+      "value": "autodesk",
+      "default": false
+    },
+    {
+      "id": 64494946,
+      "name": "AVG",
+      "raw_name": "AVG",
+      "value": "avg",
+      "default": false
+    },
+    {
+      "id": 24000607,
+      "name": "AVM",
+      "raw_name": "AVM",
+      "value": "avm",
+      "default": false
+    },
+    {
+      "id": 26476539,
+      "name": "Bauhn",
+      "raw_name": "Bauhn",
+      "value": "bauhn",
+      "default": false
+    },
+    {
+      "id": 65100623,
+      "name": "Best Practice",
+      "raw_name": "Best Practice",
+      "value": "best_practice",
+      "default": false
+    },
+    {
+      "id": 26476509,
+      "name": "Bitdefender",
+      "raw_name": "Bitdefender",
+      "value": "bitdefender",
+      "default": false
+    },
+    {
+      "id": 63729366,
+      "name": "Bose",
+      "raw_name": "Bose",
+      "value": "bose",
+      "default": false
+    },
+    {
+      "id": 23723146,
+      "name": "Brother",
+      "raw_name": "Brother",
+      "value": "brother",
+      "default": false
+    },
+    {
+      "id": 52233096,
+      "name": "Canon",
+      "raw_name": "Canon",
+      "value": "canon",
+      "default": false
+    },
+    {
+      "id": 65717983,
+      "name": "Cisco",
+      "raw_name": "Cisco",
+      "value": "cisco",
+      "default": false
+    },
+    {
+      "id": 67430363,
+      "name": "Commander",
+      "raw_name": "Commander",
+      "value": "commander",
+      "default": false
+    },
+    {
+      "id": 65718003,
+      "name": "ConnectWise",
+      "raw_name": "ConnectWise",
+      "value": "connectwise",
+      "default": false
+    },
+    {
+      "id": 62344863,
+      "name": "Console",
+      "raw_name": "Console",
+      "value": "console",
+      "default": false
+    },
+    {
+      "id": 26476529,
+      "name": "Corsair",
+      "raw_name": "Corsair",
+      "value": "corsair",
+      "default": false
+    },
+    {
+      "id": 62344903,
+      "name": "Crash plan",
+      "raw_name": "Crash plan",
+      "value": "crashplan",
+      "default": false
+    },
+    {
+      "id": 24000617,
+      "name": "D-Link",
+      "raw_name": "D-Link",
+      "value": "d_link",
+      "default": false
+    },
+    {
+      "id": 23723176,
+      "name": "Dell",
+      "raw_name": "Dell",
+      "value": "dell",
+      "default": false
+    },
+    {
+      "id": 63812566,
+      "name": "Denon",
+      "raw_name": "Denon",
+      "value": "denon",
+      "default": false
+    },
+    {
+      "id": 67694986,
+      "name": "Develop",
+      "raw_name": "Develop",
+      "value": "develop",
+      "default": false
+    },
+    {
+      "id": 27994269,
+      "name": "Dodo",
+      "raw_name": "Dodo",
+      "value": "dodo",
+      "default": false
+    },
+    {
+      "id": 63812546,
+      "name": "DSE",
+      "raw_name": "DSE",
+      "value": "dse",
+      "default": false
+    },
+    {
+      "id": 66693166,
+      "name": "DynDNS",
+      "raw_name": "DynDNS",
+      "value": "dyndns",
+      "default": false
+    },
+    {
+      "id": 27875589,
+      "name": "Eaton",
+      "raw_name": "Eaton",
+      "value": "eaton",
+      "default": false
+    },
+    {
+      "id": 63812616,
+      "name": "ElementTech",
+      "raw_name": "ElementTech",
+      "value": "elementtech",
+      "default": false
+    },
+    {
+      "id": 52233106,
+      "name": "eMachines",
+      "raw_name": "eMachines",
+      "value": "emachines",
+      "default": false
+    },
+    {
+      "id": 23723156,
+      "name": "Epson",
+      "raw_name": "Epson",
+      "value": "epson",
+      "default": false
+    },
+    {
+      "id": 62164623,
+      "name": "Facebook",
+      "raw_name": "Facebook",
+      "value": "facebook",
+      "default": false
+    },
+    {
+      "id": 24000587,
+      "name": "Foxconn",
+      "raw_name": "Foxconn",
+      "value": "foxconn",
+      "default": false
+    },
+    {
+      "id": 63812556,
+      "name": "Foxtel",
+      "raw_name": "Foxtel",
+      "value": "foxtel",
+      "default": false
+    },
+    {
+      "id": 65078323,
+      "name": "Freshbooks",
+      "raw_name": "Freshbooks",
+      "value": "freshbooks",
+      "default": false
+    },
+    {
+      "id": 26097588,
+      "name": "Fuji Xerox",
+      "raw_name": "Fuji Xerox",
+      "value": "fuji_xerox",
+      "default": false
+    },
+    {
+      "id": 62164663,
+      "name": "Getflix",
+      "raw_name": "Getflix",
+      "value": "getflix",
+      "default": false
+    },
+    {
+      "id": 24000597,
+      "name": "Gigabyte",
+      "raw_name": "Gigabyte",
+      "value": "gigabyte",
+      "default": false
+    },
+    {
+      "id": 360000297656,
+      "name": "GitHub",
+      "raw_name": "GitHub",
+      "value": "github",
+      "default": false
+    },
+    {
+      "id": 62176143,
+      "name": "Google",
+      "raw_name": "Google",
+      "value": "google",
+      "default": false
+    },
+    {
+      "id": 63812636,
+      "name": "gorhill",
+      "raw_name": "gorhill",
+      "value": "gorhill",
+      "default": false
+    },
+    {
+      "id": 67450003,
+      "name": "Harmon Kardon",
+      "raw_name": "Harmon Kardon",
+      "value": "harmon_kardon",
+      "default": false
+    },
+    {
+      "id": 23723186,
+      "name": "HP",
+      "raw_name": "HP",
+      "value": "hp",
+      "default": false
+    },
+    {
+      "id": 38143308,
+      "name": "HTC",
+      "raw_name": "HTC",
+      "value": "htc",
+      "default": false
+    },
+    {
+      "id": 24683197,
+      "name": "Huawei",
+      "raw_name": "Huawei",
+      "value": "huawei",
+      "default": false
+    },
+    {
+      "id": 27544759,
+      "name": "IBM",
+      "raw_name": "IBM",
+      "value": "ibm",
+      "default": false
+    },
+    {
+      "id": 27994239,
+      "name": "iiNet",
+      "raw_name": "iiNet",
+      "value": "iinet",
+      "default": false
+    },
+    {
+      "id": 360000054636,
+      "name": "Intel",
+      "raw_name": "Intel",
+      "value": "intel",
+      "default": false
+    },
+    {
+      "id": 27875569,
+      "name": "JVC",
+      "raw_name": "JVC",
+      "value": "jvc",
+      "default": false
+    },
+    {
+      "id": 26476499,
+      "name": "Kasperksy",
+      "raw_name": "Kasperksy",
+      "value": "kasperksy",
+      "default": false
+    },
+    {
+      "id": 63302166,
+      "name": "Kenwood",
+      "raw_name": "Kenwood",
+      "value": "kenwood",
+      "default": false
+    },
+    {
+      "id": 30702688,
+      "name": "Kogan",
+      "raw_name": "Kogan",
+      "value": "kogan",
+      "default": false
+    },
+    {
+      "id": 66041286,
+      "name": "Kyocera",
+      "raw_name": "Kyocera",
+      "value": "kyocera",
+      "default": false
+    },
+    {
+      "id": 360000086976,
+      "name": "Leadtek",
+      "raw_name": "Leadtek",
+      "value": "leadtek",
+      "default": false
+    },
+    {
+      "id": 360000138456,
+      "name": "Ledger",
+      "raw_name": "Ledger",
+      "value": "ledger",
+      "default": false
+    },
+    {
+      "id": 23723206,
+      "name": "Lenovo",
+      "raw_name": "Lenovo",
+      "value": "lenovo",
+      "default": false
+    },
+    {
+      "id": 63812646,
+      "name": "Lexmark",
+      "raw_name": "Lexmark",
+      "value": "lexmark",
+      "default": false
+    },
+    {
+      "id": 23723246,
+      "name": "Lg",
+      "raw_name": "Lg",
+      "value": "lg",
+      "default": false
+    },
+    {
+      "id": 62344923,
+      "name": "Lime Technology",
+      "raw_name": "Lime Technology",
+      "value": "lime_technology",
+      "default": false
+    },
+    {
+      "id": 27875579,
+      "name": "Linksys",
+      "raw_name": "Linksys",
+      "value": "linksys",
+      "default": false
+    },
+    {
+      "id": 23723216,
+      "name": "Logitech",
+      "raw_name": "Logitech",
+      "value": "logitech",
+      "default": false
+    },
+    {
+      "id": 69045426,
+      "name": "Malwarebytes",
+      "raw_name": "Malwarebytes",
+      "value": "malwarebytes",
+      "default": false
+    },
+    {
+      "id": 30702678,
+      "name": "Medion",
+      "raw_name": "Medion",
+      "value": "medion",
+      "default": false
+    },
+    {
+      "id": 27911899,
+      "name": "Microsoft",
+      "raw_name": "Microsoft",
+      "value": "microsoft",
+      "default": false
+    },
+    {
+      "id": 24683207,
+      "name": "Motorola",
+      "raw_name": "Motorola",
+      "value": "motorola",
+      "default": false
+    },
+    {
+      "id": 65104886,
+      "name": "Mozilla",
+      "raw_name": "Mozilla",
+      "value": "mozilla",
+      "default": false
+    },
+    {
+      "id": 38143298,
+      "name": "MSi",
+      "raw_name": "MSi",
+      "value": "msi",
+      "default": false
+    },
+    {
+      "id": 360000297676,
+      "name": "mVoice",
+      "raw_name": "mVoice",
+      "value": "mvoice",
+      "default": false
+    },
+    {
+      "id": 24000547,
+      "name": "Netcomm",
+      "raw_name": "Netcomm",
+      "value": "netcomm",
+      "default": false
+    },
+    {
+      "id": 62164653,
+      "name": "Netflix",
+      "raw_name": "Netflix",
+      "value": "netflix",
+      "default": false
+    },
+    {
+      "id": 24000557,
+      "name": "Netgear",
+      "raw_name": "Netgear",
+      "value": "netgear",
+      "default": false
+    },
+    {
+      "id": 26476519,
+      "name": "Norton",
+      "raw_name": "Norton",
+      "value": "norton",
+      "default": false
+    },
+    {
+      "id": 360000086916,
+      "name": "NVIDIA",
+      "raw_name": "NVIDIA",
+      "value": "nvidia",
+      "default": false
+    },
+    {
+      "id": 63805396,
+      "name": "Octek Computer System",
+      "raw_name": "Octek Computer System",
+      "value": "octek_computer_system",
+      "default": false
+    },
+    {
+      "id": 65909563,
+      "name": "OKI",
+      "raw_name": "OKI",
+      "value": "oki",
+      "default": false
+    },
+    {
+      "id": 63302176,
+      "name": "Onkyo",
+      "raw_name": "Onkyo",
+      "value": "onkyo",
+      "default": false
+    },
+    {
+      "id": 65078343,
+      "name": "Oppo",
+      "raw_name": "Oppo",
+      "value": "oppo",
+      "default": false
+    },
+    {
+      "id": 27994229,
+      "name": "Optus",
+      "raw_name": "Optus",
+      "value": "optus",
+      "default": false
+    },
+    {
+      "id": 62344883,
+      "name": "ownCloud",
+      "raw_name": "ownCloud",
+      "value": "owncloud",
+      "default": false
+    },
+    {
+      "id": 63812586,
+      "name": "Palsonic",
+      "raw_name": "Palsonic",
+      "value": "palsonic",
+      "default": false
+    },
+    {
+      "id": 26117855,
+      "name": "Panasonic",
+      "raw_name": "Panasonic",
+      "value": "panasonic",
+      "default": false
+    },
+    {
+      "id": 61108413,
+      "name": "Pendo",
+      "raw_name": "Pendo",
+      "value": "pendo",
+      "default": false
+    },
+    {
+      "id": 62344943,
+      "name": "Plex",
+      "raw_name": "Plex",
+      "value": "plex",
+      "default": false
+    },
+    {
+      "id": 62164633,
+      "name": "PPC",
+      "raw_name": "PPC",
+      "value": "ppc",
+      "default": false
+    },
+    {
+      "id": 63911786,
+      "name": "Rapidgator",
+      "raw_name": "Rapidgator",
+      "value": "rapidgator",
+      "default": false
+    },
+    {
+      "id": 360000297696,
+      "name": "Receipt-Bank",
+      "raw_name": "Receipt-Bank",
+      "value": "receipt-bank",
+      "default": false
+    },
+    {
+      "id": 27911889,
+      "name": "Ricoh",
+      "raw_name": "Ricoh",
+      "value": "ricoh",
+      "default": false
+    },
+    {
+      "id": 69397866,
+      "name": "Rockend",
+      "raw_name": "Rockend",
+      "value": "rockend",
+      "default": false
+    },
+    {
+      "id": 23723236,
+      "name": "Samsung",
+      "raw_name": "Samsung",
+      "value": "samsung",
+      "default": false
+    },
+    {
+      "id": 24000577,
+      "name": "Seagate",
+      "raw_name": "Seagate",
+      "value": "seagate",
+      "default": false
+    },
+    {
+      "id": 64441403,
+      "name": "Sharp",
+      "raw_name": "Sharp",
+      "value": "sharp",
+      "default": false
+    },
+    {
+      "id": 61108393,
+      "name": "Sierra",
+      "raw_name": "Sierra",
+      "value": "sierra",
+      "default": false
+    },
+    {
+      "id": 66720746,
+      "name": "Solarwinds",
+      "raw_name": "Solarwinds",
+      "value": "solarwinds",
+      "default": false
+    },
+    {
+      "id": 62355183,
+      "name": "Soniq",
+      "raw_name": "Soniq",
+      "value": "soniq",
+      "default": false
+    },
+    {
+      "id": 68326126,
+      "name": "Sonos",
+      "raw_name": "Sonos",
+      "value": "sonos",
+      "default": false
+    },
+    {
+      "id": 24683217,
+      "name": "Sony",
+      "raw_name": "Sony",
+      "value": "sony",
+      "default": false
+    },
+    {
+      "id": 63819166,
+      "name": "SpiderOak",
+      "raw_name": "SpiderOak",
+      "value": "spideroak",
+      "default": false
+    },
+    {
+      "id": 65077403,
+      "name": "Squarespace",
+      "raw_name": "Squarespace",
+      "value": "squarespace",
+      "default": false
+    },
+    {
+      "id": 360000297716,
+      "name": "Stripe",
+      "raw_name": "Stripe",
+      "value": "stripe",
+      "default": false
+    },
+    {
+      "id": 63812576,
+      "name": "Swann",
+      "raw_name": "Swann",
+      "value": "swann",
+      "default": false
+    },
+    {
+      "id": 62355163,
+      "name": "Synology",
+      "raw_name": "Synology",
+      "value": "synology",
+      "default": false
+    },
+    {
+      "id": 27413715,
+      "name": "TEAC",
+      "raw_name": "TEAC",
+      "value": "teac",
+      "default": false
+    },
+    {
+      "id": 62164643,
+      "name": "TeamViewer",
+      "raw_name": "TeamViewer",
+      "value": "teamviewer",
+      "default": false
+    },
+    {
+      "id": 67669423,
+      "name": "Technicolor",
+      "raw_name": "Technicolor",
+      "value": "technicolor",
+      "default": false
+    },
+    {
+      "id": 27994219,
+      "name": "Telstra",
+      "raw_name": "Telstra",
+      "value": "telstra",
+      "default": false
+    },
+    {
+      "id": 23723256,
+      "name": "Toshiba",
+      "raw_name": "Toshiba",
+      "value": "toshiba",
+      "default": false
+    },
+    {
+      "id": 27994209,
+      "name": "TP-Link",
+      "raw_name": "TP-Link",
+      "value": "tp_link",
+      "default": false
+    },
+    {
+      "id": 27994289,
+      "name": "TPG",
+      "raw_name": "TPG",
+      "value": "tpg",
+      "default": false
+    },
+    {
+      "id": 360000297736,
+      "name": "Travis-CI",
+      "raw_name": "Travis-CI",
+      "value": "travis-ci",
+      "default": false
+    },
+    {
+      "id": 360000297756,
+      "name": "Trello",
+      "raw_name": "Trello",
+      "value": "trello",
+      "default": false
+    },
+    {
+      "id": 360000138476,
+      "name": "Trezor",
+      "raw_name": "Trezor",
+      "value": "trezor",
+      "default": false
+    },
+    {
+      "id": 360000297776,
+      "name": "Ubiquiti Networks",
+      "raw_name": "Ubiquiti Networks",
+      "value": "ubiquiti",
+      "default": false
+    },
+    {
+      "id": 61108383,
+      "name": "Vivo",
+      "raw_name": "Vivo",
+      "value": "vivo",
+      "default": false
+    },
+    {
+      "id": 27994259,
+      "name": "Vodafone",
+      "raw_name": "Vodafone",
+      "value": "vodafone",
+      "default": false
+    },
+    {
+      "id": 63812626,
+      "name": "Web of Trust",
+      "raw_name": "Web of Trust",
+      "value": "web_of_trust",
+      "default": false
+    },
+    {
+      "id": 24000567,
+      "name": "Western Digital",
+      "raw_name": "Western Digital",
+      "value": "western_digital",
+      "default": false
+    },
+    {
+      "id": 27994249,
+      "name": "Westnet",
+      "raw_name": "Westnet",
+      "value": "westnet",
+      "default": false
+    },
+    {
+      "id": 65078303,
+      "name": "Xero",
+      "raw_name": "Xero",
+      "value": "xero",
+      "default": false
+    },
+    {
+      "id": 61108403,
+      "name": "Xstreamer",
+      "raw_name": "Xstreamer",
+      "value": "xstreamer",
+      "default": false
+    },
+    {
+      "id": 62176153,
+      "name": "Yahoo",
+      "raw_name": "Yahoo",
+      "value": "yahoo",
+      "default": false
+    },
+    {
+      "id": 63812656,
+      "name": "Yamaha",
+      "raw_name": "Yamaha",
+      "value": "yamaha",
+      "default": false
+    },
+    {
+      "id": 65718023,
+      "name": "Zapier",
+      "raw_name": "Zapier",
+      "value": "zapier",
+      "default": false
+    },
+    {
+      "id": 65078283,
+      "name": "Zendesk",
+      "raw_name": "Zendesk",
+      "value": "zendesk",
+      "default": false
+    }
+  ]
+}
