@@ -1,0 +1,243 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/22594308.json",
+  "id": 22594308,
+  "type": "tagger",
+  "title": "Device or Service Type",
+  "raw_title": "Device or Service Type",
+  "description": "You may enter your own device type",
+  "raw_description": "You may enter your own device type",
+  "position": 7,
+  "active": true,
+  "required": true,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Enter related device or service type",
+  "raw_title_in_portal": "Enter related device or service type",
+  "visible_in_portal": true,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2013-04-25T08:09:09Z",
+  "updated_at": "2018-06-15T16:04:28Z",
+  "removable": true,
+  "agent_description": "",
+  "custom_field_options": [
+    {
+      "id": 22967408,
+      "name": "Android phone or tablet",
+      "raw_name": "Android phone or tablet",
+      "value": "android",
+      "default": false
+    },
+    {
+      "id": 65765143,
+      "name": "Billing",
+      "raw_name": "Billing",
+      "value": "billing_service",
+      "default": false
+    },
+    {
+      "id": 360000138496,
+      "name": "Cryptocurrency",
+      "raw_name": "Cryptocurrency",
+      "value": "cryptocurrency",
+      "default": false
+    },
+    {
+      "id": 64032426,
+      "name": "Data Recovery",
+      "raw_name": "Data Recovery",
+      "value": "hard_drive_external_and_internal",
+      "default": false
+    },
+    {
+      "id": 360000046035,
+      "name": "Digital signage",
+      "raw_name": "Digital signage",
+      "value": "digital_signage",
+      "default": false
+    },
+    {
+      "id": 23696622,
+      "name": "Email",
+      "raw_name": "Email",
+      "value": "email",
+      "default": false
+    },
+    {
+      "id": 23726146,
+      "name": "Home Entertainment",
+      "raw_name": "Home Entertainment",
+      "value": "home_entertainment",
+      "default": false
+    },
+    {
+      "id": 22967398,
+      "name": "iPhone, iPad or iPod",
+      "raw_name": "iPhone, iPad or iPod",
+      "value": "ios",
+      "default": false
+    },
+    {
+      "id": 360000223815,
+      "name": "IT Solver Business Support",
+      "raw_name": "IT Solver Business Support",
+      "value": "it_solver_business_support",
+      "default": false
+    },
+    {
+      "id": 360000223835,
+      "name": "IT Solver Enterprise Support",
+      "raw_name": "IT Solver Enterprise Support",
+      "value": "it_solver_enterprise_support",
+      "default": false
+    },
+    {
+      "id": 360000221435,
+      "name": "IT Solver Maintenance",
+      "raw_name": "IT Solver Maintenance",
+      "value": "it_solver_maintenance",
+      "default": false
+    },
+    {
+      "id": 360000239776,
+      "name": "IT Solver Services",
+      "raw_name": "IT Solver Services",
+      "value": "it_solver_services",
+      "default": false
+    },
+    {
+      "id": 22967388,
+      "name": "Mac",
+      "raw_name": "Mac",
+      "value": "mac",
+      "default": false
+    },
+    {
+      "id": 360000223855,
+      "name": "Maintenance",
+      "raw_name": "Maintenance",
+      "value": "maintenance",
+      "default": false
+    },
+    {
+      "id": 62487323,
+      "name": "N/A",
+      "raw_name": "N/A",
+      "value": "n_a",
+      "default": false
+    },
+    {
+      "id": 67055266,
+      "name": "Networking",
+      "raw_name": "Networking",
+      "value": "networking",
+      "default": false
+    },
+    {
+      "id": 360000223875,
+      "name": "On-Demand",
+      "raw_name": "On-Demand",
+      "value": "on-demand",
+      "default": false
+    },
+    {
+      "id": 40977398,
+      "name": "Online Service",
+      "raw_name": "Online Service",
+      "value": "online_service",
+      "default": false
+    },
+    {
+      "id": 22967418,
+      "name": "Other",
+      "raw_name": "Other",
+      "value": "other",
+      "default": false
+    },
+    {
+      "id": 65713483,
+      "name": "PC - All In One",
+      "raw_name": "PC - All In One",
+      "value": "pc_all_in_one",
+      "default": false
+    },
+    {
+      "id": 65713503,
+      "name": "PC - Desktop",
+      "raw_name": "PC - Desktop",
+      "value": "pc_desktop",
+      "default": false
+    },
+    {
+      "id": 64659203,
+      "name": "PC - Hybrid (laptop/tablet)",
+      "raw_name": "PC - Hybrid (laptop/tablet)",
+      "value": "pc_hybrid",
+      "default": false
+    },
+    {
+      "id": 65713523,
+      "name": "PC - Laptop",
+      "raw_name": "PC - Laptop",
+      "value": "pc_laptop",
+      "default": false
+    },
+    {
+      "id": 40977378,
+      "name": "Printer or Multifunctional Device",
+      "raw_name": "Printer or Multifunctional Device",
+      "value": "printer_or_multifunctional_device",
+      "default": false
+    },
+    {
+      "id": 360000054656,
+      "name": "Security cameras",
+      "raw_name": "Security cameras",
+      "value": "security_cameras",
+      "default": false
+    },
+    {
+      "id": 360000138516,
+      "name": "Security incident - Other",
+      "raw_name": "Security incident - Other",
+      "value": "security_incident_-_other",
+      "default": false
+    },
+    {
+      "id": 65565583,
+      "name": "Security incident - Tech Support Scam",
+      "raw_name": "Security incident - Tech Support Scam",
+      "value": "tech_support_scam",
+      "default": false
+    },
+    {
+      "id": 65713543,
+      "name": "Server",
+      "raw_name": "Server",
+      "value": "server",
+      "default": false
+    },
+    {
+      "id": 40977388,
+      "name": "Software",
+      "raw_name": "Software",
+      "value": "software",
+      "default": false
+    },
+    {
+      "id": 67055246,
+      "name": "VoIP Phone",
+      "raw_name": "VoIP Phone",
+      "value": "voip_phone",
+      "default": false
+    },
+    {
+      "id": 25746045,
+      "name": "Web Development",
+      "raw_name": "Web Development",
+      "value": "web_development",
+      "default": false
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/59460886.json",
+  "id": 59460886,
+  "title": "Refer request and mark as solved",
+  "active": true,
+  "updated_at": "2017-08-18T02:33:24Z",
+  "created_at": "2017-08-18T02:33:24Z",
+  "position": 36,
+  "description": "Request is referred to another party",
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "priority",
+      "value": "normal"
+    },
+    {
+      "field": "type",
+      "value": "problem"
+    },
+    {
+      "field": "group_id",
+      "value": "20683476"
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "false"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<p>Referred to or already handled by: </p>"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "ineligible_for_support_referred"
+    }
+  ],
+  "restriction": null
+}

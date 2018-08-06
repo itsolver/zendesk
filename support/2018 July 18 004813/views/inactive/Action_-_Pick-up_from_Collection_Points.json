@@ -1,0 +1,90 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/45804706.json",
+  "id": 45804706,
+  "title": "Action - Pick-up from Collection Points",
+  "active": false,
+  "updated_at": "2017-12-12T01:05:46Z",
+  "created_at": "2014-03-15T14:10:08Z",
+  "position": 3,
+  "description": null,
+  "execution": {
+    "group_by": null,
+    "group_order": "desc",
+    "sort_by": "nice_id",
+    "sort_order": "desc",
+    "group": null,
+    "sort": {
+      "id": "ticket_id",
+      "title": "ID",
+      "order": "desc"
+    },
+    "columns": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "fields": [
+      {
+        "id": "satisfaction_score",
+        "title": "Satisfaction"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      }
+    ],
+    "custom_fields": []
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "description_includes_word",
+        "operator": "includes",
+        "value": "staff_name"
+      },
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "open"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "checked-in"
+      }
+    ],
+    "any": []
+  },
+  "restriction": null,
+  "watchable": true,
+  "raw_title": "Action - Pick-up from Collection Points"
+}

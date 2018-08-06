@@ -1,0 +1,51 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/360000183675.json",
+  "id": 360000183675,
+  "title": "Notify requester of comment update (copy)",
+  "active": false,
+  "updated_at": "2018-04-11T04:27:07Z",
+  "created_at": "2018-04-11T04:27:01Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "requester_id",
+        "{{ticket.title}}",
+        "Your request (#{{ticket.id}}) has been updated. Feel free to reply to this email with any questions or follow this link to add an update: https://support.itsolver.net/hc/requests/{{ticket.id}}\n{{ticket.comments_formatted}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Change"
+      },
+      {
+        "field": "comment_is_public",
+        "operator": "is",
+        "value": "requester_can_see_comment"
+      },
+      {
+        "field": "requester_id",
+        "operator": "is_not",
+        "value": "current_user"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "archived no_email solicitation internal_update vendor"
+      },
+      {
+        "field": "status",
+        "operator": "not_value",
+        "value": "solved"
+      }
+    ],
+    "any": []
+  },
+  "description": "backup",
+  "position": 6,
+  "raw_title": "Notify requester of comment update (copy)"
+}

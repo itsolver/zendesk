@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/360000002795.json",
+  "id": 360000002795,
+  "type": "text",
+  "key": "office_location_country",
+  "title": "Office location - Country",
+  "description": "Country which the office resides in.",
+  "raw_title": "Office location - Country",
+  "raw_description": "Country which the office resides in.",
+  "position": 4,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2018-03-02T03:51:20Z",
+  "updated_at": "2018-03-02T03:51:20Z"
+}

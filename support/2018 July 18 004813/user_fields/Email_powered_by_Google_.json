@@ -1,0 +1,17 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/user_fields/360000002556.json",
+  "id": 360000002556,
+  "type": "checkbox",
+  "key": "gmail_in_use",
+  "title": "Email powered by Google?",
+  "description": "Does this person benefit from Gmail or Gmail for Business for their primary email account? Scope: within organization, else not in organization, just the personal usage.",
+  "raw_title": "Email powered by Google?",
+  "raw_description": "Does this person benefit from Gmail or Gmail for Business for their primary email account? Scope: within organization, else not in organization, just the personal usage.",
+  "position": 8,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2018-03-02T04:00:58Z",
+  "updated_at": "2018-06-22T00:34:08Z",
+  "tag": "gmail_in_use"
+}

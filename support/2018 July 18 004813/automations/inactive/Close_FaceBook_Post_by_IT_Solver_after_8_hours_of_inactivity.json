@@ -1,0 +1,46 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/59484466.json",
+  "id": 59484466,
+  "title": "Close FaceBook Post by IT Solver after 8 hours of inactivity",
+  "active": false,
+  "updated_at": "2018-05-24T09:26:18Z",
+  "created_at": "2017-08-21T02:41:33Z",
+  "actions": [
+    {
+      "field": "status",
+      "value": "closed"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "open"
+      },
+      {
+        "field": "current_tags",
+        "operator": "includes",
+        "value": "itsolver-fb"
+      },
+      {
+        "field": "via_subtype_id",
+        "operator": "is",
+        "value": "FACEBOOK:120761"
+      },
+      {
+        "field": "NEW",
+        "operator": "greater_than",
+        "value": "8"
+      },
+      {
+        "field": "updated_at",
+        "operator": "greater_than",
+        "value": "8"
+      }
+    ],
+    "any": []
+  },
+  "position": 10,
+  "raw_title": "Close FaceBook Post by IT Solver after 8 hours of inactivity"
+}

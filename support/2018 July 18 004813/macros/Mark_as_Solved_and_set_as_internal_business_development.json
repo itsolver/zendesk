@@ -1,0 +1,29 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/58540923.json",
+  "id": 58540923,
+  "title": "Mark as Solved and set as internal business development",
+  "active": true,
+  "updated_at": "2017-09-20T23:45:32Z",
+  "created_at": "2017-09-20T23:44:18Z",
+  "position": 39,
+  "description": "Emails from vendors related to developing the IT Solver stack.",
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "priority",
+      "value": "normal"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "internal_business_development"
+    },
+    {
+      "field": "custom_fields_22594308",
+      "value": "other"
+    }
+  ],
+  "restriction": null
+}

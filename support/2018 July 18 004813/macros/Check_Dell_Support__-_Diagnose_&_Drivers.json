@@ -1,0 +1,25 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/55975446.json",
+  "id": 55975446,
+  "title": "Check Dell Support  - Diagnose & Drivers",
+  "active": true,
+  "updated_at": "2017-07-07T06:47:50Z",
+  "created_at": "2017-02-17T01:28:08Z",
+  "position": 31,
+  "description": null,
+  "actions": [
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<h3>Dell Support</h3><p><b>Diagnosis: </b><a href=\"http://www.dell.com/support/home/au/en/aubsdt1/product-support/servicetag/{{ticket.ticket_field_22725887}}/diagnose\" target=\"_blank\" rel=\"noreferrer\" data-nofollow=\"true\">http://www.dell.com/support/home/au/en/aubsdt1/product-support/servicetag/{{ticket.ticket_field_22725887}}/diagnose</a><br><b>Drivers: </b><a href=\"http://www.dell.com/support/home/au/en/aubsdt1/product-support/servicetag/{{ticket.ticket_field_22725887}}/drivers\" target=\"_blank\" rel=\"noreferrer\">http://www.dell.com/support/home/au/en/aubsdt1/product-support/servicetag/{{ticket.ticket_field_22725887}}/drivers</a></p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Dell Support\nDiagnosis: http://www.dell.com/support/home/au/en/aubsdt1/product-support/servicetag/{{ticket.ticket_field_ 23909968}}/diagnose\nDrivers: http://www.dell.com/support/home/au/en/aubsdt1/product-support/servicetag/{{ticket.ticket_field_ 23909968}}/drivers\n"
+    }
+  ],
+  "restriction": null
+}

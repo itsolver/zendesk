@@ -1,0 +1,31 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/automations/51127036.json",
+  "id": 51127036,
+  "title": "Close ticket 5 days after status is set to pending",
+  "active": true,
+  "updated_at": "2018-03-22T01:31:04Z",
+  "created_at": "2016-05-13T03:37:30Z",
+  "actions": [
+    {
+      "field": "status",
+      "value": "closed"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "pending"
+      },
+      {
+        "field": "PENDING",
+        "operator": "is",
+        "value": "120"
+      }
+    ],
+    "any": []
+  },
+  "position": 6,
+  "raw_title": "Close ticket 5 days after status is set to pending"
+}

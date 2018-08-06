@@ -1,0 +1,25 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/61019686.json",
+  "id": 61019686,
+  "title": "Solve Vendor/supplier interaction ",
+  "active": true,
+  "updated_at": "2017-12-13T14:15:49Z",
+  "created_at": "2017-12-13T14:15:49Z",
+  "position": 42,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "current_tags",
+      "value": "vendor"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "internal_supplier_interaction"
+    }
+  ],
+  "restriction": null
+}

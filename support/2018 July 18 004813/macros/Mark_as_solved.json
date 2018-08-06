@@ -1,0 +1,37 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/35985568.json",
+  "id": 35985568,
+  "title": "Mark as solved",
+  "active": true,
+  "updated_at": "2017-11-22T02:48:00Z",
+  "created_at": "2013-05-13T23:54:58Z",
+  "position": 12,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "assignee_id",
+      "value": "current_user"
+    },
+    {
+      "field": "group_id",
+      "value": "current_groups"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<p>Hi {{ticket.requester.first_name}},</p><p>Your request regarding {% if ticket.ticket_field_option_title_22726266 != \"-\" %}{{ticket.ticket_field_option_title_22726266}} {% endif %}{% if ticket.ticket_field_option_title_22726236 != \"-\" %} {{ticket.ticket_field_option_title_22726236}}{% endif %} is resolved.</p><p><br></p><h2>Issue</h2><p><br></p><h2>Solution</h2><p><br></p><p>Thanks for using IT Solver.</p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Hi {{ticket.requester.first_name}},\nYour request regarding {% if ticket.ticket_field_option_title_22726266 != \"-\" %}{{ticket.ticket_field_option_title_22726266}} {% endif %}{% if ticket.ticket_field_option_title_22726236 != \"\" %} {{ticket.ticket_field_option_title_22726236}}{% endif %} is resolved.\n\n## Issue\n\n## Solution\n\nThanks for using IT Solver."
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    }
+  ],
+  "restriction": null
+}

@@ -1,0 +1,28 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/48934833.json",
+  "id": 48934833,
+  "title": "Device picked up",
+  "active": true,
+  "updated_at": "2016-05-10T06:25:09Z",
+  "created_at": "2016-02-16T02:57:50Z",
+  "position": 11,
+  "description": null,
+  "actions": [
+    {
+      "field": "current_tags",
+      "value": "checked-in"
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "comment_value",
+      "value": [
+        "channel:all",
+        "Hi {{ticket.requester.name}},\n### Troubleshooting in progress\n\nWe will work as quick as possible to repair this device and will contact you before progressing with any major work. \n\nHere are the details of the device we have checked in:\n\nBrand: **{{ticket.ticket_field_option_title_22726266}}**\nModel: **{{ticket.ticket_field_option_title_22726236}}**\nSerial number: **{{ticket.ticket_field_option_title_22725887}}**\nOther parts: "
+      ]
+    }
+  ],
+  "restriction": null
+}

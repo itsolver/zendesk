@@ -1,0 +1,56 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/44497576.json",
+  "id": 44497576,
+  "title": "Notify assignee of comment update",
+  "active": false,
+  "updated_at": "2018-04-11T04:27:01Z",
+  "created_at": "2013-11-11T08:24:41Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "assignee_id",
+        "[{{ticket.account}}] Re: {{ticket.title}}",
+        "This ticket (#{{ticket.id}}) from {{ticket.organization.name}} has been updated.<br />\n\nTo review the status of the ticket and add updates, follow the link below:\n{{ticket.link}}\n<br /><br />\n{{ticket.comments_formatted}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "comment_is_public",
+        "operator": "is",
+        "value": "not_relevant"
+      },
+      {
+        "field": "assignee_id",
+        "operator": "is_not",
+        "value": "current_user"
+      },
+      {
+        "field": "assignee_id",
+        "operator": "is_not",
+        "value": "requester_id"
+      },
+      {
+        "field": "assignee_id",
+        "operator": "not_changed",
+        "value": null
+      },
+      {
+        "field": "status",
+        "operator": "not_value_previous",
+        "value": "solved"
+      },
+      {
+        "field": "status",
+        "operator": "is_not",
+        "value": "solved"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 7,
+  "raw_title": "Notify assignee of comment update"
+}

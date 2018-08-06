@@ -1,0 +1,44 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/58193043.json",
+  "id": 58193043,
+  "title": "Mark as solved (troubleshoot only on-site)",
+  "active": true,
+  "updated_at": "2017-08-24T01:21:36Z",
+  "created_at": "2017-08-24T01:21:36Z",
+  "position": 13,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "assignee_id",
+      "value": "current_user"
+    },
+    {
+      "field": "group_id",
+      "value": "current_groups"
+    },
+    {
+      "field": "comment_value",
+      "value": [
+        "channel:all",
+        "Hi {{ticket.requester.first_name}},\nYour request {% if ticket.ticket_field_option_title_22726266 != \"-\"  %}regarding {{ticket.ticket_field_option_title_22726266}} {% endif %}{% if ticket.ticket_field_option_title_22726236 != \"-\"  %} {{ticket.ticket_field_option_title_22726236}}{% endif %} is resolved.  We have done troubleshooting only.\n\n#### Issue\n\n#### Solution\n\nThanks for using IT Solver."
+      ]
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "current_tags",
+      "value": "troubleshoot_only"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "on_site"
+    }
+  ],
+  "restriction": null
+}

@@ -1,0 +1,94 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/60987606.json",
+  "id": 60987606,
+  "title": "Zapier: create invoice",
+  "active": true,
+  "updated_at": "2018-05-24T09:46:19Z",
+  "created_at": "2017-12-11T01:20:11Z",
+  "actions": [
+    {
+      "field": "notification_target",
+      "value": [
+        "20500023",
+        [
+          [
+            "ticket.title",
+            "{{ticket.title}}"
+          ],
+          [
+            "ticket.id",
+            "{{ticket.id}}"
+          ],
+          [
+            "ticket.requester.name",
+            "{{ticket.requester.name}}"
+          ],
+          [
+            "ticket.requester.email",
+            "{{ticket.requester.email}}"
+          ],
+          [
+            "ticket.organization.name",
+            "{{ticket.organization.name}}"
+          ],
+          [
+            "ticket.total_time_spent_seconds",
+            "{{ticket.ticket_field_360000026736}}"
+          ],
+          [
+            "ticket.total_time_spent_seconds_since_update",
+            "{{ticket.ticket_field_360000026756}}"
+          ],
+          [
+            "ticket.support.type",
+            "{{ticket.ticket_field_24347166}}"
+          ]
+        ]
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "value",
+        "value": "solved"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "warranty_job billing internal_business_development internal_supplier_interaction internal_updates customer_feedback ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred knowledge_base_building marketing internal_marketing one_time_exception_free_support recycling sales_query_or_quote_request solicitation managed_support business_development n_a_social_interaction invoiced"
+      }
+    ],
+    "any": [
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is",
+        "value": "remote"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is",
+        "value": "consultation"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is",
+        "value": "carry_in"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is",
+        "value": "on_site"
+      },
+      {
+        "field": "custom_fields_24347166",
+        "operator": "is",
+        "value": "meeting_point"
+      }
+    ]
+  },
+  "description": null,
+  "position": 18,
+  "raw_title": "Zapier: create invoice"
+}

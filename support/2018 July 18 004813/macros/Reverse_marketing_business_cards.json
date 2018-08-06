@@ -1,0 +1,45 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/360000258296.json",
+  "id": 360000258296,
+  "title": "Reverse marketing business cards",
+  "active": true,
+  "updated_at": "2018-05-24T11:29:03Z",
+  "created_at": "2018-05-24T09:15:07Z",
+  "position": 2,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "solved"
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<p>Hi {{ticket.requester.first_name}}\u200d,<br>I'm researching businesses near Redland Bay and their use of technology. If the information is useful, then next time you're looking for technical support you might consider my business, <a href=\"https://www.itsolver.net/\" target=\"_blank\" rel=\"noreferrer\">IT Solver</a>.<br><br></p><h1>Email</h1><p><br>Suggestion: consider <a href=\"https://www.itsolver.net/cloud-apps-g-suite\" target=\"_blank\" rel=\"noreferrer\">switching to G Suite</a>.<br><br></p><h1>Website</h1><p><br>Full website report: <a href=\"https://www.itsolver.net/tech-review/\" target=\"_blank\" rel=\"noreferrer\">https://www.itsolver.net/tech-review/</a><br><br></p><h1>Social Media Presence</h1><p><br></p><p><br></p><p>If you\u2019d like to discuss opportunities to improve your business technology, call me on (07) 3123 6000 or visit <a href=\"http://itsolver.net/\" target=\"_blank\" rel=\"noreferrer\">itsolver.net</a><br></p>"
+    },
+    {
+      "field": "type",
+      "value": "task"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "marketing"
+    },
+    {
+      "field": "priority",
+      "value": "low"
+    },
+    {
+      "field": "subject",
+      "value": "Found your business card"
+    },
+    {
+      "field": "custom_fields_22594308",
+      "value": "it_solver_services"
+    }
+  ],
+  "restriction": null
+}

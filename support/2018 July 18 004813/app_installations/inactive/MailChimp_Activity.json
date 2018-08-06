@@ -1,0 +1,18 @@
+{
+  "id": 593083,
+  "app_id": 5502,
+  "product": "support",
+  "settings": {
+    "name": "MailChimp Activity",
+    "title": "MailChimp Activity"
+  },
+  "enabled": false,
+  "updated": "20180228005645",
+  "has_oauth": true,
+  "updated_at": "2018-02-20T02:07:51Z",
+  "created_at": "2017-09-13T04:56:32Z",
+  "role_restrictions": null,
+  "recurring_payment": false,
+  "collapsible": true,
+  "group_restrictions": []
+}

@@ -1,0 +1,37 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/51182086.json",
+  "id": 51182086,
+  "title": "Remote support reservation",
+  "active": true,
+  "updated_at": "2018-03-12T23:45:48Z",
+  "created_at": "2016-05-18T02:14:59Z",
+  "position": 21,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "open"
+    },
+    {
+      "field": "current_tags",
+      "value": "reservation"
+    },
+    {
+      "field": "comment_value_html",
+      "value": "<h1>Your reservation is confirmed.</h1><p><br></p><p>Dear {{ticket.requester.name}},</p><p><br></p><p>Here are the details of your remote support reservation.</p><p>What: <b>{% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}</b></p><p>Why: <b>{{ticket.title}}</b><br></p><p>When: <b>{{ticket.ticket_field_360000037956 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_360000037976 | date: \"%-I:%M %p\" | upcase}}</b></p><p><br></p><p>What's next?</p><p><b>Turn on affected computer for the above time. Wait for {{ticket.assignee.first_name}} to call you.</b></p><p><br></p><p>We look forward to helping you.</p>"
+    },
+    {
+      "field": "comment_value",
+      "value": "Your reservation is confirmed.\n\nDear {{ticket.requester.name}},\n\nHere are the details of your remote support reservation.\n\nWhat: {% if {{ticket.ticket_field_option_title_22726236}} == '-' %}{{ticket.ticket_field_option_title_22594308}}{% else %}{{ticket.ticket_field_option_title_22726266}} {{ticket.ticket_field_option_title_22726236}}{% endif %}\nWhy: {{ticket.title}}\nWhen: {{ticket.ticket_field_360000037956 | date: \"%A, %-d %B\"}} at {{ticket.ticket_field_360000037976 | date: \"%-I:%M %p\" | upcase}}\n\nWhat's next? \nTurn on affected computer for the above time. Wait for {{ticket.assignee.first_name}} to call you.\n\nWe look forward to helping you.\n\n"
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    },
+    {
+      "field": "custom_fields_24347166",
+      "value": "remote"
+    }
+  ],
+  "restriction": null
+}

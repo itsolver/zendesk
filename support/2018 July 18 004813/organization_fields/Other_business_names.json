@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/292283.json",
+  "id": 292283,
+  "type": "text",
+  "key": "other_business_names",
+  "title": "Other business names",
+  "description": "",
+  "raw_title": "Other business names",
+  "raw_description": "",
+  "position": 12,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2017-12-13T01:38:52Z",
+  "updated_at": "2018-03-14T08:27:22Z"
+}

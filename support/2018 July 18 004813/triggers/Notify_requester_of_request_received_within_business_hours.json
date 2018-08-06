@@ -1,0 +1,51 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/34573996.json",
+  "id": 34573996,
+  "title": "Notify requester of request received within business hours",
+  "active": true,
+  "updated_at": "2018-06-11T22:35:34Z",
+  "created_at": "2013-03-13T00:29:03Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "requester_id",
+        "[Request received] {{ticket.title}}",
+        "Thank you for contacting us! Your request has been received and we'll get back to you as soon as possible. If you\u2019d like to email an update, please reply to this email or use this link https://support.itsolver.net/hc/requests/{{ticket.id}} to review status or add additional comments.\n\nTalk soon,\nAngus at IT Solver\n\n{% if ticket.cc_names != empty %}There are multiple people included in this request. Replies to this email are sent to the following:\n{% capture ccedusers %}{{ ticket.requester.name | append: ' '}} {{ticket.requester.email | prepend:'<' | append: '>, ' }}{% for cc in ticket.ccs %}{% unless forloop.last %}{{ cc.name append: ' '}} {{ cc.email | prepend:'<' | append: '>, ' }}{% else %}{{ cc.name | append: ' '}} {{ cc.email | prepend:'<' | append: '>' }}{% endunless %}{% endfor %}{% endcapture %}{{ ccedusers | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>' | replace:';','' }} and {% capture assigneeemail %}{{ticket.assignee.name}} <support@itsolver.net>{% endcapture %}{{ assigneeemail | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>'}}{% endif %}\n{{ticket.comments_formatted}}"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "update_type",
+        "operator": "is",
+        "value": "Create"
+      },
+      {
+        "field": "status",
+        "operator": "is_not",
+        "value": "solved"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "archived no_email no_csat no_survey ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred solicitation internal_update customer_feedback billing archived vendor"
+      },
+      {
+        "field": "ticket_is_public",
+        "operator": "is",
+        "value": "public"
+      },
+      {
+        "field": "in_business_hours",
+        "operator": "is",
+        "value": "true"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 4,
+  "raw_title": "Notify requester of request received within business hours"
+}

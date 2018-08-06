@@ -1,0 +1,60 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/60643226.json",
+  "id": 60643226,
+  "title": "Notify requester of comment update after solved outside of business hours",
+  "active": true,
+  "updated_at": "2018-04-11T07:20:42Z",
+  "created_at": "2017-11-13T02:19:12Z",
+  "actions": [
+    {
+      "field": "notification_user",
+      "value": [
+        "assignee_id",
+        "[{{ticket.account}}] Re: {{ticket.title}}",
+        "This ticket (#{{ticket.id}}) has received a comment after marked as resolved.  {{ticket.assignee.first_name}} will review your comment during business hours Monday - Friday 8 am - 6 pm AEST. \nIf there is another issue, [submit a request online](https://support.itsolver.net/hc/en-au/requests/new), via email support@itsolver.net or call 0731236000.\n\nTo add additional comments to this ticket, just reply to this email.\n\n{% if ticket.cc_names != empty %}There are multiple people included in this request. Replies to this email are sent to the following:\n{% capture ccedusers %}{{ ticket.requester.name | append: ' '}} {{ticket.requester.email | prepend:'<' | append: '>, ' }}{% for cc in ticket.ccs %}{% unless forloop.last %}{{ cc.name append: ' '}} {{ cc.email | prepend:'<' | append: '>, ' }}{% else %}{{ cc.name | append: ' '}} {{ cc.email | prepend:'<' | append: '>' }}{% endunless %}{% endfor %}{% endcapture %}{{ ccedusers | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>' | replace:';','' }} and {% capture assigneeemail %}{{ticket.assignee.name}} <support@itsolver.net>{% endcapture %}{{ assigneeemail | strip_newlines | replace:'&quot','\"' | replace:'&lt','<' | replace:'&gt','>'}}{% endif %}\n{{ticket.comments_formatted}}"
+      ]
+    },
+    {
+      "field": "status",
+      "value": "solved"
+    }
+  ],
+  "conditions": {
+    "all": [
+      {
+        "field": "assignee_id",
+        "operator": "not_changed",
+        "value": ""
+      },
+      {
+        "field": "status",
+        "operator": "value_previous",
+        "value": "solved"
+      },
+      {
+        "field": "status",
+        "operator": "not_value",
+        "value": "closed"
+      },
+      {
+        "field": "role",
+        "operator": "is_not",
+        "value": "agent"
+      },
+      {
+        "field": "current_tags",
+        "operator": "not_includes",
+        "value": "archived no_email no_csat no_survey ineligible_for_support_deferred ineligible_for_support_diy ineligible_for_support_price_sensitive ineligible_for_support_referred solicitation internal_update customer_feedback billing archived vendor"
+      },
+      {
+        "field": "in_business_hours",
+        "operator": "is",
+        "value": "false"
+      }
+    ],
+    "any": []
+  },
+  "description": null,
+  "position": 8,
+  "raw_title": "Notify requester of comment update after solved outside of business hours"
+}

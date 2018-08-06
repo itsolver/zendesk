@@ -1,0 +1,39 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/22396356.json",
+  "id": 22396356,
+  "type": "status",
+  "title": "Status",
+  "raw_title": "Status",
+  "description": "Request status",
+  "raw_description": "Request status",
+  "position": 4,
+  "active": true,
+  "required": false,
+  "collapsed_for_agents": false,
+  "regexp_for_validation": null,
+  "title_in_portal": "Status",
+  "raw_title_in_portal": "Status",
+  "visible_in_portal": false,
+  "editable_in_portal": false,
+  "required_in_portal": false,
+  "tag": null,
+  "created_at": "2013-03-13T00:29:04Z",
+  "updated_at": "2016-06-07T10:38:04Z",
+  "removable": false,
+  "agent_description": null,
+  "system_field_options": [
+    {
+      "name": "Open",
+      "value": "open"
+    },
+    {
+      "name": "Pending",
+      "value": "pending"
+    },
+    {
+      "name": "Solved",
+      "value": "solved"
+    }
+  ],
+  "sub_type_id": 0
+}

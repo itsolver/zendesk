@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/360000002176.json",
+  "id": 360000002176,
+  "type": "textarea",
+  "key": "mailing_address",
+  "title": "Mailing address",
+  "description": "",
+  "raw_title": "Mailing address",
+  "raw_description": "",
+  "position": 5,
+  "active": true,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2018-03-02T01:15:18Z",
+  "updated_at": "2018-03-02T03:51:20Z"
+}

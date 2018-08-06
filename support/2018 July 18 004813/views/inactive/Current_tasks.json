@@ -1,0 +1,89 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/34574206.json",
+  "id": 34574206,
+  "title": "Current tasks",
+  "active": false,
+  "updated_at": "2017-12-12T01:05:55Z",
+  "created_at": "2013-03-13T00:29:04Z",
+  "position": 10,
+  "description": null,
+  "execution": {
+    "group_by": "due_date",
+    "group_order": "asc",
+    "sort_by": "assignee",
+    "sort_order": "desc",
+    "group": {
+      "id": "due_date",
+      "title": "Due Date",
+      "order": "asc"
+    },
+    "sort": {
+      "id": "assignee",
+      "title": "Assignee",
+      "order": "desc"
+    },
+    "columns": [
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      },
+      {
+        "id": "due_date",
+        "title": "Due Date"
+      }
+    ],
+    "fields": [
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "assignee",
+        "title": "Assignee"
+      },
+      {
+        "id": "due_date",
+        "title": "Due Date"
+      }
+    ],
+    "custom_fields": []
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "less_than",
+        "value": "solved"
+      },
+      {
+        "field": "type",
+        "operator": "is",
+        "value": "task"
+      }
+    ],
+    "any": []
+  },
+  "restriction": null,
+  "watchable": false,
+  "raw_title": "{{zd.current_tasks}}"
+}

@@ -1,0 +1,97 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/views/53676786.json",
+  "id": 53676786,
+  "title": "Open tickets",
+  "active": true,
+  "updated_at": "2017-12-12T01:05:55Z",
+  "created_at": "2016-09-17T00:59:46Z",
+  "position": 4,
+  "description": null,
+  "execution": {
+    "group_by": "priority",
+    "group_order": "desc",
+    "sort_by": "updated_requester",
+    "sort_order": "asc",
+    "group": {
+      "id": "priority",
+      "title": "Priority",
+      "order": "desc"
+    },
+    "sort": {
+      "id": "requester_updated_at",
+      "title": "Requester updated",
+      "order": "asc"
+    },
+    "columns": [
+      {
+        "id": "ticket_id",
+        "title": "ID"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": 24347166,
+        "title": "Support Type",
+        "type": "tagger",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24347166.json"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "organization",
+        "title": "Organisation"
+      }
+    ],
+    "fields": [
+      {
+        "id": "ticket_id",
+        "title": "ID"
+      },
+      {
+        "id": "subject",
+        "title": "Subject"
+      },
+      {
+        "id": "created",
+        "title": "Requested"
+      },
+      {
+        "id": "requester",
+        "title": "Requester"
+      },
+      {
+        "id": "organization",
+        "title": "Organisation"
+      }
+    ],
+    "custom_fields": [
+      {
+        "id": 24347166,
+        "title": "Support Type",
+        "type": "tagger",
+        "url": "https://itsolver.zendesk.com/api/v2/ticket_fields/24347166.json"
+      }
+    ]
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "status",
+        "operator": "is",
+        "value": "open"
+      }
+    ],
+    "any": []
+  },
+  "restriction": null,
+  "watchable": true,
+  "raw_title": "Open tickets"
+}

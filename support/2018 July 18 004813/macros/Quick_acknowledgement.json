@@ -1,0 +1,32 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/macros/35530742.json",
+  "id": 35530742,
+  "title": "Quick acknowledgement",
+  "active": true,
+  "updated_at": "2016-01-05T03:31:35Z",
+  "created_at": "2013-04-24T16:04:21Z",
+  "position": 15,
+  "description": null,
+  "actions": [
+    {
+      "field": "status",
+      "value": "open"
+    },
+    {
+      "field": "priority",
+      "value": "normal"
+    },
+    {
+      "field": "comment_value",
+      "value": [
+        "channel:all",
+        "We're currently experiencing unusually high traffic. We'll get back to you as soon as possible."
+      ]
+    },
+    {
+      "field": "comment_mode_is_public",
+      "value": "true"
+    }
+  ],
+  "restriction": null
+}

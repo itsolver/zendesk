@@ -1,0 +1,16 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/organization_fields/360000002755.json",
+  "id": 360000002755,
+  "type": "text",
+  "key": "billing_contact_first_name",
+  "title": "Billing Contact - First Name",
+  "description": "First Name used in billing emails.",
+  "raw_title": "Billing Contact - First Name",
+  "raw_description": "First Name used in billing emails.",
+  "position": 8,
+  "active": false,
+  "system": false,
+  "regexp_for_validation": null,
+  "created_at": "2018-03-02T03:41:06Z",
+  "updated_at": "2018-03-02T04:57:52Z"
+}

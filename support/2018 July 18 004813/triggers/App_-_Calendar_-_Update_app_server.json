@@ -1,0 +1,40 @@
+{
+  "url": "https://itsolver.zendesk.com/api/v2/triggers/360000347836.json",
+  "id": 360000347836,
+  "title": "App - Calendar - Update app server",
+  "active": true,
+  "updated_at": "2018-07-15T00:40:39Z",
+  "created_at": "2018-07-15T00:40:39Z",
+  "actions": [
+    {
+      "field": "notification_target",
+      "value": [
+        360000016796,
+        "{ \"id\": {{ticket.id}}, \"action\": \"update_ticket_calendar_item\" }"
+      ]
+    }
+  ],
+  "conditions": {
+    "all": [],
+    "any": [
+      {
+        "field": "custom_fields_360000116196",
+        "operator": "present",
+        "value": null
+      },
+      {
+        "field": "custom_fields_360000116216",
+        "operator": "present",
+        "value": null
+      },
+      {
+        "field": "custom_fields_360000116276",
+        "operator": "present",
+        "value": null
+      }
+    ]
+  },
+  "description": null,
+  "position": 19,
+  "raw_title": "App - Calendar - Update app server"
+}
