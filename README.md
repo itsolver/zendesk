@@ -11,6 +11,11 @@ You can use the Zendesk Rest API endpoints along with your own custom scripts, o
 For Professional and Enterprise customers:
 You can [export data](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file-Professional-and-Enterprise-) as a CSV or XML.
 
+# Installation
+```
+sudo pip3 install requests
+```
+
 # To do
 ## Add to backup script: 
 - tickets, users and organizations.
