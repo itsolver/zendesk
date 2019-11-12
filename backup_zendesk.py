@@ -101,6 +101,10 @@ log = []
 triggers_endpoint = zendesk + '/api/v2/triggers.json'
 while triggers_endpoint:
     response = session.get(triggers_endpoint)
+    if response.status_code == 429:
+        print('Rate limited! Please wait.')
+        time.sleep(int(response.headers['retry-after']))
+        continue
     if response.status_code != 200:
         print('Failed to retrieve triggers with error {}'.format(response.status_code))
         exit()
