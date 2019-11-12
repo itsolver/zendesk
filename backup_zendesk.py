@@ -479,13 +479,3 @@ with open(os.path.join(backup_path, '_log.csv'), mode='wt', encoding='utf-8') as
     writer.writerow( ('File', 'Subject', 'Date Created', 'Date Updated') )
     for ticket in log:
         writer.writerow(ticket)
-
-# Get a copy of everything into a private backup folder
-def copyanything(src, dst):
-    try:
-        shutil.copytree(src, dst)
-    except OSError as exc: # python >2.5
-        if exc.errno == errno.ENOTDIR:
-            shutil.copy(src, dst)
-        else: raise
-copyanything(src, dst)
