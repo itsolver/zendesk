@@ -8,91 +8,88 @@ import shutil
 from config import zendesk_subdomain, zendesk_user, zendesk_secret, destination_folder, start_time
 
 backup_date = time.strftime("%Y %B %e %H%M%S")
-source_folder = os.path.join("support/" + backup_date)
 session = requests.Session()
 zendesk = 'https://' + zendesk_subdomain
 session.auth = (zendesk_user, zendesk_secret)
-src = os.path.join("support/" + backup_date)
-dst = destination_folder + backup_date
 
 # Organise Support backups into a directory named {date of backup} and in relevant sub directories.
-triggers_backup_path = os.path.join("support/" + backup_date + "/triggers")
+triggers_backup_path = destination_folder + "/support/" + backup_date + "/triggers"
 if not os.path.exists(triggers_backup_path):
     os.makedirs(triggers_backup_path)
     
-inactive_triggers_backup_path = os.path.join(triggers_backup_path, "inactive/")
+inactive_triggers_backup_path = triggers_backup_path + "/inactive/"
 if not os.path.exists(inactive_triggers_backup_path):
     os.makedirs(inactive_triggers_backup_path)
 
-automations_backup_path = os.path.join("support/" + backup_date + "/automations")
+automations_backup_path = destination_folder + "/support/" + backup_date + "/automations"
 if not os.path.exists(automations_backup_path):
     os.makedirs(automations_backup_path)
     
-inactive_automations_backup_path = os.path.join(automations_backup_path, "inactive/")
+inactive_automations_backup_path = automations_backup_path + "/inactive/"
 if not os.path.exists(inactive_automations_backup_path):
     os.makedirs(inactive_automations_backup_path)
 
-macros_backup_path = os.path.join("support/" + backup_date + "/macros")
+macros_backup_path = destination_folder + "/support/" + backup_date + "/macros"
 if not os.path.exists(macros_backup_path):
     os.makedirs(macros_backup_path)
     
-inactive_macros_backup_path = os.path.join(macros_backup_path, "inactive/")
+inactive_macros_backup_path = macros_backup_path + "/inactive/"
 if not os.path.exists(inactive_macros_backup_path):
     os.makedirs(inactive_macros_backup_path)
 
-views_backup_path = os.path.join("support/" + backup_date + "/views")
+views_backup_path = destination_folder + "/support/" + backup_date + "/views"
 if not os.path.exists(views_backup_path):
     os.makedirs(views_backup_path)
     
-inactive_views_backup_path = os.path.join(views_backup_path, "inactive/")
+inactive_views_backup_path = views_backup_path + "/inactive/"
 if not os.path.exists(inactive_views_backup_path):
     os.makedirs(inactive_views_backup_path)
 
-ticket_fields_backup_path = os.path.join("support/" + backup_date + "/ticket_fields")
+ticket_fields_backup_path = destination_folder + "/support/" + backup_date + "/ticket_fields"
 if not os.path.exists(ticket_fields_backup_path):
     os.makedirs(ticket_fields_backup_path)
     
-inactive_ticket_fields_backup_path = os.path.join(ticket_fields_backup_path, "inactive/")
+inactive_ticket_fields_backup_path = ticket_fields_backup_path + "/inactive/"
 if not os.path.exists(inactive_ticket_fields_backup_path):
     os.makedirs(inactive_ticket_fields_backup_path)
 
-user_fields_backup_path = os.path.join("support/" + backup_date + "/user_fields")
+user_fields_backup_path = destination_folder + "/support/" + backup_date + "/user_fields"
 if not os.path.exists(user_fields_backup_path):
     os.makedirs(user_fields_backup_path)
     
-inactive_user_fields_backup_path = os.path.join(user_fields_backup_path, "inactive/")
+inactive_user_fields_backup_path = user_fields_backup_path + "/inactive/"
 if not os.path.exists(inactive_user_fields_backup_path):
     os.makedirs(inactive_user_fields_backup_path)
 
-organization_fields_backup_path = os.path.join("support/" + backup_date + "/organization_fields")
+organization_fields_backup_path = destination_folder + "/support/" + backup_date + "/organization_fields"
 if not os.path.exists(organization_fields_backup_path):
     os.makedirs(organization_fields_backup_path)
     
-inactive_organization_fields_backup_path = os.path.join(organization_fields_backup_path, "inactive/")
+inactive_organization_fields_backup_path = organization_fields_backup_path + "/inactive/"
 if not os.path.exists(inactive_organization_fields_backup_path):
     os.makedirs(inactive_organization_fields_backup_path)
 
-app_installations_backup_path = os.path.join("support/" + backup_date + "/app_installations")
+app_installations_backup_path = destination_folder + "/support/" + backup_date + "/app_installations"
 if not os.path.exists(app_installations_backup_path):
     os.makedirs(app_installations_backup_path)
     
-inactive_app_installations_backup_path = os.path.join(app_installations_backup_path, "inactive/")
+inactive_app_installations_backup_path = app_installations_backup_path + "/inactive/"
 if not os.path.exists(inactive_app_installations_backup_path):
     os.makedirs(inactive_app_installations_backup_path)
 
-users_backup_path = os.path.join("support/" + backup_date + "/users")
+users_backup_path = destination_folder + "/support/" + backup_date + "/users"
 if not os.path.exists(users_backup_path):
     os.makedirs(users_backup_path)
     
-suspended_users_backup_path = os.path.join(users_backup_path, "suspended/")
+suspended_users_backup_path = users_backup_path + "/suspended"
 if not os.path.exists(suspended_users_backup_path):
     os.makedirs(suspended_users_backup_path)
 
-organizations_backup_path = os.path.join("support/" + backup_date + "/organizations")
+organizations_backup_path = destination_folder + "/support/" + backup_date + "/organizations"
 if not os.path.exists(organizations_backup_path):
     os.makedirs(organizations_backup_path)
 
-tickets_backup_path = os.path.join("support/" + backup_date + "/tickets")
+tickets_backup_path = destination_folder + "/support/" + backup_date + "/tickets"
 if not os.path.exists(tickets_backup_path):
     os.makedirs(tickets_backup_path)
 
@@ -101,10 +98,6 @@ log = []
 triggers_endpoint = zendesk + '/api/v2/triggers.json'
 while triggers_endpoint:
     response = session.get(triggers_endpoint)
-    if response.status_code == 429:
-        print('Rate limited! Please wait.')
-        time.sleep(int(response.headers['retry-after']))
-        continue
     if response.status_code != 200:
         print('Failed to retrieve triggers with error {}'.format(response.status_code))
         exit()
@@ -381,6 +374,10 @@ with open(os.path.join(backup_path, '_log.csv'), mode='wt', encoding='utf-8') as
 users_endpoint = zendesk + '/api/v2/users.json'
 while users_endpoint:
     response = session.get(users_endpoint)
+    if response.status_code == 429:
+        print('Rate limited! Please wait.')
+        time.sleep(int(response.headers['retry-after']))
+        continue
     if response.status_code != 200:
         print('Failed to retrieve users with error {}'.format(response.status_code))
         exit()
@@ -416,6 +413,10 @@ with open(os.path.join(backup_path, '_log.csv'), mode='wt', encoding='utf-8') as
 organizations_endpoint = zendesk + '/api/v2/organizations.json'
 while organizations_endpoint:
     response = session.get(organizations_endpoint)
+    if response.status_code == 429:
+        print('Rate limited! Please wait.')
+        time.sleep(int(response.headers['retry-after']))
+        continue
     if response.status_code != 200:
         print('Failed to retrieve organizations with error {}'.format(response.status_code))
         exit()
@@ -447,6 +448,10 @@ with open(os.path.join(backup_path, '_log.csv'), mode='wt', encoding='utf-8') as
 tickets_endpoint = zendesk + '/api/v2/incremental/tickets.json?start_time=' + start_time
 while tickets_endpoint:
     response = session.get(tickets_endpoint)
+    if response.status_code == 429:
+        print('Rate limited! Please wait.')
+        time.sleep(int(response.headers['retry-after']))
+        continue
     if response.status_code != 200:
         print('Failed to retrieve tickets with error {}'.format(response.status_code))
         exit()
@@ -457,7 +462,7 @@ while tickets_endpoint:
         id = ticket['id']
         subject = ticket['subject']
         safe_subject = re.sub('[/:\*\?\>\<\|\s_—]', '_', subject)
-        filename = str(id) + '.json'
+        filename = str(id) + '.json'    
         created = ticket['created_at']
         updated = ticket['updated_at']
         content = json.dumps(ticket, indent=2)
