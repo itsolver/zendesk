@@ -1,7 +1,0 @@
-﻿<h1>Disable Adobe Updater on macOS</h1>
-<p>To remove Adobe Updater, type these commands in a Terminal window:</p>
-<p><code>cd ~/Library/LaunchAgents<br />launchctl remove `basename com.adobe.ARM.* .plist`<br />launchctl remove `basename com.adobe.AAM.* .plist`<br />rm com.adobe.ARM.*<br />rm com.adobe.AAM.*</code></p>
-<p>In some cases the updater is system wide. In that case, you will need to run “sudo su -” first and type in your own password to gain root privilege (the prompt changes from “$” to “#”) before they can be removed. Be careful the commands you enter as root, as a mistake can irreparably damage your system. </p>
-<p><code>
-cd /Library/LaunchAgents<br />sudo launchctl remove `basename com.adobe.ARM.* .plist`<br />sudo launchctl remove `basename com.adobe.AAM.* .plist`<br />sudo rm com.adobe.ARM.*<br />sudo rm com.adobe.AAM.*
-</code></p>
