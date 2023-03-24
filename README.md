@@ -12,16 +12,36 @@ For Professional and Enterprise customers:
 You can [export data](https://support.zendesk.com/hc/en-us/articles/203662346-Exporting-data-to-a-JSON-CSV-or-XML-file-Professional-and-Enterprise-) as a CSV or XML.
 
 # Installation
+1. Create and activate a new virtual environment
+
+**MacOS / Unix**
+
 ```
-sudo pip3 install requests
+python -m venv env
+source env/bin/activate
+```
+
+**Windows (PowerShell)**
+
+```
+python -m venv env
+.\env\Scripts\activate.bat
+```
+
+2. Install requirements:
+
+```
+pip install -r requirements.txt
 ```
 
 # Usage
 Customize variables in config.py 
 
+
+
 Run backup:
 ```
-python3 backup_zendesk.py
+python backup_zendesk.py
 ```
 
 # To do
