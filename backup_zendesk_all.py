@@ -4,10 +4,8 @@ import re
 import json
 import requests
 import time
-import shutil
 from config import zendesk_subdomain, zendesk_user, destination_folder, start_time
 import unicodedata
-import re
 from secret_manager import access_secret_version
 
 
@@ -131,9 +129,9 @@ while triggers_endpoint:
 
     for trigger in data['triggers']:
         url = trigger['url']
-        id = trigger['id']
+        trigger_id = trigger['id']
         title = trigger['title']
-        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
         active = trigger['active']
         if active:
             backup_path = triggers_backup_path
@@ -171,9 +169,9 @@ while automations_endpoint:
 
     for automation in data['automations']:
         url = automation['url']
-        id = automation['id']
+        automation_id = automation['id']
         title = automation['title']
-        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
         active = automation['active']
         if active:
             backup_path = automations_backup_path
@@ -211,9 +209,9 @@ while macros_endpoint:
 
     for macro in data['macros']:
         url = macro['url']
-        id = macro['id']
+        macro_id = macro['id']
         title = macro['title']
-        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
         active = macro['active']
         if active:
             backup_path = macros_backup_path
@@ -251,9 +249,9 @@ while views_endpoint:
 
     for view in data['views']:
         url = view['url']
-        id = view['id']
+        view_id = view['id']
         title = view['title']
-        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
         active = view['active']
         if active:
             backup_path = views_backup_path
@@ -291,9 +289,9 @@ while ticket_fields_endpoint:
 
     for ticket_field in data['ticket_fields']:
         url = ticket_field['url']
-        id = ticket_field['id']
+        field_id = ticket_field['id']
         title = ticket_field['title']
-        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
         active = ticket_field['active']
         if active:
             backup_path = ticket_fields_backup_path
@@ -331,9 +329,9 @@ while user_fields_endpoint:
 
     for user_field in data['user_fields']:
         url = user_field['url']
-        id = user_field['id']
+        user_field_id = user_field['id']
         title = user_field['title']
-        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
         active = user_field['active']
         if active:
             backup_path = user_fields_backup_path
@@ -371,9 +369,9 @@ while organization_fields_endpoint:
 
     for organization_field in data['organization_fields']:
         url = organization_field['url']
-        id = organization_field['id']
+        organization_field_id = organization_field['id']
         title = organization_field['title']
-        safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+        safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
         active = organization_field['active']
         if active:
             backup_path = organization_fields_backup_path
@@ -409,10 +407,9 @@ if response.status_code != 200:
 data = response.json()
 
 for app_installation in data['installations']:
-    id = app_installation['id']
-    app_id = id = app_installation['app_id']
+    app_id = app_installation['id']
     title = app_installation['settings']['title']
-    safe_title = re.sub('[/:\*\?\>\<\|\s_—]', '_', title)
+    safe_title = re.sub(r'[/:\*\?\>\<\|\s_—""]', '_', title)
     active = app_installation['enabled']
     if active:
         backup_path = app_installations_backup_path
@@ -447,7 +444,7 @@ while users_endpoint:
 
     for user in data['users']:
         url = user['url']
-        id = user['id']
+        user_id = user['id']
         name = user['name']
         safe_name = slugify(name)
         suspended = user['suspended']
@@ -491,9 +488,9 @@ while organizations_endpoint:
 
     for organization in data['organizations']:
         url = organization['url']
-        id = organization['id']
+        organization_id = organization['id']
         name = organization['name']
-        safe_name = re.sub('[/:\*\?\>\<\|\s_—]', '_', name)
+        safe_name = re.sub('[/:*?><|\\s_—]', '_', name)
         filename = safe_name + '.json'
         created = organization['created_at']
         updated = organization['updated_at']
@@ -530,10 +527,10 @@ while tickets_endpoint:
 
     for ticket in data['tickets']:
         url = ticket['url']
-        id = ticket['id']
+        ticket_id = ticket['id']
         subject = ticket['subject']
-        safe_subject = re.sub('[/:\*\?\>\<\|\s_—]', '_', subject)
-        filename = str(id) + '.json'
+        safe_subject = re.sub(r'[/:*?><|\\s_—]', '_', subject)
+        filename = str(ticket_id) + '.json'
         created = ticket['created_at']
         updated = ticket['updated_at']
         content = json.dumps(ticket, indent=2)
