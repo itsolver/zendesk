@@ -3,7 +3,6 @@ import json
 import os
 import time
 import csv
-import re 
 from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version
 from concurrent.futures import ThreadPoolExecutor
