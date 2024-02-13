@@ -73,8 +73,7 @@ for ticket in data['tickets']:
 
     # Filtering by dates
     created_date = ticket['created_at']
-    if created_date < start_date_filter or created_date > end_date_filter:
-        continueon 
+    if created_date < start_date_filter or created_date > end_date_filter: 
         continue
 
     # Extracting required information
