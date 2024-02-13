@@ -1,95 +1,72 @@
+import requests
 import csv
 from datetime import datetime
 from config import zendesk_subdomain, zendesk_user, destination_folder, start_time
+from secret_manager import access_secret_version
 
-# Filtering criteria
+# Authentication Setup
+zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
+session = requests.Session()
+session.auth = (zendesk_user, zendesk_secret)
+
+# Define the CSV file path and header
 organization_name_filter = "EIA Services Pty Ltd"
 start_date_filter = "2023-01-01"
 end_date_filter = "2023-08-18"
 tag_filter = "managed_support"
+report_csv_path = f"{destination_folder}/support/{organization_name_filter}_tickets_report_{start_date_filter}_{end_date_filter}.csv"
+header = ['Ticket ID', 'Status', 'Assignee', 'Created Date', 'Solved Date', 'Subject', 'Type', 'Requester Name', 'Priority', 'Tags', 'Total Time Spent (Seconds)']
 
-# Define the CSV file path
-report_csv_path = destination_folder + "/support/" + organization_name_filter + "_tickets_report_" + start_date_filter + "_" + end_date_filter + ".csv"
-
-# Header for the CSV file
-header = ['Ticket ID', 'Status', 'Assignee', 'Created Date', 'Solved Date', 'Subject', 'Type', 'Requester Name', 'Priority', 'Tags']
-
-# Create the CSV file and write the header
+# Create and write header to the CSV file
 with open(report_csv_path, mode='w', encoding='utf-8', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(header)
 
-# Add the following code to the ticket retrieval section where tickets are processed
+def ticket_meets_criteria(ticket, organization_name_filter, start_date_filter, end_date_filter, tag_filter):
+    # Adjust the field access according to your ticket's JSON structure
+    organization_name = ticket.get('organization_name', "")
+    created_date = ticket.get('created_at', "")
+    tags = ticket.get('tags', [])
 
-# ...
-
-
-
-# Define a function to check if a ticket meets the criteria
-def ticket_meets_criteria(ticket):
-    # Assuming these fields are available in the ticket object
-    organization_name = ticket['organization_name']
-    created_date = ticket['created_at']
-    tags = ticket['tags']
-
-    # Check if the ticket organization name matches
     if organization_name != organization_name_filter:
         return False
 
-    # Check if the ticket creation date falls within the specified range
-    created_date_obj = datetime.strptime(created_date, "%Y-%m-%d")
+    created_date_obj = datetime.strptime(created_date[:10], "%Y-%m-%d")  # [:10] to slice the date part of the datetime string
     start_date_obj = datetime.strptime(start_date_filter, "%Y-%m-%d")
     end_date_obj = datetime.strptime(end_date_filter, "%Y-%m-%d")
-    if created_date_obj < start_date_obj or created_date_obj > end_date_obj:
+    if not (start_date_obj <= created_date_obj <= end_date_obj):
         return False
 
-    # Check if the ticket contains the specified tag
     if tag_filter not in tags:
         return False
 
     return True
 
-# In the ticket retrieval loop, apply the filtering function
-tickets_endpoint = zendesk_subdomain + '/api/v2/incremental/tickets.json?start_time=' + start_time
-filtered_tickets = [] # To store the filtered tickets
-
+# Tickets retrieval and filtering
+tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time={start_time}"
 while tickets_endpoint:
     response = session.get(tickets_endpoint)
-    # ... (error handling code) ...
+    if response.status_code != 200:
+        print(f"Failed to retrieve tickets: {response.status_code}")
+        break
 
     data = response.json()
     for ticket in data['tickets']:
-        if ticket_meets_criteria(ticket):
-            filtered_tickets.append(ticket)
-        # ... (existing processing code) ...
+        if ticket_meets_criteria(ticket, organization_name_filter, start_date_filter, end_date_filter, tag_filter):
+            # Extract custom field value for total time spent
+            total_time_spent = next((field['value'] for field in ticket['custom_fields'] if field['id'] == 5397925840655), None)
 
-    tickets_endpoint = data['next_page']
+            # Update ticket_info dictionary to include total_time_spent
+            ticket_info = {
+                # Previous fields...
+                'Total Time Spent (Seconds)': total_time_spent
+            }
 
-for ticket in data['tickets']:
-    # Filtering by organization name (adjust as needed)
-    organization_name = ticket['organization']['name']
-    if organization_name != organization_name_filter:
-        continue
+            # Update the CSV writing section to include total_time_spent
+            with open(report_csv_path, mode='a', encoding='utf-8', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(ticket_info.values())
 
-    # Filtering by dates
-    created_date = ticket['created_at']
-    if created_date < start_date_filter or created_date > end_date_filter: 
-        continue
+    tickets_endpoint = data.get('next_page')
 
-    # Extracting required information
-    ticket_id = ticket['id']
-    status = ticket['status']
-    assignee = ticket['assignee']['name']
-    solved_date = ticket['solved_at']
-    subject = ticket['subject']
-    ticket_type = ticket['type']
-    requester_name = ticket['requester']['name']
-    priority = ticket['priority']
-    tags = ", ".join(ticket['tags'])
-
-    # Write to the CSV file
-    with open(report_csv_path, mode='a', encoding='utf-8', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([ticket_id, status, assignee, created_date, solved_date, subject, ticket_type, requester_name, priority, tags])
-
-print('Filtered ticket report generated!')
+print("Filtered ticket report generated for EIA Services!")
