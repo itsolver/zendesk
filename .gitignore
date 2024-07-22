@@ -1,10 +1,9 @@
 **/users
 **/organizations
 **/tickets
-temp
 .DS_Store
 .vscode/launch.json
 .vscode/settings.json
 __pycache__
-Private backups
 env
+zendesk_env
