@@ -3,14 +3,12 @@ import json
 import re
 import time
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
 
 from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version
 
 # Zendesk API credentials
-subdomain = zendesk_subdomain
-email = zendesk_user
 api_token = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
 
 # Configure retry strategy
@@ -23,7 +21,7 @@ retry_strategy = Retry(
 adapter = HTTPAdapter(max_retries=retry_strategy)
 session = requests.Session()
 session.mount("https://", adapter)
-session.auth = (f"{email}/token", api_token)
+session.auth = (f"{zendesk_user}", api_token)
 
 # Function to simulate deleting a user (dry run)
 def simulate_delete_user(user_id):
@@ -43,7 +41,7 @@ def is_spam_user(user):
 
 # Fetch and process users
 def process_users():
-    url = f"https://{subdomain}.zendesk.com/api/v2/users.json"
+    url = f"https://{zendesk_subdomain}/api/v2/users.json"
     spam_count = 0
     total_count = 0
     
@@ -62,7 +60,7 @@ def process_users():
             print("Error: Unable to parse JSON response")
             print(f"Response content: {response.text}")
             break
-        response = requests.get(url, auth=(f"{email}/token", api_token))
+        response = requests.get(url, auth=(f"{zendesk_user}", api_token))
         data = response.json()
         
         for user in data['users']:
