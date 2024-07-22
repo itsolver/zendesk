@@ -23,7 +23,7 @@ def create_secret(secret_id):
         # Print the new secret name.
         print(f'Created secret: {response.name}')
     except Exception as exception:  # pylint: disable=broad-except
-        print(exception.code, exception.message)
+        print(f"Error: {str(exception)}")
 
 
 def add_secret_version(secret_id, payload):

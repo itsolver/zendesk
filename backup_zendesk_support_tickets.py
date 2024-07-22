@@ -7,12 +7,13 @@ from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+import shutil
 
 # Define ZENDESK URL, START_TIME, and other necessary variables
 # to get epoch time on mac terminal use e.g. ``date -j -f "%d-%B-%y" 19-FEB-12 +%s``
 # First ticket date in IT Solver Zendesk is 2013-04-24 16:00:00 (Epoch time: 1366783200)
-START_TIME = "1366783200"
-TICKETS_BACKUP_PATH = f'G:\\Shared drives\\Business\\Zendesk\\tickets'
+START_TIME = "1721314861"
+TICKETS_BACKUP_PATH = f'G:\\Shared drives\\Business\\Zendesk\\Support\\tickets'
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN",
                                        "latest")
 # Check if the path exists, and create it if it doesn't
@@ -53,7 +54,7 @@ def download_ticket(single_ticket):
         
         if existing_updated_at >= current_updated_at:
             print(f"{filename} is up to date, skipping.")
-            return (filename, subject, single_ticket['created_at'], single_ticket['updated_at'])
+            return (filename, subject, single_ticket['created_at'], single_ticket['updated_at'], 'skipped')
     
     # Fetch events and comments
     events = get_ticket_events(ticket_id)
@@ -63,10 +64,39 @@ def download_ticket(single_ticket):
     with open(full_path, mode='w', encoding='utf-8') as f:
         f.write(content)
     print(f"{filename} - copied with {len(events)} events!")
-    return (filename, subject, single_ticket['created_at'], single_ticket['updated_at'])
+    return (filename, subject, single_ticket['created_at'], single_ticket['updated_at'], 'backed_up')
+
+# Update these constants at the top of your script
+LOG_FILE_BASE = '_log'
+LOG_FILE_EXT = '.csv'
+MAX_LOG_FILES = 5  # Adjust this number to keep more or fewer log files
+
+def rotate_log_files():
+    log_dir = TICKETS_BACKUP_PATH
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    current_log_file = f"{LOG_FILE_BASE}_{current_date}{LOG_FILE_EXT}"
+    log_path = os.path.join(log_dir, current_log_file)
+    
+    # If the log file for today doesn't exist, no need to rotate
+    if not os.path.exists(log_path):
+        return current_log_file
+    
+    # Rotate existing log files
+    for i in range(MAX_LOG_FILES - 1, 0, -1):
+        old_log = os.path.join(log_dir, f"{LOG_FILE_BASE}_{current_date}_{i}{LOG_FILE_EXT}")
+        new_log = os.path.join(log_dir, f"{LOG_FILE_BASE}_{current_date}_{i+1}{LOG_FILE_EXT}")
+        if os.path.exists(old_log):
+            shutil.move(old_log, new_log)
+    
+    # Move the current log file
+    shutil.move(log_path, os.path.join(log_dir, f"{LOG_FILE_BASE}_{current_date}_1{LOG_FILE_EXT}"))
+    
+    return current_log_file
 
 tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time={START_TIME}"
-previous_tickets_endpoint = None
+previous_end_time = None
+total_backed_up = 0
+total_skipped = 0
 
 while tickets_endpoint:
     response = session.get(tickets_endpoint)
@@ -80,20 +110,41 @@ while tickets_endpoint:
     data = response.json()
 
     with ThreadPoolExecutor() as executor:
-        log += list(executor.map(download_ticket, data['tickets']))
+        results = list(executor.map(download_ticket, data['tickets']))
+        log += results
+        total_backed_up += sum(1 for r in results if r[4] == 'backed_up')
+        total_skipped += sum(1 for r in results if r[4] == 'skipped')
 
     # Update the start_time for the next API call
-    if data['tickets']:
-        latest_ticket = max(data['tickets'], key=lambda x: x['updated_at'])
-        START_TIME = int(datetime.fromisoformat(latest_ticket['updated_at'].replace('Z', '+00:00')).timestamp())
+    end_time = data['end_time']
+    if end_time == previous_end_time:
+        print('No new tickets found. Ending the process.')
+        break
+    
+    previous_end_time = end_time
+    START_TIME = end_time
     
     tickets_endpoint = data.get('next_page')
     if not tickets_endpoint:
         print('Reached the end of tickets.')
         break
 
-with open(os.path.join(TICKETS_BACKUP_PATH, '_log.csv'), mode='wt', encoding='utf-8') as file:
+# At the end of your script, before writing the new log file:
+current_log_file = rotate_log_files()
+
+# Get the current timestamp
+current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+# Write the new log file with a timestamp in the header
+with open(os.path.join(TICKETS_BACKUP_PATH, current_log_file), mode='wt', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(('File', 'Subject', 'Date Created', 'Date Updated'))
+    writer.writerow(('Backup Date', current_time))
+    writer.writerow(('File', 'Subject', 'Date Created', 'Date Updated', 'Status'))
     for ticket in log:
         writer.writerow(ticket)
+
+print(f"\nLog file updated: {os.path.join(TICKETS_BACKUP_PATH, current_log_file)}")
+print("\nBackup Summary:")
+print(f"Total tickets backed up: {total_backed_up}")
+print(f"Total tickets skipped: {total_skipped}")
+print(f"Total tickets processed: {total_backed_up + total_skipped}")
