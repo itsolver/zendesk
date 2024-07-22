@@ -1,3 +1,4 @@
 requests
 google-cloud-secret-manager
 google-cloud-pubsub
+python-dateutil
