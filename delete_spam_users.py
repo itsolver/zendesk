@@ -7,6 +7,7 @@ from urllib3.util.retry import Retry
 import csv
 from datetime import datetime
 import os
+import argparse
 
 from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version
@@ -31,6 +32,18 @@ def simulate_delete_user(user_id):
     print(f"[DRY RUN] Would delete user with ID: {user_id}")
     return True
 
+# Function to delete a user
+def delete_user(user_id):
+    url = f"https://{zendesk_subdomain}/api/v2/users/{user_id}.json"
+    try:
+        response = session.delete(url)
+        response.raise_for_status()
+        print(f"Deleted user with ID: {user_id}")
+        return True
+    except requests.exceptions.RequestException as e:
+        print(f"Error deleting user {user_id}: {e}")
+        return False
+
 # Function to check if a user is likely spam
 def is_spam_user(user):
     spam_indicator = r"ETH_coins"
@@ -43,7 +56,7 @@ def is_spam_user(user):
     return False
 
 # Fetch and process users
-def process_users():
+def process_users(dry_run=True):
     url = f"https://{zendesk_subdomain}/api/v2/users.json"
     spam_count = 0
     total_count = 0
@@ -71,13 +84,17 @@ def process_users():
             total_count += 1
             if is_spam_user(user):
                 spam_count += 1
-                print(f"[DRY RUN] Would delete spam user: {user['name']} (ID: {user['id']})")
-                simulate_delete_user(user['id'])
+                if dry_run:
+                    print(f"[DRY RUN] Would delete spam user: {user['name']} (ID: {user['id']})")
+                    simulate_delete_user(user['id'])
+                else:
+                    print(f"Deleting spam user: {user['name']} (ID: {user['id']})")
+                    delete_user(user['id'])
                 spam_users.append({'id': user['id'], 'name': user['name']})
         
         url = data['next_page']
     
-    print(f"\n[DRY RUN] Summary:")
+    print(f"{'[DRY RUN] ' if dry_run else ''}Summary:")
     print(f"Total users processed: {total_count}")
     print(f"Spam users identified: {spam_count}")
     print(f"Percentage of spam users: {(spam_count / total_count) * 100:.2f}%")
@@ -97,5 +114,14 @@ def process_users():
     
     print(f"CSV log file created: {csv_filename}")
 
-# Run the script
-process_users()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Delete spam users from Zendesk")
+    parser.add_argument("--live", action="store_true", help="Run in live mode (actually delete users)")
+    args = parser.parse_args()
+
+    if args.live:
+        print("Running in LIVE mode. Users will be deleted!")
+    else:
+        print("Running in DRY RUN mode. No users will be deleted.")
+    
+    process_users(dry_run=not args.live)
