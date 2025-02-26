@@ -7,8 +7,7 @@ __pycache__
 .vscodein/launch.json
 *.db
 cache/
-config.py
-env
+.env
 node_modules/
 tmp/
 token.pickle
