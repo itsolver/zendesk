@@ -18,14 +18,14 @@ You can [export data](https://support.zendesk.com/hc/en-us/articles/203662346-Ex
 
 ```
 python -m venv env
-source env/bin/activate
+source /.venv/bin/activate
 ```
 
 **Windows (PowerShell)**
 
 ```
 python -m venv env
-.\env\Scripts\activate.bat
+.venv\Scripts\activate.ps1
 ```
 
 2. Install requirements:
