@@ -4,11 +4,13 @@ import os
 import time
 import csv
 import pickle
+import re
+import shutil
+import unicodedata
 from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaInMemoryUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -42,6 +44,23 @@ TOKEN_PICKLE_FILE = os.environ.get("TOKEN_PICKLE_FILE", "token.pickle")
 USE_FIRESTORE_STORAGE = (
     os.environ.get("USE_FIRESTORE_STORAGE", "False").lower() == "true"
 )
+# Path for local asset backups
+ASSETS_BASE_PATH = os.environ.get(
+    "ASSETS_BASE_PATH", r"G:\Shared drives\Business\Zendesk\Support"
+)
+# List of asset types to backup
+ASSET_TYPES = [
+    'app_installations',
+    'automations',
+    'macros',
+    'organization_fields',
+    'organizations',
+    'ticket_fields',
+    'tickets',
+    'triggers',
+    'user_fields',
+    'views'
+]
 
 # Try to load the last run time from a file
 LAST_RUN_FILE = "last_run.txt"
@@ -61,6 +80,138 @@ zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "lat
 session = requests.Session()
 session.auth = (zendesk_user, zendesk_secret)
 log = []
+
+
+def slugify(value, allow_unicode=False):
+    """
+    Taken from https://github.com/django/django/blob/master/django/utils/text.py
+    Convert to ASCII if 'allow_unicode' is False. Convert spaces or repeated
+    dashes to single dashes. Remove characters that aren't alphanumerics,
+    underscores, or hyphens. Convert to lowercase. Also strip leading and
+    trailing whitespace, dashes, and underscores.
+    """
+    value = str(value)
+    if allow_unicode:
+        value = unicodedata.normalize('NFKC', value)
+    else:
+        value = unicodedata.normalize('NFKD',
+                                      value).encode('ascii',
+                                                    'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value.lower())
+    return re.sub(r'[-\s]+', '-', value).strip('-_')
+
+
+def create_directory(path):
+    os.makedirs(path, exist_ok=True)
+
+
+def get_zendesk_session():
+    session = requests.Session()
+    zendesk = f'https://{zendesk_subdomain}'
+    zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
+    session.auth = (zendesk_user, zendesk_secret)
+    return session, zendesk
+
+
+def handle_rate_limit(response):
+    if response.status_code == 429:
+        retry_after = int(response.headers.get('retry-after', 60))
+        print(f'Rate limited. Waiting for {retry_after} seconds.')
+        time.sleep(retry_after)
+        return True
+    return False
+
+
+def fetch_data(session, endpoint):
+    while True:
+        response = session.get(endpoint)
+        if handle_rate_limit(response):
+            continue
+        if response.status_code != 200:
+            raise Exception(f'Failed to retrieve data with error {response.status_code}')
+        return response.json()
+
+
+def backup_asset(asset, backup_path, asset_type):
+    safe_title = slugify(asset['title'])
+    filename = f"{safe_title}.json"
+    content = json.dumps(asset, indent=2)
+    
+    with open(os.path.join(backup_path, filename), 'w', encoding='utf-8') as f:
+        f.write(content)
+    
+    print(f"{filename} - copied!")
+    return (filename, asset['title'], asset.get('active', True), asset.get('created_at'), asset.get('updated_at'))
+
+
+def backup_assets(session, zendesk, asset_type, backup_path, inactive_path):
+    create_directory(backup_path)
+    create_directory(inactive_path)
+    
+    endpoint = f"{zendesk}/api/v2/{asset_type}.json"
+    asset_log = []
+    
+    while endpoint:
+        data = fetch_data(session, endpoint)
+        for asset in data[asset_type]:
+            path = inactive_path if not asset.get('active', True) else backup_path
+            asset_log.append(backup_asset(asset, path, asset_type))
+        
+        endpoint = data.get('next_page')
+    
+    write_log(backup_path, asset_log)
+    return asset_log
+
+
+def write_log(path, log_data):
+    with open(os.path.join(path, '_log.csv'), 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(('File', 'Title', 'Active', 'Date Created', 'Date Updated'))
+        writer.writerows(log_data)
+
+
+def compress_folder(folder_path, output_filename):
+    shutil.make_archive(output_filename, 'zip', folder_path)
+    print(f"Compressed {folder_path} to {output_filename}.zip")
+
+
+def backup_all_assets():
+    """Backup all Zendesk assets to local storage."""
+    session, zendesk = get_zendesk_session()
+    current_date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    
+    all_assets_log = []
+    
+    for asset_type in ASSET_TYPES:
+        asset_path = os.path.join(ASSETS_BASE_PATH, asset_type)
+        create_directory(asset_path)
+        backup_path = os.path.join(asset_path, current_date)
+        inactive_path = os.path.join(backup_path, "inactive")
+        
+        print(f"Backing up {asset_type}...")
+        asset_log = backup_assets(session, zendesk, asset_type, backup_path, inactive_path)
+        all_assets_log.extend([(asset_type, *entry) for entry in asset_log])
+        
+        # Compress the asset folder
+        zip_filename = f"{asset_type}_{current_date}"
+        compress_folder(backup_path, os.path.join(asset_path, zip_filename))
+        
+        # Delete the uncompressed folder after successful compression
+        if os.path.exists(os.path.join(asset_path, f"{zip_filename}.zip")):
+            shutil.rmtree(backup_path)
+            print(f"Deleted uncompressed folder: {backup_path}")
+        else:
+            print(f"Compression failed for {asset_type}. Uncompressed folder not deleted.")
+    
+    # Write a master log file
+    master_log_path = os.path.join(ASSETS_BASE_PATH, f"master_log_{current_date}.csv")
+    with open(master_log_path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(('Asset Type', 'File', 'Title', 'Active', 'Date Created', 'Date Updated'))
+        writer.writerows(all_assets_log)
+    
+    print(f"Master log file created at {master_log_path}")
+    return all_assets_log
 
 
 class FirestoreStorage:
@@ -573,6 +724,31 @@ def backup_tickets(request=None):
     return summary
 
 
+def backup_all(request=None):
+    """Main function to backup both tickets and other Zendesk assets."""
+    print("Starting Zendesk backup process...")
+    
+    # First backup tickets to Google Drive
+    print("\n=== Backing up tickets to Google Drive ===")
+    ticket_summary = backup_tickets(request)
+    
+    # Then backup all other assets to local storage
+    print("\n=== Backing up other Zendesk assets to local storage ===")
+    asset_logs = backup_all_assets()
+    
+    print("\n=== Backup process completed ===")
+    print(f"Tickets backed up to Google Drive: {ticket_summary['total_backed_up']}")
+    print(f"Asset types backed up to local storage: {len(ASSET_TYPES)}")
+    print(f"Total assets backed up: {len(asset_logs)}")
+    
+    return {
+        "success": True,
+        "ticket_summary": ticket_summary,
+        "assets_backed_up": len(asset_logs),
+        "asset_types": len(ASSET_TYPES)
+    }
+
+
 # For local execution
 if __name__ == "__main__":
-    backup_tickets()
+    backup_all()
