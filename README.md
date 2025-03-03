@@ -17,14 +17,14 @@ You can [export data](https://support.zendesk.com/hc/en-us/articles/203662346-Ex
 **MacOS / Unix**
 
 ```
-python -m venv env
-source /.venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 ```
 
 **Windows (PowerShell)**
 
 ```
-python -m venv env
+python -m venv .venv
 .venv\Scripts\activate.ps1
 ```
 
