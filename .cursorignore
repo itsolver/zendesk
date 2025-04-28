@@ -11,3 +11,4 @@ cache/
 node_modules/
 tmp/
 token.pickle
+service_account.json
