@@ -246,7 +246,7 @@ class FirestoreStorage:
 
 
 def get_drive_service():
-    """Initialize and return a Google Drive API service using OAuth."""
+    """Initialize and return a Google Drive API service using OAuth or Service Account."""
     creds = None
 
     # Option 1: Try Firestore storage if configured
@@ -288,38 +288,44 @@ def get_drive_service():
                 print(f"Error refreshing credentials: {e}")
                 creds = None
 
-    # If we still don't have valid credentials, we need OAuth flow
+    # If we still don't have valid credentials, check for Service Account or start OAuth flow
     if not creds or not creds.valid:
         try:
-            if not os.path.exists(CLIENT_SECRETS_FILE):
-                raise FileNotFoundError(
-                    f"Client secrets file not found: {CLIENT_SECRETS_FILE}"
+            if os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"):
+                from google.auth import default
+                credentials, _ = default(scopes=DRIVE_SCOPES)
+                print("Using service account credentials from GOOGLE_APPLICATION_CREDENTIALS")
+                return build("drive", "v3", credentials=credentials)
+            else:
+                if not os.path.exists(CLIENT_SECRETS_FILE):
+                    raise FileNotFoundError(
+                        f"Client secrets file not found: {CLIENT_SECRETS_FILE}"
+                    )
+
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    CLIENT_SECRETS_FILE, DRIVE_SCOPES
                 )
 
-            flow = InstalledAppFlow.from_client_secrets_file(
-                CLIENT_SECRETS_FILE, DRIVE_SCOPES
-            )
+                # For Cloud Run or server environments, you might need a different flow approach
+                # This will open a browser window for authentication
+                print("Starting OAuth flow - a browser window will open for authentication")
+                creds = flow.run_local_server(port=0)
+                print("Authentication successful")
 
-            # For Cloud Run or server environments, you might need a different flow approach
-            # This will open a browser window for authentication
-            print("Starting OAuth flow - a browser window will open for authentication")
-            creds = flow.run_local_server(port=0)
-            print("Authentication successful")
+                # Save the credentials for future use
+                if USE_FIRESTORE_STORAGE and FIREBASE_AVAILABLE:
+                    try:
+                        storage.create(pickle.dumps(creds))
+                        print("Saved credentials to Firestore")
+                    except Exception as e:
+                        print(f"Failed to save credentials to Firestore: {e}")
 
-            # Save the credentials for future use
-            if USE_FIRESTORE_STORAGE and FIREBASE_AVAILABLE:
                 try:
-                    storage.create(pickle.dumps(creds))
-                    print("Saved credentials to Firestore")
+                    with open(TOKEN_PICKLE_FILE, "wb") as token:
+                        pickle.dump(creds, token)
+                    print(f"Saved credentials to {TOKEN_PICKLE_FILE}")
                 except Exception as e:
-                    print(f"Failed to save credentials to Firestore: {e}")
-
-            try:
-                with open(TOKEN_PICKLE_FILE, "wb") as token:
-                    pickle.dump(creds, token)
-                print(f"Saved credentials to {TOKEN_PICKLE_FILE}")
-            except Exception as e:
-                print(f"Failed to save credentials to file: {e}")
+                    print(f"Failed to save credentials to file: {e}")
 
         except Exception as e:
             print(f"OAuth flow failed: {e}")
@@ -446,6 +452,7 @@ def download_ticket(single_ticket):
         # Update existing file with retry
         for attempt in range(max_retries):
             try:
+                # pylint: disable=no-member
                 drive_service.files().update(
                     fileId=existing_file["id"],
                     media_body=media,
@@ -454,6 +461,7 @@ def download_ticket(single_ticket):
                 ).execute()
 
                 # Verify the update was successful by checking the file again
+                # pylint: disable=no-member
                 updated_file = (
                     drive_service.files()
                     .get(
@@ -513,6 +521,7 @@ def download_ticket(single_ticket):
             # Use the update code path instead
             for attempt in range(max_retries):
                 try:
+                    # pylint: disable=no-member
                     drive_service.files().update(
                         fileId=existing_file["id"],
                         media_body=media,
@@ -556,6 +565,7 @@ def download_ticket(single_ticket):
                     "properties": file_properties,
                 }
 
+                # pylint: disable=no-member
                 new_file = (
                     drive_service.files()
                     .create(
@@ -631,6 +641,7 @@ def save_log_to_drive(log_data, log_filename):
 
     if existing_log:
         # Update existing file
+        # pylint: disable=no-member
         drive_service.files().update(
             fileId=existing_log["id"], media_body=media, supportsAllDrives=True
         ).execute()
@@ -641,6 +652,7 @@ def save_log_to_drive(log_data, log_filename):
             "parents": [DRIVE_FOLDER_ID],
             "mimeType": "text/csv",
         }
+        # pylint: disable=no-member
         drive_service.files().create(
             body=file_metadata, media_body=media, fields="id", supportsAllDrives=True
         ).execute()
