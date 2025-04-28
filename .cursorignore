@@ -4,7 +4,7 @@ __pycache__
 .env/
 .gmail_api_credentials.json
 .venv/
-.vscodein/launch.json
+
 *.db
 cache/
 .env
