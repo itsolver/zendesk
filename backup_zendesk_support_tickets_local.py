@@ -111,7 +111,7 @@ def save_log_local(log_data, log_filename, backup_path):
 def backup_tickets_local(request=None):
     global log, START_TIME
     current_date = datetime.now().strftime("%Y-%m-%d")
-    backup_path = os.path.join(TICKETS_BASE_PATH, f"tickets_{current_date}")
+    backup_path = os.path.join(TICKETS_BASE_PATH, "tickets")
     create_directory(backup_path)
     tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time={START_TIME}"
     previous_end_time = None
