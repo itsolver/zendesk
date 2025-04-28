@@ -25,7 +25,9 @@ if os.path.exists(LAST_RUN_FILE):
             START_TIME = last_run_time
             print(f"Starting from last run time: {START_TIME}")
 else:
-    print(f"No last run file found. Starting from: {START_TIME}")
+    print(f"ERROR: No last run file found. Refusing to start from the beginning (epoch). Please check why last_run.txt is missing or not being updated. Exiting for safety.")
+    import sys
+    sys.exit(1)
 
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
 
