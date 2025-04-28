@@ -46,7 +46,7 @@ USE_FIRESTORE_STORAGE = (
 )
 # Path for local asset backups
 ASSETS_BASE_PATH = os.environ.get(
-    "ASSETS_BASE_PATH", r"G:\Shared drives\Business\Zendesk\Support"
+    "ASSETS_BASE_PATH", r"L:\Shared drives\Business\Zendesk\Support"
 )
 # List of asset types to backup
 ASSET_TYPES = [
@@ -177,6 +177,12 @@ def compress_folder(folder_path, output_filename):
 
 def backup_all_assets():
     """Backup all Zendesk assets to local storage."""
+    # Check if ASSETS_BASE_PATH is accessible
+    if not os.path.isdir(ASSETS_BASE_PATH):
+        error_msg = f"Error: The base path for asset backup ({ASSETS_BASE_PATH}) is not accessible. Please ensure the Google Drive app is running and the path is mounted correctly."
+        print(error_msg)
+        return []
+    
     session, zendesk = get_zendesk_session()
     current_date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     
