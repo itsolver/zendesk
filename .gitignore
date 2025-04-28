@@ -2,7 +2,6 @@
 **/organizations
 **/tickets
 .DS_Store
-.vscode/
 .vscode/settings.json
 __pycache__
 env

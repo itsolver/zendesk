@@ -4,7 +4,6 @@ __pycache__
 .env/
 .gmail_api_credentials.json
 .venv/
-
 *.db
 cache/
 .env

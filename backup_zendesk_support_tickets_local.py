@@ -71,19 +71,12 @@ def download_ticket_local(single_ticket, backup_path):
     filename = f"{ticket_id}.json"
     file_path = os.path.join(backup_path, filename)
 
-    # If the file exists and is closed and updated_at matches, skip
+    # Only skip if the file exists and updated_at is the same
     if os.path.exists(file_path):
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 existing = json.load(f)
-                if (
-                    status == "closed"
-                    and existing.get("status") == "closed"
-                    and existing.get("updated_at") == updated_at
-                ):
-                    print(f"{filename} is closed and up to date, skipping.")
-                    return (filename, subject, single_ticket["created_at"], updated_at, "skipped")
-                if existing.get("updated_at", "") >= updated_at:
+                if existing.get("updated_at", "") == updated_at:
                     print(f"{filename} is up to date, skipping.")
                     return (filename, subject, single_ticket["created_at"], updated_at, "skipped")
         except Exception as e:
