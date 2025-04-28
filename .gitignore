@@ -8,3 +8,4 @@ env
 zendesk_env
 .env
 service_account.json
+last_run.txt
