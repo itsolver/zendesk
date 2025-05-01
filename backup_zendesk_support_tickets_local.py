@@ -14,35 +14,25 @@ from datetime import datetime
 
 # Define ZENDESK URL, START_TIME, and other necessary variables
 START_TIME = "1366783200"  # Use the very beginning as default
-# Path for local ticket backups
-TICKETS_BASE_PATH = r"L:\\Shared drives\\Business\\Zendesk\\Support"
-# Alternative paths to check if the default is not accessible
-ALTERNATIVE_DRIVE_LETTERS = ["G:", "H:", "I:", "J:", "K:", "M:", "N:", "O:", "P:", "Q:", "R:", "S:", "T:", "U:", "V:", "W:", "X:", "Y:", "Z:"]
+# Path for local ticket backups - can be overridden with GOOGLE_DRIVE_PATH environment variable
+TICKETS_BASE_PATH = os.environ.get("GOOGLE_DRIVE_PATH", r"L:\\Shared drives\\Business\\Zendesk\\Support")
 
 def check_drive_path():
-    """Check if the Google Drive path is accessible and try alternative drive letters if not."""
-    global TICKETS_BASE_PATH
-    
-    # First try the default path
+    """Check if the Google Drive path is accessible."""
     if os.path.exists(TICKETS_BASE_PATH):
         return True
-        
-    # If default path doesn't exist, try alternative drive letters
-    base_path_parts = TICKETS_BASE_PATH.split("\\")[1:]  # Remove the drive letter part
-    for drive in ALTERNATIVE_DRIVE_LETTERS:
-        alternative_path = drive + "\\" + "\\".join(base_path_parts)
-        if os.path.exists(alternative_path):
-            TICKETS_BASE_PATH = alternative_path
-            print(f"Found Google Drive at alternative path: {alternative_path}")
-            return True
             
-    error_msg = """
-ERROR: Cannot access Google Drive path. Please ensure:
+    error_msg = f"""
+ERROR: Cannot access Google Drive path at {TICKETS_BASE_PATH}
+Please ensure:
 1. Google Drive is running and properly syncing
 2. You have access to the shared drive
-3. The correct drive letter is being used (currently trying: L:)
+3. The drive letter is correct
 
-Alternative drive letters checked: {', '.join(ALTERNATIVE_DRIVE_LETTERS)}
+If your Google Drive is mounted to a different letter, set the GOOGLE_DRIVE_PATH environment variable:
+    $env:GOOGLE_DRIVE_PATH="X:\\Shared drives\\Business\\Zendesk\\Support"  # PowerShell
+    set GOOGLE_DRIVE_PATH=X:\\Shared drives\\Business\\Zendesk\\Support     # CMD
+    export GOOGLE_DRIVE_PATH="X:\\Shared drives\\Business\\Zendesk\\Support" # Bash
 """
     print(error_msg)
     return False
