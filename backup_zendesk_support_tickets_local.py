@@ -16,6 +16,37 @@ from datetime import datetime
 START_TIME = "1366783200"  # Use the very beginning as default
 # Path for local ticket backups
 TICKETS_BASE_PATH = r"L:\\Shared drives\\Business\\Zendesk\\Support"
+# Alternative paths to check if the default is not accessible
+ALTERNATIVE_DRIVE_LETTERS = ["G:", "H:", "I:", "J:", "K:", "M:", "N:", "O:", "P:", "Q:", "R:", "S:", "T:", "U:", "V:", "W:", "X:", "Y:", "Z:"]
+
+def check_drive_path():
+    """Check if the Google Drive path is accessible and try alternative drive letters if not."""
+    global TICKETS_BASE_PATH
+    
+    # First try the default path
+    if os.path.exists(TICKETS_BASE_PATH):
+        return True
+        
+    # If default path doesn't exist, try alternative drive letters
+    base_path_parts = TICKETS_BASE_PATH.split("\\")[1:]  # Remove the drive letter part
+    for drive in ALTERNATIVE_DRIVE_LETTERS:
+        alternative_path = drive + "\\" + "\\".join(base_path_parts)
+        if os.path.exists(alternative_path):
+            TICKETS_BASE_PATH = alternative_path
+            print(f"Found Google Drive at alternative path: {alternative_path}")
+            return True
+            
+    error_msg = """
+ERROR: Cannot access Google Drive path. Please ensure:
+1. Google Drive is running and properly syncing
+2. You have access to the shared drive
+3. The correct drive letter is being used (currently trying: L:)
+
+Alternative drive letters checked: {', '.join(ALTERNATIVE_DRIVE_LETTERS)}
+"""
+    print(error_msg)
+    return False
+
 # Try to load the last run time from a file
 LAST_RUN_FILE = "last_run.txt"
 if os.path.exists(LAST_RUN_FILE):
@@ -110,6 +141,14 @@ def save_log_local(log_data, log_filename, backup_path):
 
 def backup_tickets_local(request=None):
     global log, START_TIME
+    
+    # Check if Google Drive is accessible before proceeding
+    if not check_drive_path():
+        return {
+            "success": False,
+            "error": "Google Drive path is not accessible. Please check if Google Drive is running and properly synced."
+        }
+    
     current_date = datetime.now().strftime("%Y-%m-%d")
     backup_path = os.path.join(TICKETS_BASE_PATH, "tickets")
     create_directory(backup_path)
