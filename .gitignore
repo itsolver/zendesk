@@ -9,3 +9,4 @@ zendesk_env
 .env
 service_account.json
 last_run.txt
+zendesk-repomix-output.txt
