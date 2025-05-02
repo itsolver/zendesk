@@ -48,6 +48,7 @@ def enrich_customers(customers_file="customers.json"):
     organizations = fetch_all_organizations()
     
     # Fix: Use domain_names instead of domains from Zendesk API
+    # This fixes the KeyError 'domains' issue as Zendesk uses 'domain_names' in its API response
     org_map = {org["id"]: {"name": org["name"], "domain_names": org.get("domain_names", [])} 
                for org in organizations}
 
