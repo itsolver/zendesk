@@ -56,9 +56,21 @@ def fetch_data(session, endpoint):
         return response.json()
 
 def backup_asset(asset, backup_path, asset_type):
-    # Determine the title key based on asset type
+    # Determine the title key based on asset type and check for existence
     title_key = 'name' if asset_type in ['triggers', 'automations', 'macros', 'views'] else 'title'
-    safe_title = slugify(asset[title_key])
+    
+    # Try to find a valid title from multiple possible keys
+    title = None
+    for key in [title_key, 'name', 'title', 'label', 'id']:
+        if key in asset and asset[key]:
+            title = str(asset[key])
+            break
+    
+    # If no title found, use a fallback
+    if not title:
+        title = f"untitled_{asset.get('id', 'unknown')}"
+    
+    safe_title = slugify(title)
     filename = f"{safe_title}.json"
     content = json.dumps(asset, indent=2)
     
@@ -66,7 +78,7 @@ def backup_asset(asset, backup_path, asset_type):
         f.write(content)
     
     print(f"{filename} - copied!")
-    return (filename, asset[title_key], asset.get('active', True), asset.get('created_at'), asset.get('updated_at'))
+    return (filename, title, asset.get('active', True), asset.get('created_at'), asset.get('updated_at'))
 
 def backup_assets(session, zendesk, endpoint, asset_name, response_key, backup_path, inactive_path):
     create_directory(backup_path)
@@ -79,8 +91,15 @@ def backup_assets(session, zendesk, endpoint, asset_name, response_key, backup_p
         data = fetch_data(session, endpoint_url)
         # Use response_key to get the list of assets from the response
         for asset in data[response_key]:
-            path = inactive_path if not asset.get('active', True) else backup_path
-            log.append(backup_asset(asset, path, asset_name))
+            try:
+                path = inactive_path if not asset.get('active', True) else backup_path
+                log.append(backup_asset(asset, path, asset_name))
+            except Exception as e:
+                print(f"Error processing asset {asset.get('id', 'unknown')}: {str(e)}")
+                print(f"Asset keys: {list(asset.keys())}")
+                # Add a placeholder entry to maintain log consistency
+                log.append((f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None))
+                continue
         
         endpoint_url = data.get('next_page')
     
