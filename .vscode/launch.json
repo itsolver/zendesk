@@ -11,7 +11,6 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "preLaunchTask": "gcloud auth application-default login",
             "env": {
                 "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\AngusMcLauchlan\\Projects\\itsolver\\zendesk\\service_account.json"
             }
