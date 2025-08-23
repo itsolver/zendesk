@@ -5,17 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "env": {
-                "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\AngusMcLauchlan\\Projects\\itsolver\\zendesk\\service_account.json"
-            }
-        },
-        {
             "name": "Python: Current File (No Auth)",
             "type": "python",
             "request": "launch",
@@ -23,8 +12,9 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\AngusMcLauchlan\\Projects\\itsolver\\zendesk\\service_account.json"
+                "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\AngusMcLauchlan\\AppData\\Roaming\\gcloud\\application_default_credentials.json"
             }
-        }
+        },
+        
     ]
 }
