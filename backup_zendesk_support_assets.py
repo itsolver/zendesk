@@ -68,7 +68,7 @@ def backup_asset(asset, backup_path, asset_type):
     print(f"{filename} - copied!")
     return (filename, asset[title_key], asset.get('active', True), asset.get('created_at'), asset.get('updated_at'))
 
-def backup_assets(session, zendesk, endpoint, asset_name, backup_path, inactive_path):
+def backup_assets(session, zendesk, endpoint, asset_name, response_key, backup_path, inactive_path):
     create_directory(backup_path)
     create_directory(inactive_path)
     
@@ -77,8 +77,8 @@ def backup_assets(session, zendesk, endpoint, asset_name, backup_path, inactive_
     
     while endpoint_url:
         data = fetch_data(session, endpoint_url)
-        # Use asset_name to get the list of assets from the response
-        for asset in data[asset_name]:
+        # Use response_key to get the list of assets from the response
+        for asset in data[response_key]:
             path = inactive_path if not asset.get('active', True) else backup_path
             log.append(backup_asset(asset, path, asset_name))
         
@@ -102,27 +102,29 @@ def main():
     
     assets_base_path = r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Support"
     
-    # Dictionary of asset types to backup with their API endpoints
+    # Dictionary of asset types to backup with their API endpoints and response keys
     assets = {
-        'apps/installations': 'app_installations',
-        'automations': 'automations',
-        'macros': 'macros',
-        'organization_fields': 'organization_fields',
-        'organizations': 'organizations',
-        'ticket_fields': 'ticket_fields',
-        'tickets': 'tickets',
-        'triggers': 'triggers',
-        'user_fields': 'user_fields',
-        'views': 'views'
+        'apps/installations': {'name': 'app_installations', 'response_key': 'installations'},
+        'automations': {'name': 'automations', 'response_key': 'automations'},
+        'macros': {'name': 'macros', 'response_key': 'macros'},
+        'organization_fields': {'name': 'organization_fields', 'response_key': 'organization_fields'},
+        'organizations': {'name': 'organizations', 'response_key': 'organizations'},
+        'ticket_fields': {'name': 'ticket_fields', 'response_key': 'ticket_fields'},
+        'tickets': {'name': 'tickets', 'response_key': 'tickets'},
+        'triggers': {'name': 'triggers', 'response_key': 'triggers'},
+        'user_fields': {'name': 'user_fields', 'response_key': 'user_fields'},
+        'views': {'name': 'views', 'response_key': 'views'}
     }
     
-    for endpoint, asset_name in assets.items():
+    for endpoint, config in assets.items():
+        asset_name = config['name']
+        response_key = config['response_key']
         asset_path = os.path.join(assets_base_path, asset_name)
         create_directory(asset_path)
         backup_path = os.path.join(asset_path, current_date)
         inactive_path = os.path.join(backup_path, "inactive")
         
-        backup_assets(session, zendesk, endpoint, asset_name, backup_path, inactive_path)
+        backup_assets(session, zendesk, endpoint, asset_name, response_key, backup_path, inactive_path)
         
         # Compress the asset folder
         zip_filename = f"{asset_name}_{current_date}"
