@@ -12,9 +12,12 @@ from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version
 
 # Configuration
-BACKUP_BASE_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Backups")
+LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups")
+ONEDRIVE_BACKUP_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Backups")
 START_TIME = "1366783200"  # First ticket date in IT Solver Zendesk
 LAST_RUN_FILE = "last_run.txt"
+BACKUP_STATE_FILE = "backup_state.json"
+BATCH_SIZE = 100  # Process items in batches to reduce memory usage
 
 # Load last run time if available
 if os.path.exists(LAST_RUN_FILE):
@@ -43,6 +46,45 @@ def create_directory(path):
     """Create directory if it doesn't exist."""
     os.makedirs(path, exist_ok=True)
 
+def load_backup_state(state_file_path):
+    """Load backup state from JSON file."""
+    if os.path.exists(state_file_path):
+        try:
+            with open(state_file_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            print("Warning: Could not load backup state file. Starting fresh.")
+    
+    return {
+        "last_backup_time": datetime.now().isoformat(),
+        "tickets": {"completed": [], "last_processed_time": START_TIME},
+        "users": {"completed": [], "last_page": None},
+        "organizations": {"completed": [], "last_page": None},
+        "guide_articles": {"completed": [], "last_page": None},
+        "support_assets": {"completed": {}, "last_page": {}}
+    }
+
+def save_backup_state(state_file_path, state):
+    """Save backup state to JSON file."""
+    try:
+        with open(state_file_path, 'w', encoding='utf-8') as f:
+            json.dump(state, f, indent=2)
+    except IOError as e:
+        print(f"Warning: Could not save backup state: {e}")
+
+def is_item_cached_and_current(file_path, updated_at):
+    """Check if an item is cached locally and up to date."""
+    if not os.path.exists(file_path):
+        return False
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            cached_item = json.load(f)
+            cached_updated_at = cached_item.get('updated_at', '')
+            return cached_updated_at == updated_at
+    except (json.JSONDecodeError, IOError, KeyError):
+        return False
+
 def handle_rate_limit(response):
     """Handle API rate limiting."""
     if response.status_code == 429:
@@ -70,16 +112,21 @@ def write_log(path, log_data, headers):
         writer.writerow(headers)
         writer.writerows(log_data)
 
-def backup_tickets(backup_path):
-    """Backup all tickets with events."""
+def backup_tickets(backup_path, backup_state):
+    """Backup all tickets with events using local cache."""
     print("=== Backing up Tickets ===")
     tickets_path = os.path.join(backup_path, "tickets")
     create_directory(tickets_path)
     
-    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time={START_TIME}"
+    # Use state to resume from where we left off
+    start_time = backup_state["tickets"]["last_processed_time"]
+    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time={start_time}"
     log = []
-    total_count = 0
-    last_processed_time = START_TIME
+    total_cached = 0
+    total_downloaded = 0
+    last_processed_time = start_time
+    
+    print(f"Starting ticket backup from timestamp: {start_time}")
     
     def get_ticket_events(ticket_id):
         """Get all events for a ticket."""
@@ -100,36 +147,46 @@ def backup_tickets(backup_path):
     
     def process_ticket(ticket):
         """Process and save a single ticket."""
-        nonlocal total_count
+        nonlocal total_cached, total_downloaded
         ticket_id = ticket["id"]
         filename = f"{ticket_id}.json"
         file_path = os.path.join(tickets_path, filename)
         
-        # Check if file exists and is up to date
-        if os.path.exists(file_path):
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    existing = json.load(f)
-                    if existing.get("updated_at", "") == ticket.get("updated_at", ""):
-                        print(f"{filename} is up to date, skipping.")
-                        return (filename, ticket.get("subject", ""), ticket.get("created_at"), ticket.get("updated_at"), "skipped")
-            except Exception as e:
-                print(f"Error reading {filename}: {e}")
+        updated_at = ticket.get("updated_at", "")
+        
+        # Check if ticket is already cached and current
+        if is_item_cached_and_current(file_path, updated_at):
+            total_cached += 1
+            if total_cached % 100 == 0:
+                print(f"Cached tickets: {total_cached}")
+            return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "cached")
+        
+        # Skip if already in completed list (for resumable backups)
+        if ticket_id in backup_state["tickets"]["completed"]:
+            total_cached += 1
+            return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "cached")
         
         # Fetch events
         events = get_ticket_events(ticket_id)
         ticket["events"] = events
         
-        # Save ticket
+        # Fetch events and download
         try:
-            with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(ticket, f, indent=2)
-            total_count += 1
-            print(f"{filename} - saved with {len(events)} events!")
-            return (filename, ticket.get("subject", ""), ticket.get("created_at"), ticket.get("updated_at"), "backed_up")
-        except Exception as e:
+            # Save ticket to cache
+            with open(file_path, "w", encoding="utf-8") as ticket_file:
+                json.dump(ticket, ticket_file, indent=2)
+            
+            # Mark as completed
+            backup_state["tickets"]["completed"].append(ticket_id)
+            total_downloaded += 1
+            
+            if total_downloaded % 25 == 0:
+                print(f"Downloaded tickets: {total_downloaded}, Cached: {total_cached}")
+            
+            return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "downloaded")
+        except (IOError, OSError) as e:
             print(f"Failed to save {filename}: {e}")
-            return (filename, ticket.get("subject", ""), ticket.get("created_at"), ticket.get("updated_at"), "error")
+            return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "error")
     
     while tickets_endpoint:
         response = session.get(tickets_endpoint)
@@ -151,13 +208,16 @@ def backup_tickets(backup_path):
         last_processed_time = data["end_time"]
         tickets_endpoint = data.get("next_page")
     
-    # Save last run time
-    with open(LAST_RUN_FILE, "w") as f:
-        f.write(str(last_processed_time))
+    # Update backup state
+    backup_state["tickets"]["last_processed_time"] = str(last_processed_time)
+    
+    # Save last run time (for backward compatibility)
+    with open(LAST_RUN_FILE, "w", encoding="utf-8") as run_file:
+        run_file.write(str(last_processed_time))
     
     # Write log
     write_log(tickets_path, log, ("File", "Subject", "Date Created", "Date Updated", "Status"))
-    print(f"Tickets backup completed: {len(log)} tickets processed")
+    print(f"Tickets backup completed: {len(log)} tickets processed ({total_downloaded} downloaded, {total_cached} cached)")
     return log
 
 def backup_users(backup_path):
@@ -417,21 +477,34 @@ def create_backup_zip(backup_path, zip_path):
     print(f"Zip file created successfully: {zip_path}")
 
 def main():
-    """Main backup function."""
+    """Main backup function with local caching."""
     print("=== Starting Zendesk Complete Backup ===")
     start_time = datetime.now()
     current_date = start_time.strftime("%Y-%m-%d_%H-%M-%S")
     
-    # Create backup directory
+    # Create local cache directory
+    create_directory(LOCAL_CACHE_PATH)
+    
+    # Load backup state
+    state_file_path = os.path.join(LOCAL_CACHE_PATH, BACKUP_STATE_FILE)
+    backup_state = load_backup_state(state_file_path)
+    
+    # Create working directory in local cache
     backup_dir_name = f"zendesk_backup_{current_date}"
-    backup_path = os.path.join(BACKUP_BASE_PATH, backup_dir_name)
+    backup_path = os.path.join(LOCAL_CACHE_PATH, backup_dir_name)
     create_directory(backup_path)
     
-    print(f"Backup directory: {backup_path}")
+    print(f"Local cache directory: {backup_path}")
+    print(f"OneDrive sync directory: {ONEDRIVE_BACKUP_PATH}")
     
-    # Backup all asset types
+    # Backup all asset types using local cache
     try:
-        tickets_log = backup_tickets(backup_path)
+        print("\n--- Using local cache for improved performance ---")
+        tickets_log = backup_tickets(backup_path, backup_state)
+        
+        # Save state after tickets (largest dataset)
+        save_backup_state(state_file_path, backup_state)
+        
         users_log = backup_users(backup_path)
         orgs_log = backup_organizations(backup_path)
         articles_log = backup_guide_articles(backup_path)
@@ -455,22 +528,31 @@ def main():
             summary_file.write(f"Backup Duration: {duration}\n")
             summary_file.write(f"Backup Completed: {end_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
         
-        # Create zip file
+        # Create zip file in local cache first
         zip_filename = f"zendesk_backup_{current_date}.zip"
-        zip_path = os.path.join(BACKUP_BASE_PATH, zip_filename)
-        create_backup_zip(backup_path, zip_path)
+        local_zip_path = os.path.join(LOCAL_CACHE_PATH, zip_filename)
+        create_backup_zip(backup_path, local_zip_path)
         
-        # Clean up uncompressed folder
-        if os.path.exists(zip_path):
+        # Copy zip file to OneDrive sync folder (only one file to sync)
+        create_directory(ONEDRIVE_BACKUP_PATH)
+        onedrive_zip_path = os.path.join(ONEDRIVE_BACKUP_PATH, zip_filename)
+        shutil.copy2(local_zip_path, onedrive_zip_path)
+        print(f"Copied zip file to OneDrive sync folder: {onedrive_zip_path}")
+        
+        # Clean up working directory
+        if os.path.exists(local_zip_path):
             shutil.rmtree(backup_path)
             print(f"Cleaned up temporary directory: {backup_path}")
+            print(f"Local zip file retained: {local_zip_path}")
         
         # Print final summary
         end_time = datetime.now()
         duration = end_time - start_time
         print("\n=== Backup Complete ===")
         print(f"Duration: {duration}")
-        print(f"Zip file: {zip_path}")
+        print(f"Local zip file: {local_zip_path}")
+        print(f"OneDrive zip file: {onedrive_zip_path}")
+        print(f"Cache directory: {LOCAL_CACHE_PATH}")
         print(f"Total items backed up: {len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log)}")
         
         return True
