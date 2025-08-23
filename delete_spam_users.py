@@ -100,7 +100,7 @@ def process_users(dry_run=True):
     print(f"Percentage of spam users: {(spam_count / total_count) * 100:.2f}%")
 
     # Write results to CSV
-    output_dir = r"G:\Shared drives\Business\Zendesk\Support\users"
+    output_dir = r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Support\users"
     os.makedirs(output_dir, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     csv_filename = os.path.join(output_dir, f"spam_users_{timestamp}.csv")

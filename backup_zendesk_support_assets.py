@@ -97,7 +97,7 @@ def main():
     session, zendesk = get_zendesk_session()
     current_date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     
-    assets_base_path = r"G:\Shared drives\Business\Zendesk\Support"
+    assets_base_path = r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Support"
     
     # List of asset types to backup
     assets = [
