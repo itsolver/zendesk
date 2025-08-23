@@ -56,7 +56,9 @@ def fetch_data(session, endpoint):
         return response.json()
 
 def backup_asset(asset, backup_path, asset_type):
-    safe_title = slugify(asset['title'])
+    # Determine the title key based on asset type
+    title_key = 'name' if asset_type in ['triggers', 'automations', 'macros', 'views'] else 'title'
+    safe_title = slugify(asset[title_key])
     filename = f"{safe_title}.json"
     content = json.dumps(asset, indent=2)
     
@@ -64,22 +66,23 @@ def backup_asset(asset, backup_path, asset_type):
         f.write(content)
     
     print(f"{filename} - copied!")
-    return (filename, asset['title'], asset.get('active', True), asset.get('created_at'), asset.get('updated_at'))
+    return (filename, asset[title_key], asset.get('active', True), asset.get('created_at'), asset.get('updated_at'))
 
-def backup_assets(session, zendesk, asset_type, backup_path, inactive_path):
+def backup_assets(session, zendesk, endpoint, asset_name, backup_path, inactive_path):
     create_directory(backup_path)
     create_directory(inactive_path)
     
-    endpoint = f"{zendesk}/api/v2/{asset_type}.json"
+    endpoint_url = f"{zendesk}/api/v2/{endpoint}.json"
     log = []
     
-    while endpoint:
-        data = fetch_data(session, endpoint)
-        for asset in data[asset_type]:
+    while endpoint_url:
+        data = fetch_data(session, endpoint_url)
+        # Use asset_name to get the list of assets from the response
+        for asset in data[asset_name]:
             path = inactive_path if not asset.get('active', True) else backup_path
-            log.append(backup_asset(asset, path, asset_type))
+            log.append(backup_asset(asset, path, asset_name))
         
-        endpoint = data.get('next_page')
+        endpoint_url = data.get('next_page')
     
     write_log(backup_path, log)
 
@@ -99,30 +102,30 @@ def main():
     
     assets_base_path = r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Support"
     
-    # List of asset types to backup
-    assets = [
-        'app_installations',
-        'automations',
-        'macros',
-        'organization_fields',
-        'organizations',
-        'ticket_fields',
-        'tickets',
-        'triggers',
-        'user_fields',
-        'views'
-    ]
+    # Dictionary of asset types to backup with their API endpoints
+    assets = {
+        'apps/installations': 'app_installations',
+        'automations': 'automations',
+        'macros': 'macros',
+        'organization_fields': 'organization_fields',
+        'organizations': 'organizations',
+        'ticket_fields': 'ticket_fields',
+        'tickets': 'tickets',
+        'triggers': 'triggers',
+        'user_fields': 'user_fields',
+        'views': 'views'
+    }
     
-    for asset in assets:
-        asset_path = os.path.join(assets_base_path, asset)
+    for endpoint, asset_name in assets.items():
+        asset_path = os.path.join(assets_base_path, asset_name)
         create_directory(asset_path)
         backup_path = os.path.join(asset_path, current_date)
         inactive_path = os.path.join(backup_path, "inactive")
         
-        backup_assets(session, zendesk, asset, backup_path, inactive_path)
+        backup_assets(session, zendesk, endpoint, asset_name, backup_path, inactive_path)
         
         # Compress the asset folder
-        zip_filename = f"{asset}_{current_date}"
+        zip_filename = f"{asset_name}_{current_date}"
         compress_folder(backup_path, os.path.join(asset_path, zip_filename))
         
         # Delete the uncompressed folder after successful compression
@@ -130,7 +133,7 @@ def main():
             shutil.rmtree(backup_path)
             print(f"Deleted uncompressed folder: {backup_path}")
         else:
-            print(f"Compression failed for {asset}. Uncompressed folder not deleted.")
+            print(f"Compression failed for {asset_name}. Uncompressed folder not deleted.")
 
 if __name__ == "__main__":
     main()
