@@ -14,18 +14,11 @@ from secret_manager import access_secret_version
 # Configuration
 LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups")
 ONEDRIVE_BACKUP_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Backups")
-START_TIME = "1366783200"  # First ticket date in IT Solver Zendesk
-LAST_RUN_FILE = "last_run.txt"
-BACKUP_STATE_FILE = "backup_state.json"
+# Note: We no longer use START_TIME since we don't do incremental backups
 BATCH_SIZE = 100  # Process items in batches to reduce memory usage
 
-# Load last run time if available
-if os.path.exists(LAST_RUN_FILE):
-    with open(LAST_RUN_FILE, "r", encoding="utf-8") as f:
-        last_run_time = f.read().strip()
-        if last_run_time.isdigit():
-            START_TIME = last_run_time
-            print(f"Starting from last run time: {START_TIME}")
+# Note: We no longer use incremental backups based on last run time
+# Instead, we always backup all tickets but use local caching to avoid re-downloading unchanged ones
 
 # Initialize session
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
@@ -46,31 +39,7 @@ def create_directory(path):
     """Create directory if it doesn't exist."""
     os.makedirs(path, exist_ok=True)
 
-def load_backup_state(state_file_path):
-    """Load backup state from JSON file."""
-    if os.path.exists(state_file_path):
-        try:
-            with open(state_file_path, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except (json.JSONDecodeError, IOError):
-            print("Warning: Could not load backup state file. Starting fresh.")
-    
-    return {
-        "last_backup_time": datetime.now().isoformat(),
-        "tickets": {"completed": [], "last_processed_time": START_TIME},
-        "users": {"completed": [], "last_page": None},
-        "organizations": {"completed": [], "last_page": None},
-        "guide_articles": {"completed": [], "last_page": None},
-        "support_assets": {"completed": {}, "last_page": {}}
-    }
-
-def save_backup_state(state_file_path, state):
-    """Save backup state to JSON file."""
-    try:
-        with open(state_file_path, 'w', encoding='utf-8') as f:
-            json.dump(state, f, indent=2)
-    except IOError as e:
-        print(f"Warning: Could not save backup state: {e}")
+# Note: backup state functions removed since we no longer use incremental backups
 
 def is_item_cached_and_current(file_path, updated_at):
     """Check if an item is cached locally and up to date."""
@@ -112,21 +81,19 @@ def write_log(path, log_data, headers):
         writer.writerow(headers)
         writer.writerows(log_data)
 
-def backup_tickets(backup_path, backup_state):
+def backup_tickets(backup_path):
     """Backup all tickets with events using local cache."""
     print("=== Backing up Tickets ===")
     tickets_path = os.path.join(backup_path, "tickets")
     create_directory(tickets_path)
     
-    # Use state to resume from where we left off
-    start_time = backup_state["tickets"]["last_processed_time"]
-    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time={start_time}"
+    # Always backup all tickets, but use caching to avoid re-downloading unchanged ones
+    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json"
     log = []
     total_cached = 0
     total_downloaded = 0
-    last_processed_time = start_time
     
-    print(f"Starting ticket backup from timestamp: {start_time}")
+    print("Starting complete ticket backup (using cache for unchanged tickets)")
     
     def get_ticket_events(ticket_id):
         """Get all events for a ticket."""
@@ -161,10 +128,8 @@ def backup_tickets(backup_path, backup_state):
                 print(f"Cached tickets: {total_cached}")
             return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "cached")
         
-        # Skip if already in completed list (for resumable backups)
-        if ticket_id in backup_state["tickets"]["completed"]:
-            total_cached += 1
-            return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "cached")
+        # Note: We no longer track completed tickets in backup state
+        # Instead, we rely on is_item_cached_and_current for all caching decisions
         
         # Fetch events
         events = get_ticket_events(ticket_id)
@@ -176,8 +141,7 @@ def backup_tickets(backup_path, backup_state):
             with open(file_path, "w", encoding="utf-8") as ticket_file:
                 json.dump(ticket, ticket_file, indent=2)
             
-            # Mark as completed
-            backup_state["tickets"]["completed"].append(ticket_id)
+            # Note: We no longer track completed tickets in backup state
             total_downloaded += 1
             
             if total_downloaded % 25 == 0:
@@ -205,15 +169,7 @@ def backup_tickets(backup_path, backup_state):
             results = list(executor.map(process_ticket, data["tickets"]))
             log.extend(results)
         
-        last_processed_time = data["end_time"]
         tickets_endpoint = data.get("next_page")
-    
-    # Update backup state
-    backup_state["tickets"]["last_processed_time"] = str(last_processed_time)
-    
-    # Save last run time (for backward compatibility)
-    with open(LAST_RUN_FILE, "w", encoding="utf-8") as run_file:
-        run_file.write(str(last_processed_time))
     
     # Write log
     write_log(tickets_path, log, ("File", "Subject", "Date Created", "Date Updated", "Status"))
@@ -485,10 +441,6 @@ def main():
     # Create local cache directory
     create_directory(LOCAL_CACHE_PATH)
     
-    # Load backup state
-    state_file_path = os.path.join(LOCAL_CACHE_PATH, BACKUP_STATE_FILE)
-    backup_state = load_backup_state(state_file_path)
-    
     # Create working directory in local cache
     backup_dir_name = f"zendesk_backup_{current_date}"
     backup_path = os.path.join(LOCAL_CACHE_PATH, backup_dir_name)
@@ -500,10 +452,7 @@ def main():
     # Backup all asset types using local cache
     try:
         print("\n--- Using local cache for improved performance ---")
-        tickets_log = backup_tickets(backup_path, backup_state)
-        
-        # Save state after tickets (largest dataset)
-        save_backup_state(state_file_path, backup_state)
+        tickets_log = backup_tickets(backup_path)
         
         users_log = backup_users(backup_path)
         orgs_log = backup_organizations(backup_path)
