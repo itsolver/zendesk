@@ -86,7 +86,16 @@ def fetch_data(endpoint):
         if handle_rate_limit(response):
             continue
         if response.status_code != 200:
-            raise Exception(f'Failed to retrieve data from {endpoint} with error {response.status_code}')
+            # Print first 500 chars of response for debugging
+            resp_preview = response.text[:500] if response.text else ''
+            print(
+                f"[DEBUG] Non-200 from {endpoint} → {response.status_code}\n"
+                f"Headers: {dict(response.headers)}\n"
+                f"Body preview: {resp_preview}"
+            )
+            raise Exception(
+                f'Failed to retrieve data from {endpoint} with error {response.status_code}'
+            )
         return response.json()
 
 def write_log(path, log_data, headers):
@@ -674,6 +683,7 @@ def get_all_ticket_ids():
     all_ids: set[str] = set()
     page = 0
 
+    tried_cursor = True
     while url:
         page += 1
         response = session.get(url)
@@ -687,9 +697,19 @@ def get_all_ticket_ids():
 
         if response.status_code != 200:
             print(
-                f"[tickets-export] Failed page {page}: status {response.status_code} – {url}"
+                f"[tickets-export] Cursor export failed (status {response.status_code})."
             )
-            break
+            # fallback to classic incremental export one time
+            if tried_cursor:
+                tried_cursor = False
+                url = (
+                    f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time=0"
+                )
+                print("[tickets-export] Falling back to incremental export …")
+                page = 0
+                continue
+            else:
+                break
 
         data = response.json()
         tickets = data.get("tickets", [])
@@ -701,8 +721,14 @@ def get_all_ticket_ids():
             f"[tickets-export] Page {page}: got {len(tickets)} tickets – total so far {len(all_ids)}"
         )
 
-        # Cursor pagination – link provided when more data is available
-        url = data.get("links", {}).get("next") if data.get("meta", {}).get("has_more") else None
+        if tried_cursor:
+            url = (
+                data.get("links", {}).get("next")
+                if data.get("meta", {}).get("has_more")
+                else None
+            )
+        else:
+            url = data.get("next_page")
 
     print(f"[tickets-export] Total tickets collected: {len(all_ids)}")
     return all_ids
