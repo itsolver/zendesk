@@ -6,7 +6,8 @@ import csv
 import shutil
 import re
 import unicodedata
-from datetime import datetime
+import threading
+from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version, test_gcloud_access
@@ -14,11 +15,105 @@ from secret_manager import access_secret_version, test_gcloud_access
 # Configuration
 LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups")
 ONEDRIVE_BACKUP_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Suppliers\Zendesk\Backups")
-# Note: We no longer use START_TIME since we don't do incremental backups
 BATCH_SIZE = 100  # Process items in batches to reduce memory usage
+
+# Rate Limiting Configuration for Zendesk Suite Professional
+# Support API: 400 requests per minute = ~6.67 requests per second
+# We'll use 350 req/min to stay safely under the limit
+MAX_REQUESTS_PER_MINUTE = 350
+MAX_REQUESTS_PER_SECOND = MAX_REQUESTS_PER_MINUTE / 60.0
+REQUEST_INTERVAL = 1.0 / MAX_REQUESTS_PER_SECOND  # ~0.17 seconds between requests
+
+# Thread pool sizes optimized for rate limits
+# Conservative approach: lower concurrency to respect rate limits
+TICKET_WORKERS = 3  # Reduced from 5, tickets make additional API calls for events
+USER_WORKERS = 4    # Reduced from 10
+ORG_WORKERS = 4     # Reduced from 10  
+ARTICLE_WORKERS = 4 # Reduced from 10
+ASSET_WORKERS = 5   # Support assets are typically fewer in number
 
 # Note: We no longer use incremental backups based on last run time
 # Instead, we always backup all tickets but use local caching to avoid re-downloading unchanged ones
+
+class RateLimiter:
+    """Thread-safe rate limiter for Zendesk API calls."""
+    
+    def __init__(self, max_requests_per_minute=MAX_REQUESTS_PER_MINUTE):
+        self.max_requests_per_minute = max_requests_per_minute
+        self.request_times = []
+        self.lock = threading.Lock()
+        self.total_requests = 0
+        self.rate_limited_count = 0
+        self.last_rate_limit_info = {}
+        
+    def wait_if_needed(self):
+        """Wait if we're approaching rate limits."""
+        with self.lock:
+            now = datetime.now()
+            
+            # Remove requests older than 1 minute
+            cutoff = now - timedelta(minutes=1)
+            self.request_times = [req_time for req_time in self.request_times if req_time > cutoff]
+            
+            # Check if we need to wait
+            if len(self.request_times) >= self.max_requests_per_minute:
+                # Wait until the oldest request is more than 1 minute ago
+                oldest_request = min(self.request_times)
+                wait_time = 61 - (now - oldest_request).total_seconds()
+                if wait_time > 0:
+                    print(f"Rate limiting: waiting {wait_time:.1f}s to stay under {self.max_requests_per_minute} req/min")
+                    time.sleep(wait_time)
+            
+            # Add current request time
+            self.request_times.append(now)
+            self.total_requests += 1
+            
+    def handle_rate_limit_response(self, response):
+        """Handle 429 responses and update rate limit info."""
+        with self.lock:
+            if response.status_code == 429:
+                self.rate_limited_count += 1
+                retry_after = int(response.headers.get('retry-after', 60))
+                
+                # Update rate limit info from headers
+                self.last_rate_limit_info = {
+                    'limit': response.headers.get('X-Rate-Limit', 'unknown'),
+                    'remaining': response.headers.get('X-Rate-Limit-Remaining', 'unknown'),
+                    'retry_after': retry_after,
+                    'timestamp': datetime.now()
+                }
+                
+                print(f'Rate limited! Waiting {retry_after}s. Limit: {self.last_rate_limit_info["limit"]}, '
+                      f'Remaining: {self.last_rate_limit_info["remaining"]}')
+                time.sleep(retry_after)
+                return True
+            
+            # Update rate limit info from successful responses
+            if 'X-Rate-Limit' in response.headers:
+                self.last_rate_limit_info.update({
+                    'limit': response.headers.get('X-Rate-Limit'),
+                    'remaining': response.headers.get('X-Rate-Limit-Remaining'),
+                    'timestamp': datetime.now()
+                })
+                
+            return False
+    
+    def get_stats(self):
+        """Get current rate limiting statistics."""
+        with self.lock:
+            now = datetime.now()
+            cutoff = now - timedelta(minutes=1)
+            recent_requests = len([req_time for req_time in self.request_times if req_time > cutoff])
+            
+            return {
+                'total_requests': self.total_requests,
+                'requests_last_minute': recent_requests,
+                'rate_limited_count': self.rate_limited_count,
+                'last_rate_limit_info': self.last_rate_limit_info
+            }
+
+# Initialize global rate limiter
+rate_limiter = RateLimiter()
 
 # Initialize session
 print("Config loaded!")
@@ -71,20 +166,20 @@ def is_item_cached_and_current(file_path, updated_at):
         return False
 
 def handle_rate_limit(response):
-    """Handle API rate limiting."""
-    if response.status_code == 429:
-        retry_after = int(response.headers.get('retry-after', 60))
-        print(f'Rate limited. Waiting for {retry_after} seconds.')
-        time.sleep(retry_after)
-        return True
-    return False
+    """Handle API rate limiting - now uses global rate limiter."""
+    return rate_limiter.handle_rate_limit_response(response)
 
 def fetch_data(endpoint):
-    """Fetch data from API endpoint with rate limiting."""
+    """Fetch data from API endpoint with proactive rate limiting."""
     while True:
+        # Proactive rate limiting
+        rate_limiter.wait_if_needed()
+        
         response = session.get(endpoint)
+        
         if handle_rate_limit(response):
             continue
+            
         if response.status_code != 200:
             # Print first 500 chars of response for debugging
             resp_preview = response.text[:500] if response.text else ''
@@ -93,10 +188,22 @@ def fetch_data(endpoint):
                 f"Headers: {dict(response.headers)}\n"
                 f"Body preview: {resp_preview}"
             )
-            raise Exception(
+            raise requests.RequestException(
                 f'Failed to retrieve data from {endpoint} with error {response.status_code}'
             )
         return response.json()
+
+def fetch_data_with_retries(endpoint, max_retries=3):
+    """Fetch data with exponential backoff on failures."""
+    for attempt in range(max_retries):
+        try:
+            return fetch_data(endpoint)
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise e
+            wait_time = (2 ** attempt) + 1  # Exponential backoff: 1s, 3s, 7s
+            print(f"Request failed (attempt {attempt + 1}/{max_retries}), retrying in {wait_time}s: {str(e)}")
+            time.sleep(wait_time)
 
 def write_log(path, log_data, headers):
     """Write CSV log file."""
@@ -130,17 +237,22 @@ def backup_tickets(backup_path, cache_path):
     print("Starting complete ticket backup using incremental API (gets ALL tickets including archived)")
     
     def get_ticket_events(ticket_id):
-        """Get all events for a ticket."""
+        """Get all events for a ticket with improved rate limiting."""
         events_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets/{ticket_id}/audits.json"
         events = []
         while events_endpoint:
+            # Proactive rate limiting
+            rate_limiter.wait_if_needed()
+            
             response = session.get(events_endpoint)
-            if response.status_code == 429:
-                time.sleep(int(response.headers.get("retry-after", 60)))
+            
+            if handle_rate_limit(response):
                 continue
+                
             if response.status_code != 200:
-                print(f"Failed to get events for ticket {ticket_id}")
+                print(f"Failed to get events for ticket {ticket_id}: HTTP {response.status_code}")
                 break
+                
             data = response.json()
             events.extend(data["audits"])
             events_endpoint = data.get("next_page")
@@ -193,24 +305,30 @@ def backup_tickets(backup_path, cache_path):
     page_count = 0
     while tickets_endpoint:
         page_count += 1
-        response = session.get(tickets_endpoint)
-        if response.status_code == 429:
-            time.sleep(int(response.headers.get("retry-after", 60)))
-            continue
-        if response.status_code != 200:
-            print(f"Failed to retrieve tickets with error {response.status_code}")
+        
+        # Use improved fetch function with rate limiting
+        try:
+            data = fetch_data_with_retries(tickets_endpoint)
+        except Exception as e:
+            print(f"Failed to retrieve tickets page {page_count}: {e}")
             break
         
-        data = response.json()
         if not data.get("tickets"):
             print(f"No tickets found on page {page_count}")
             break
         
         print(f"Processing tickets page {page_count}: {len(data['tickets'])} tickets")
         
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        # Optimized thread pool size for rate limits
+        with ThreadPoolExecutor(max_workers=TICKET_WORKERS) as executor:
             results = list(executor.map(process_ticket, data["tickets"]))
             log.extend([r for r in results if r is not None])
+        
+        # Print rate limiting stats every 5 pages
+        if page_count % 5 == 0:
+            stats = rate_limiter.get_stats()
+            print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
+                  f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
         
         # Update the start_time for the next API call using end_time
         end_time = data.get("end_time")
@@ -297,14 +415,21 @@ def backup_users(backup_path, cache_path):
     page_count = 0
     while users_endpoint:
         page_count += 1
-        data = fetch_data(users_endpoint)
+        data = fetch_data_with_retries(users_endpoint)
         
         print(f"Processing users page {page_count}: {len(data['users'])} users")
         
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        # Optimized thread pool size for rate limits
+        with ThreadPoolExecutor(max_workers=USER_WORKERS) as executor:
             results = list(executor.map(process_user, data['users']))
             # Filter out None results (deleted users)
             log.extend([r for r in results if r is not None])
+        
+        # Print rate limiting stats every 10 pages
+        if page_count % 10 == 0:
+            stats = rate_limiter.get_stats()
+            print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
+                  f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
         
         users_endpoint = data.get('next_page')
         if users_endpoint:
@@ -380,14 +505,21 @@ def backup_organizations(backup_path, cache_path):
     page_count = 0
     while orgs_endpoint:
         page_count += 1
-        data = fetch_data(orgs_endpoint)
+        data = fetch_data_with_retries(orgs_endpoint)
         
         print(f"Processing organizations page {page_count}: {len(data['organizations'])} organizations")
         
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        # Optimized thread pool size for rate limits
+        with ThreadPoolExecutor(max_workers=ORG_WORKERS) as executor:
             results = list(executor.map(process_organization, data['organizations']))
             # Filter out None results (deleted organizations)
             log.extend([r for r in results if r is not None])
+        
+        # Print rate limiting stats every 5 pages
+        if page_count % 5 == 0:
+            stats = rate_limiter.get_stats()
+            print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
+                  f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
         
         orgs_endpoint = data.get('next_page')
         if orgs_endpoint:
@@ -445,7 +577,16 @@ def backup_guide_articles(backup_path, cache_path):
         # Fetch full article details and save to cache and backup
         try:
             article_endpoint = f"https://{zendesk_subdomain}/api/v2/help_center/articles/{article_id}.json"
+            
+            # Use rate limiting for individual article requests
+            rate_limiter.wait_if_needed()
             response = session.get(article_endpoint)
+            
+            if handle_rate_limit(response):
+                # Retry after rate limit
+                rate_limiter.wait_if_needed()
+                response = session.get(article_endpoint)
+                
             if response.status_code != 200:
                 print(f'Failed to retrieve article {article_id} with error {response.status_code}')
                 return (filename, article['title'], article['created_at'], article['updated_at'], 'error')
@@ -471,14 +612,21 @@ def backup_guide_articles(backup_path, cache_path):
     page_count = 0
     while articles_endpoint:
         page_count += 1
-        data = fetch_data(articles_endpoint)
+        data = fetch_data_with_retries(articles_endpoint)
         
         print(f"Processing articles page {page_count}: {len(data['articles'])} articles")
         
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        # Optimized thread pool size for rate limits (articles make individual API calls)
+        with ThreadPoolExecutor(max_workers=ARTICLE_WORKERS) as executor:
             results = list(executor.map(process_article, data['articles']))
             # Filter out None results (deleted articles)
             log.extend([r for r in results if r is not None])
+        
+        # Print rate limiting stats every 3 pages (articles are more API intensive)
+        if page_count % 3 == 0:
+            stats = rate_limiter.get_stats()
+            print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
+                  f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
         
         articles_endpoint = data.get('next_page')
         if articles_endpoint:
@@ -560,17 +708,31 @@ def backup_support_assets(backup_path, cache_path):
         page_count = 0
         while endpoint_url:
             page_count += 1
-            data = fetch_data(endpoint_url)
+            data = fetch_data_with_retries(endpoint_url)
             
             print(f"Processing {asset_name} page {page_count}: {len(data[response_key])} items")
             
-            for asset in data[response_key]:
-                try:
-                    result = backup_asset(asset, asset_name, cache_asset_type_path, backup_asset_type_path)
-                    log.append(result)
-                except (IOError, OSError, json.JSONDecodeError) as e:
-                    print(f"Error processing asset {asset.get('id', 'unknown')}: {str(e)}")
-                    log.append((f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None))
+            # Process assets in smaller batches to avoid overwhelming the rate limiter
+            batch_size = min(20, len(data[response_key]))  # Process in smaller batches
+            for i in range(0, len(data[response_key]), batch_size):
+                batch = data[response_key][i:i + batch_size]
+                
+                # Process assets sequentially to be more conservative with rate limits
+                batch_results = []
+                for asset in batch:
+                    try:
+                        result = backup_asset(asset, asset_name, cache_asset_type_path, backup_asset_type_path)
+                        batch_results.append(result)
+                    except (IOError, OSError, json.JSONDecodeError) as e:
+                        print(f"Error processing asset {asset.get('id', 'unknown')}: {str(e)}")
+                        batch_results.append((f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None))
+                log.extend(batch_results)
+            
+            # Print rate limiting stats every 2 pages for assets
+            if page_count % 2 == 0:
+                stats = rate_limiter.get_stats()
+                print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
+                      f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
             
             endpoint_url = data.get('next_page')
             if endpoint_url:
@@ -655,7 +817,17 @@ def main():
             
             end_time = datetime.now()
             duration = end_time - start_time
-            summary_file.write(f"Backup Duration: {duration}\n")
+            
+            # Add rate limiting statistics to summary
+            stats = rate_limiter.get_stats()
+            avg_requests_per_min = stats['total_requests'] / (duration.total_seconds() / 60.0) if duration.total_seconds() > 0 else 0
+            summary_file.write("\nAPI Performance:\n")
+            summary_file.write(f"Total API requests: {stats['total_requests']}\n")
+            summary_file.write(f"Average rate: {avg_requests_per_min:.1f} requests/minute (limit: {MAX_REQUESTS_PER_MINUTE}/min)\n")
+            summary_file.write(f"Rate limited events: {stats['rate_limited_count']}\n")
+            summary_file.write(f"Rate limit compliance: {'Yes' if avg_requests_per_min <= MAX_REQUESTS_PER_MINUTE else 'No'}\n")
+            
+            summary_file.write(f"\nBackup Duration: {duration}\n")
             summary_file.write(f"Backup Completed: {end_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
         
         # Create zip file in local cache first
@@ -685,10 +857,19 @@ def main():
         downloaded_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'downloaded')
         cache_rate = (cached_items / (cached_items + downloaded_items)) * 100 if (cached_items + downloaded_items) > 0 else 0
         
+        # Get final rate limiting statistics
+        final_stats = rate_limiter.get_stats()
+        avg_requests_per_min = final_stats['total_requests'] / (duration.total_seconds() / 60.0) if duration.total_seconds() > 0 else 0
+        
         print("\n=== Backup Complete ===")
         print(f"Duration: {duration}")
         print(f"Total items backed up: {total_items}")
         print(f"Cache efficiency: {cached_items} cached, {downloaded_items} downloaded ({cache_rate:.1f}% cache hit rate)")
+        print("API Performance:")
+        print(f"  - Total API requests: {final_stats['total_requests']}")
+        print(f"  - Average rate: {avg_requests_per_min:.1f} requests/minute (limit: {MAX_REQUESTS_PER_MINUTE}/min)")
+        print(f"  - Rate limited events: {final_stats['rate_limited_count']}")
+        print(f"  - Rate limit compliance: {'✓' if avg_requests_per_min <= MAX_REQUESTS_PER_MINUTE else '✗'}")
         print(f"Local zip file: {local_zip_path}")
         print(f"OneDrive zip file: {onedrive_zip_path}")
         print(f"Persistent cache directory: {persistent_cache_path}")
