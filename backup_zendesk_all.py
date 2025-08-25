@@ -108,7 +108,7 @@ def backup_tickets(backup_path, cache_path):
     create_directory(backup_tickets_path)
     
     # Get current ticket IDs and clean cache
-    current_ticket_ids = get_current_item_ids('tickets')
+    current_ticket_ids = get_all_ticket_ids()
     clean_cache_directory(cache_tickets_path, current_ticket_ids, 'tickets')
     
     # Always backup all tickets, but use caching to avoid re-downloading unchanged ones
@@ -651,6 +651,61 @@ def get_current_item_ids(endpoint_type):
     
     print(f"Found {len(current_ids)} current {endpoint_type} across {page_count} pages")
     return current_ids
+
+# ---------------------------------------------------------------------------
+# Ticket archive handling
+# ---------------------------------------------------------------------------
+
+def get_all_ticket_ids():
+    """Return *all* ticket IDs (including archived ones) using Incremental Cursor Export.
+
+    Zendesk moves closed-for-120-days tickets into the *archive*. These tickets
+    never appear in the regular /tickets.json collection.  The incremental
+    export endpoints are the only supported way to fetch them.  We iterate over
+    the cursor-based export until `meta.has_more` is False.
+    """
+
+    # Max 1000 tickets per page – recommended by Zendesk docs
+    url = (
+        f"https://{zendesk_subdomain}/api/v2/incremental/tickets/"
+        f"cursor.json?start_time=0&page[size]=1000"
+    )
+
+    all_ids: set[str] = set()
+    page = 0
+
+    while url:
+        page += 1
+        response = session.get(url)
+
+        if response.status_code == 429:
+            # Rate-limit – respect Retry-After header
+            retry_after = int(response.headers.get("retry-after", 60))
+            print(f"[tickets-export] Rate limited. Sleeping {retry_after}s …")
+            time.sleep(retry_after)
+            continue
+
+        if response.status_code != 200:
+            print(
+                f"[tickets-export] Failed page {page}: status {response.status_code} – {url}"
+            )
+            break
+
+        data = response.json()
+        tickets = data.get("tickets", [])
+
+        for t in tickets:
+            all_ids.add(str(t["id"]))
+
+        print(
+            f"[tickets-export] Page {page}: got {len(tickets)} tickets – total so far {len(all_ids)}"
+        )
+
+        # Cursor pagination – link provided when more data is available
+        url = data.get("links", {}).get("next") if data.get("meta", {}).get("has_more") else None
+
+    print(f"[tickets-export] Total tickets collected: {len(all_ids)}")
+    return all_ids
 
 def clean_cache_directory(cache_dir, current_ids, item_type):
     """Remove cached items that no longer exist in Zendesk."""
