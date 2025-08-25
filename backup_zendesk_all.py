@@ -214,9 +214,12 @@ def backup_users(backup_path, cache_path):
     
     users_endpoint = f"https://{zendesk_subdomain}/api/v2/users.json"
     log = []
+    total_cached = 0
+    total_downloaded = 0
     
     def process_user(user):
         """Process and save a single user."""
+        nonlocal total_cached, total_downloaded
         user_id = str(user['id'])
         
         # Skip if user was deleted in Zendesk
@@ -239,6 +242,9 @@ def backup_users(backup_path, cache_path):
                     # Copy from cache to backup
                     try:
                         shutil.copy2(cache_file_path, backup_file_path)
+                        total_cached += 1
+                        if total_cached % 50 == 0:
+                            print(f"Cached users: {total_cached}")
                         return (filename, user['name'], user['created_at'], user['updated_at'], 'cached')
                     except (IOError, OSError) as e:
                         print(f"Failed to copy cached {filename}: {e}")
@@ -253,6 +259,10 @@ def backup_users(backup_path, cache_path):
             
             # Copy to backup
             shutil.copy2(cache_file_path, backup_file_path)
+            
+            total_downloaded += 1
+            if total_downloaded % 25 == 0:
+                print(f"Downloaded users: {total_downloaded}, Cached: {total_cached}")
             
             return (filename, user['name'], user['created_at'], user['updated_at'], 'downloaded')
         except Exception as e:
@@ -270,7 +280,7 @@ def backup_users(backup_path, cache_path):
         users_endpoint = data.get('next_page')
     
     write_log(backup_users_path, log, ("File", "Name", "Date Created", "Date Updated", "Status"))
-    print(f"Users backup completed: {len(log)} users processed")
+    print(f"Users backup completed: {len(log)} users processed ({total_downloaded} downloaded, {total_cached} cached)")
     return log
 
 def backup_organizations(backup_path, cache_path):
@@ -289,9 +299,12 @@ def backup_organizations(backup_path, cache_path):
     
     orgs_endpoint = f"https://{zendesk_subdomain}/api/v2/organizations.json"
     log = []
+    total_cached = 0
+    total_downloaded = 0
     
     def process_organization(org):
         """Process and save a single organization."""
+        nonlocal total_cached, total_downloaded
         org_id = str(org['id'])
         
         # Skip if organization was deleted in Zendesk
@@ -314,6 +327,9 @@ def backup_organizations(backup_path, cache_path):
                     # Copy from cache to backup
                     try:
                         shutil.copy2(cache_file_path, backup_file_path)
+                        total_cached += 1
+                        if total_cached % 25 == 0:
+                            print(f"Cached organizations: {total_cached}")
                         return (filename, org['name'], org['created_at'], org['updated_at'], 'cached')
                     except (IOError, OSError) as e:
                         print(f"Failed to copy cached {filename}: {e}")
@@ -329,10 +345,14 @@ def backup_organizations(backup_path, cache_path):
             # Copy to backup
             shutil.copy2(cache_file_path, backup_file_path)
             
+            total_downloaded += 1
+            if total_downloaded % 10 == 0:
+                print(f"Downloaded organizations: {total_downloaded}, Cached: {total_cached}")
+            
             return (filename, org['name'], org['created_at'], org['updated_at'], 'downloaded')
         except Exception as e:
             print(f"Failed to save {filename}: {e}")
-            return (filename, org['name'], org['created_at'], org['updated_at'], 'error')
+            return (filename, org['name'], org['updated_at'], org['updated_at'], 'error')
     
     while orgs_endpoint:
         data = fetch_data(orgs_endpoint)
@@ -345,7 +365,7 @@ def backup_organizations(backup_path, cache_path):
         orgs_endpoint = data.get('next_page')
     
     write_log(backup_orgs_path, log, ("File", "Name", "Date Created", "Date Updated", "Status"))
-    print(f"Organizations backup completed: {len(log)} organizations processed")
+    print(f"Organizations backup completed: {len(log)} organizations processed ({total_downloaded} downloaded, {total_cached} cached)")
     return log
 
 def backup_guide_articles(backup_path, cache_path):
@@ -364,9 +384,12 @@ def backup_guide_articles(backup_path, cache_path):
     
     articles_endpoint = f"https://{zendesk_subdomain}/api/v2/help_center/articles.json"
     log = []
+    total_cached = 0
+    total_downloaded = 0
     
     def process_article(article):
         """Process and save a single article."""
+        nonlocal total_cached, total_downloaded
         article_id = str(article['id'])
         
         # Skip if article was deleted in Zendesk
@@ -389,6 +412,9 @@ def backup_guide_articles(backup_path, cache_path):
                     # Copy from cache to backup
                     try:
                         shutil.copy2(cache_file_path, backup_file_path)
+                        total_cached += 1
+                        if total_cached % 10 == 0:
+                            print(f"Cached articles: {total_cached}")
                         return (filename, article['title'], article['created_at'], article['updated_at'], 'cached')
                     except (IOError, OSError) as e:
                         print(f"Failed to copy cached {filename}: {e}")
@@ -412,6 +438,10 @@ def backup_guide_articles(backup_path, cache_path):
             # Copy to backup
             shutil.copy2(cache_file_path, backup_file_path)
             
+            total_downloaded += 1
+            if total_downloaded % 5 == 0:
+                print(f"Downloaded articles: {total_downloaded}, Cached: {total_cached}")
+            
             return (filename, full_article['title'], full_article['created_at'], full_article['updated_at'], 'downloaded')
         except (IOError, OSError, requests.RequestException) as e:
             print(f"Failed to save {filename}: {e}")
@@ -428,7 +458,7 @@ def backup_guide_articles(backup_path, cache_path):
         articles_endpoint = data.get('next_page')
     
     write_log(backup_articles_path, log, ("File", "Title", "Date Created", "Date Updated", "Status"))
-    print(f"Guide articles backup completed: {len(log)} articles processed")
+    print(f"Guide articles backup completed: {len(log)} articles processed ({total_downloaded} downloaded, {total_cached} cached)")
     return log
 
 def backup_support_assets(backup_path, cache_path):
@@ -631,12 +661,22 @@ def main():
             summary_file.write("Zendesk Complete Backup Summary\n")
             summary_file.write(f"Backup Date: {start_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             summary_file.write(f"Zendesk Subdomain: {zendesk_subdomain}\n\n")
+            
+            # Count cache vs download stats from logs
+            total_items = len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log)
+            cached_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'cached')
+            downloaded_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'downloaded')
+            
             summary_file.write(f"Tickets: {len(tickets_log)} processed\n")
             summary_file.write(f"Users: {len(users_log)} processed\n")
             summary_file.write(f"Organizations: {len(orgs_log)} processed\n")
             summary_file.write(f"Guide Articles: {len(articles_log)} processed\n")
             summary_file.write(f"Support Assets: {len(assets_log)} processed\n\n")
-            summary_file.write(f"Total items: {len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log)}\n")
+            summary_file.write(f"Total items: {total_items}\n")
+            summary_file.write(f"Cache efficiency: {cached_items} cached, {downloaded_items} downloaded\n")
+            if total_items > 0:
+                cache_rate = (cached_items / (cached_items + downloaded_items)) * 100 if (cached_items + downloaded_items) > 0 else 0
+                summary_file.write(f"Cache hit rate: {cache_rate:.1f}%\n")
             
             end_time = datetime.now()
             duration = end_time - start_time
@@ -663,12 +703,20 @@ def main():
         # Print final summary
         end_time = datetime.now()
         duration = end_time - start_time
+        
+        # Calculate cache efficiency
+        total_items = len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log)
+        cached_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'cached')
+        downloaded_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'downloaded')
+        cache_rate = (cached_items / (cached_items + downloaded_items)) * 100 if (cached_items + downloaded_items) > 0 else 0
+        
         print("\n=== Backup Complete ===")
         print(f"Duration: {duration}")
+        print(f"Total items backed up: {total_items}")
+        print(f"Cache efficiency: {cached_items} cached, {downloaded_items} downloaded ({cache_rate:.1f}% cache hit rate)")
         print(f"Local zip file: {local_zip_path}")
         print(f"OneDrive zip file: {onedrive_zip_path}")
         print(f"Persistent cache directory: {persistent_cache_path}")
-        print(f"Total items backed up: {len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log)}")
         
         return True
         
