@@ -49,6 +49,11 @@ def is_item_cached_and_current(file_path, updated_at):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             cached_item = json.load(f)
+            
+            # If the ticket is closed, it will not be updated further.
+            if cached_item.get('status') == 'closed':
+                return True
+                
             cached_updated_at = cached_item.get('updated_at', '')
             return cached_updated_at == updated_at
     except (json.JSONDecodeError, IOError, KeyError):
