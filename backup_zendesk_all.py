@@ -106,6 +106,73 @@ def write_log(path, log_data, headers):
         writer.writerow(headers)
         writer.writerows(log_data)
 
+def get_all_tickets_metadata():
+    """Return metadata for *all* tickets (including archived ones) using Incremental Cursor Export.
+
+    Zendesk moves closed-for-120-days tickets into the *archive*. These tickets
+    never appear in the regular /tickets.json collection.  The incremental
+    export endpoints are the only supported way to fetch them.  We iterate over
+    the cursor-based export until `meta.has_more` is False.
+    """
+
+    # Max 1000 tickets per page – recommended by Zendesk docs
+    url = (
+        f"https://{zendesk_subdomain}/api/v2/incremental/tickets/"
+        f"cursor.json?start_time=0&amp;page[size]=1000"
+    )
+
+    all_tickets = []
+    page = 0
+
+    tried_cursor = True
+    while url:
+        page += 1
+        response = session.get(url)
+
+        if response.status_code == 429:
+            # Rate-limit – respect Retry-After header
+            retry_after = int(response.headers.get("retry-after", 60))
+            print(f"[tickets-export] Rate limited. Sleeping {retry_after}s …")
+            time.sleep(retry_after)
+            continue
+
+        if response.status_code != 200:
+            print(
+                f"[tickets-export] Cursor export failed (status {response.status_code})."
+            )
+            # fallback to classic incremental export one time
+            if tried_cursor:
+                tried_cursor = False
+                url = (
+                    f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time=0"
+                )
+                print("[tickets-export] Falling back to incremental export …")
+                page = 0
+                continue
+            else:
+                break
+
+        data = response.json()
+        tickets = data.get("tickets", [])
+
+        all_tickets.extend(tickets)
+
+        print(
+            f"[tickets-export] Page {page}: got {len(tickets)} tickets – total so far {len(all_tickets)}"
+        )
+
+        if tried_cursor:
+            url = (
+                data.get("links", {}).get("next")
+                if data.get("meta", {}).get("has_more")
+                else None
+            )
+        else:
+            url = data.get("next_page")
+
+    print(f"[tickets-export] Total tickets collected: {len(all_tickets)}")
+    return all_tickets
+
 def backup_tickets(backup_path, cache_path):
     """Backup all tickets with events using persistent local cache."""
     print("=== Backing up Tickets ===")
@@ -116,12 +183,11 @@ def backup_tickets(backup_path, cache_path):
     create_directory(cache_tickets_path)
     create_directory(backup_tickets_path)
     
-    # Get current ticket IDs and clean cache
-    current_ticket_ids = get_all_ticket_ids()
+    # Get all ticket metadata and IDs
+    tickets_metadata = get_all_tickets_metadata()
+    current_ticket_ids = {str(t["id"]) for t in tickets_metadata}
     clean_cache_directory(cache_tickets_path, current_ticket_ids, 'tickets')
     
-    # Always backup all tickets, but use caching to avoid re-downloading unchanged ones
-    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count&per_page=100"
     log = []
     total_cached = 0
     total_downloaded = 0
@@ -150,7 +216,7 @@ def backup_tickets(backup_path, cache_path):
         nonlocal total_cached, total_downloaded
         ticket_id = str(ticket["id"])
         
-        # Skip if ticket was deleted in Zendesk
+        # Skip if ticket was deleted in Zendesk (though unlikely since we just fetched)
         if ticket_id not in current_ticket_ids:
             return None
             
@@ -193,32 +259,19 @@ def backup_tickets(backup_path, cache_path):
             print(f"Failed to save {filename}: {e}")
             return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "error")
     
-    page_count = 0
-    while tickets_endpoint:
-        page_count += 1
-        response = session.get(tickets_endpoint)
-        if response.status_code == 429:
-            time.sleep(int(response.headers.get("retry-after", 60)))
-            continue
-        if response.status_code != 200:
-            print(f"Failed to retrieve tickets with error {response.status_code}")
-            break
+    # Process in batches for progress reporting
+    batch_size = 100
+    num_batches = (len(tickets_metadata) + batch_size - 1) // batch_size
+    for batch_num in range(num_batches):
+        start = batch_num * batch_size
+        end = min(start + batch_size, len(tickets_metadata))
+        batch = tickets_metadata[start:end]
         
-        data = response.json()
-        if not data["tickets"]:
-            print(f"No tickets found on page {page_count}")
-            break
-        
-        print(f"Processing tickets page {page_count}: {len(data['tickets'])} tickets")
+        print(f"Processing tickets batch {batch_num + 1}/{num_batches}: {len(batch)} tickets")
         
         with ThreadPoolExecutor(max_workers=5) as executor:
-            results = list(executor.map(process_ticket, data["tickets"]))
-            # Filter out None results (deleted tickets)
+            results = list(executor.map(process_ticket, batch))
             log.extend([r for r in results if r is not None])
-        
-        tickets_endpoint = data.get("next_page")
-        if tickets_endpoint:
-            print(f"Moving to next page: {page_count + 1}")
     
     # Write log to backup directory
     write_log(backup_tickets_path, log, ("File", "Subject", "Date Created", "Date Updated", "Status"))
