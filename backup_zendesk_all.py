@@ -107,30 +107,22 @@ def write_log(path, log_data, headers):
         writer.writerows(log_data)
 
 def get_all_tickets_metadata():
-    """Return metadata for *all* tickets (including archived ones) using Incremental Cursor Export.
+    """Return metadata for *all* tickets (including archived ones) using Incremental Export."""
 
-    Zendesk moves closed-for-120-days tickets into the *archive*. These tickets
-    never appear in the regular /tickets.json collection.  The incremental
-    export endpoints are the only supported way to fetch them.  We iterate over
-    the cursor-based export until `meta.has_more` is False.
-    """
-
-    # Max 1000 tickets per page – recommended by Zendesk docs
+    # Max 1000 tickets per page
     url = (
-        f"https://{zendesk_subdomain}/api/v2/incremental/tickets/"
-        f"cursor.json?start_time=0&amp;page[size]=1000"
+        f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json"
+        f"?start_time=0&per_page=1000"
     )
 
     all_tickets = []
     page = 0
 
-    tried_cursor = True
     while url:
         page += 1
         response = session.get(url)
 
         if response.status_code == 429:
-            # Rate-limit – respect Retry-After header
             retry_after = int(response.headers.get("retry-after", 60))
             print(f"[tickets-export] Rate limited. Sleeping {retry_after}s …")
             time.sleep(retry_after)
@@ -138,19 +130,9 @@ def get_all_tickets_metadata():
 
         if response.status_code != 200:
             print(
-                f"[tickets-export] Cursor export failed (status {response.status_code})."
+                f"[tickets-export] Incremental export failed (status {response.status_code})."
             )
-            # fallback to classic incremental export one time
-            if tried_cursor:
-                tried_cursor = False
-                url = (
-                    f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time=0"
-                )
-                print("[tickets-export] Falling back to incremental export …")
-                page = 0
-                continue
-            else:
-                break
+            break
 
         data = response.json()
         tickets = data.get("tickets", [])
@@ -161,14 +143,7 @@ def get_all_tickets_metadata():
             f"[tickets-export] Page {page}: got {len(tickets)} tickets – total so far {len(all_tickets)}"
         )
 
-        if tried_cursor:
-            url = (
-                data.get("links", {}).get("next")
-                if data.get("meta", {}).get("has_more")
-                else None
-            )
-        else:
-            url = data.get("next_page")
+        url = data.get("next_page")
 
     print(f"[tickets-export] Total tickets collected: {len(all_tickets)}")
     return all_tickets
