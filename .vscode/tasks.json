@@ -19,5 +19,10 @@
         "runOptions": {
             "runOn": "folderOpen"
         }
+    },
+    {
+        "label": "GCloud Auth",
+        "type": "shell",
+        "command": "gcloud auth application-default login"
     }]
 }

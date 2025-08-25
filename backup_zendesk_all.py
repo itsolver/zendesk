@@ -9,11 +9,11 @@ import unicodedata
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from config import zendesk_subdomain, zendesk_user
-from secret_manager import access_secret_version
+from secret_manager import access_secret_version, test_gcloud_access
 
 # Configuration
 LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups")
-ONEDRIVE_BACKUP_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Business\Zendesk\Backups")
+ONEDRIVE_BACKUP_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Suppliers\Zendesk\Backups")
 # Note: We no longer use START_TIME since we don't do incremental backups
 BATCH_SIZE = 100  # Process items in batches to reduce memory usage
 
@@ -21,6 +21,17 @@ BATCH_SIZE = 100  # Process items in batches to reduce memory usage
 # Instead, we always backup all tickets but use local caching to avoid re-downloading unchanged ones
 
 # Initialize session
+print("Config loaded!")
+
+# Test Google Cloud access before attempting to use Secret Manager
+if not test_gcloud_access():
+    print("ERROR: Cannot access Google Cloud Secret Manager.")
+    print("Please ensure:")
+    print("1. GOOGLE_APPLICATION_CREDENTIALS environment variable is set")
+    print("2. You have access to the 'billing-sync' project")
+    print("3. You have Secret Manager permissions")
+    exit(1)
+
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
 session = requests.Session()
 session.auth = (zendesk_user, zendesk_secret)
@@ -101,7 +112,7 @@ def backup_tickets(backup_path, cache_path):
     clean_cache_directory(cache_tickets_path, current_ticket_ids, 'tickets')
     
     # Always backup all tickets, but use caching to avoid re-downloading unchanged ones
-    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json"
+    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count"
     log = []
     total_cached = 0
     total_downloaded = 0
@@ -569,7 +580,7 @@ def get_current_item_ids(endpoint_type):
     print(f"Getting current {endpoint_type} IDs from Zendesk...")
     
     endpoints = {
-        'tickets': f"https://{zendesk_subdomain}/api/v2/tickets.json",
+        'tickets': f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count",
         'users': f"https://{zendesk_subdomain}/api/v2/users.json", 
         'organizations': f"https://{zendesk_subdomain}/api/v2/organizations.json",
         'articles': f"https://{zendesk_subdomain}/api/v2/help_center/articles.json"

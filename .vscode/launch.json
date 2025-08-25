@@ -12,8 +12,9 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\AngusMcLauchlan\\AppData\\Roaming\\gcloud\\application_default_credentials.json"
-            }
+                "GOOGLE_APPLICATION_CREDENTIALS": "${env:APPDATA}\\gcloud\\application_default_credentials.json"
+            },
+            "preLaunchTask": "GCloud Auth"
         },
         
     ]

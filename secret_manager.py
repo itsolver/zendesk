@@ -1,9 +1,35 @@
 from google.cloud import secretmanager
+from google.auth.exceptions import DefaultCredentialsError
+from google.api_core.exceptions import PermissionDenied, NotFound
 
 # Import the Secret Manager client library.
 
 # GCP project in which to store secrets in Secret Manager.
 PROJECT_ID = "billing-sync"
+
+
+def test_gcloud_access():
+    """Test if we have access to Google Cloud Secret Manager before attempting to use it."""
+    try:
+        # Check if credentials are available
+        client = secretmanager.SecretManagerServiceClient()
+        
+        # Test basic access by listing secrets (this will fail if no access)
+        parent = f"projects/{PROJECT_ID}"
+        try:
+            # Try to list secrets - this requires minimal permissions
+            secrets_list = list(client.list_secrets(request={"parent": parent}))
+            print(f"Google Cloud access verified. Found {len(secrets_list)} secrets available.")
+            return True
+        except (PermissionDenied, NotFound) as e:
+            print(f"Google Cloud access denied or project not found: {e}")
+            return False
+    except DefaultCredentialsError:
+        print("Google Cloud credentials not found. Please ensure GOOGLE_APPLICATION_CREDENTIALS is set correctly.")
+        return False
+    except Exception as e:
+        print(f"Failed to access Google Cloud: {e}")
+        return False
 
 
 def create_secret(secret_id):
