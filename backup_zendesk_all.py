@@ -106,47 +106,7 @@ def write_log(path, log_data, headers):
         writer.writerow(headers)
         writer.writerows(log_data)
 
-def get_all_tickets_metadata():
-    """Return metadata for *all* tickets (including archived ones) using Incremental Export."""
 
-    # Max 1000 tickets per page
-    url = (
-        f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json"
-        f"?start_time=0&per_page=1000"
-    )
-
-    all_tickets = []
-    page = 0
-
-    while url:
-        page += 1
-        response = session.get(url)
-
-        if response.status_code == 429:
-            retry_after = int(response.headers.get("retry-after", 60))
-            print(f"[tickets-export] Rate limited. Sleeping {retry_after}s …")
-            time.sleep(retry_after)
-            continue
-
-        if response.status_code != 200:
-            print(
-                f"[tickets-export] Incremental export failed (status {response.status_code})."
-            )
-            break
-
-        data = response.json()
-        tickets = data.get("tickets", [])
-
-        all_tickets.extend(tickets)
-
-        print(
-            f"[tickets-export] Page {page}: got {len(tickets)} tickets – total so far {len(all_tickets)}"
-        )
-
-        url = data.get("next_page")
-
-    print(f"[tickets-export] Total tickets collected: {len(all_tickets)}")
-    return all_tickets
 
 def backup_tickets(backup_path, cache_path):
     """Backup all tickets with events using persistent local cache."""
@@ -158,11 +118,8 @@ def backup_tickets(backup_path, cache_path):
     create_directory(cache_tickets_path)
     create_directory(backup_tickets_path)
     
-    # Get all ticket metadata and IDs
-    tickets_metadata = get_all_tickets_metadata()
-    current_ticket_ids = {str(t["id"]) for t in tickets_metadata}
-    clean_cache_directory(cache_tickets_path, current_ticket_ids, 'tickets')
-    
+    # Use regular tickets endpoint with pagination - much faster than incremental export
+    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count&per_page=100"
     log = []
     total_cached = 0
     total_downloaded = 0
@@ -191,10 +148,6 @@ def backup_tickets(backup_path, cache_path):
         nonlocal total_cached, total_downloaded
         ticket_id = str(ticket["id"])
         
-        # Skip if ticket was deleted in Zendesk (though unlikely since we just fetched)
-        if ticket_id not in current_ticket_ids:
-            return None
-            
         filename = f"{ticket_id}.json"
         cache_file_path = os.path.join(cache_tickets_path, filename)
         backup_file_path = os.path.join(backup_tickets_path, filename)
@@ -234,19 +187,31 @@ def backup_tickets(backup_path, cache_path):
             print(f"Failed to save {filename}: {e}")
             return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "error")
     
-    # Process in batches for progress reporting
-    batch_size = 100
-    num_batches = (len(tickets_metadata) + batch_size - 1) // batch_size
-    for batch_num in range(num_batches):
-        start = batch_num * batch_size
-        end = min(start + batch_size, len(tickets_metadata))
-        batch = tickets_metadata[start:end]
+    page_count = 0
+    while tickets_endpoint:
+        page_count += 1
+        response = session.get(tickets_endpoint)
+        if response.status_code == 429:
+            time.sleep(int(response.headers.get("retry-after", 60)))
+            continue
+        if response.status_code != 200:
+            print(f"Failed to retrieve tickets with error {response.status_code}")
+            break
         
-        print(f"Processing tickets batch {batch_num + 1}/{num_batches}: {len(batch)} tickets")
+        data = response.json()
+        if not data["tickets"]:
+            print(f"No tickets found on page {page_count}")
+            break
+        
+        print(f"Processing tickets page {page_count}: {len(data['tickets'])} tickets")
         
         with ThreadPoolExecutor(max_workers=5) as executor:
-            results = list(executor.map(process_ticket, batch))
+            results = list(executor.map(process_ticket, data["tickets"]))
             log.extend([r for r in results if r is not None])
+        
+        tickets_endpoint = data.get("next_page")
+        if tickets_endpoint:
+            print(f"Moving to next page: {page_count + 1}")
     
     # Write log to backup directory
     write_log(backup_tickets_path, log, ("File", "Subject", "Date Created", "Date Updated", "Status"))
@@ -263,10 +228,6 @@ def backup_users(backup_path, cache_path):
     create_directory(cache_users_path)
     create_directory(backup_users_path)
     
-    # Get current user IDs and clean cache
-    current_user_ids = get_current_item_ids('users')
-    clean_cache_directory(cache_users_path, current_user_ids, 'users')
-    
     users_endpoint = f"https://{zendesk_subdomain}/api/v2/users.json?per_page=100"
     log = []
     total_cached = 0
@@ -277,10 +238,6 @@ def backup_users(backup_path, cache_path):
         nonlocal total_cached, total_downloaded
         user_id = str(user['id'])
         
-        # Skip if user was deleted in Zendesk
-        if user_id not in current_user_ids:
-            return None
-            
         filename = f"{user_id}.json"
         cache_file_path = os.path.join(cache_users_path, filename)
         backup_file_path = os.path.join(backup_users_path, filename)
@@ -354,10 +311,6 @@ def backup_organizations(backup_path, cache_path):
     create_directory(cache_orgs_path)
     create_directory(backup_orgs_path)
     
-    # Get current organization IDs and clean cache
-    current_org_ids = get_current_item_ids('organizations')
-    clean_cache_directory(cache_orgs_path, current_org_ids, 'organizations')
-    
     orgs_endpoint = f"https://{zendesk_subdomain}/api/v2/organizations.json?per_page=100"
     log = []
     total_cached = 0
@@ -368,10 +321,6 @@ def backup_organizations(backup_path, cache_path):
         nonlocal total_cached, total_downloaded
         org_id = str(org['id'])
         
-        # Skip if organization was deleted in Zendesk
-        if org_id not in current_org_ids:
-            return None
-            
         filename = f"{org_id}.json"
         cache_file_path = os.path.join(cache_orgs_path, filename)
         backup_file_path = os.path.join(backup_orgs_path, filename)
@@ -445,10 +394,6 @@ def backup_guide_articles(backup_path, cache_path):
     create_directory(cache_articles_path)
     create_directory(backup_articles_path)
     
-    # Get current article IDs and clean cache
-    current_article_ids = get_current_item_ids('articles')
-    clean_cache_directory(cache_articles_path, current_article_ids, 'articles')
-    
     articles_endpoint = f"https://{zendesk_subdomain}/api/v2/help_center/articles.json?per_page=100"
     log = []
     total_cached = 0
@@ -459,10 +404,6 @@ def backup_guide_articles(backup_path, cache_path):
         nonlocal total_cached, total_downloaded
         article_id = str(article['id'])
         
-        # Skip if article was deleted in Zendesk
-        if article_id not in current_article_ids:
-            return None
-            
         filename = f"{article_id}.json"
         cache_file_path = os.path.join(cache_articles_path, filename)
         backup_file_path = os.path.join(backup_articles_path, filename)
@@ -643,148 +584,9 @@ def create_backup_zip(backup_path, zip_path):
     shutil.make_archive(zip_path.replace('.zip', ''), 'zip', backup_path)
     print(f"Zip file created successfully: {zip_path}")
 
-def get_current_item_ids(endpoint_type):
-    """Get list of current item IDs from Zendesk API (without full data)."""
-    print(f"Getting current {endpoint_type} IDs from Zendesk...")
-    
-    # Use per_page=100 to maximize items per request and reduce API calls
-    endpoints = {
-        'tickets': f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count&per_page=100",
-        'users': f"https://{zendesk_subdomain}/api/v2/users.json?per_page=100", 
-        'organizations': f"https://{zendesk_subdomain}/api/v2/organizations.json?per_page=100",
-        'articles': f"https://{zendesk_subdomain}/api/v2/help_center/articles.json?per_page=100"
-    }
-    
-    if endpoint_type not in endpoints:
-        return set()
-    
-    current_ids = set()
-    endpoint = endpoints[endpoint_type]
-    page_count = 0
-    
-    while endpoint:
-        page_count += 1
-        response = session.get(endpoint)
-        if response.status_code == 429:
-            time.sleep(int(response.headers.get("retry-after", 60)))
-            continue
-        if response.status_code != 200:
-            print(f"Failed to get {endpoint_type} IDs: {response.status_code}")
-            break
-            
-        data = response.json()
-        items = data.get(endpoint_type, [])
-        
-        if not items:
-            print(f"No items found on page {page_count}")
-            break
-            
-        for item in items:
-            current_ids.add(str(item['id']))
-        
-        print(f"Page {page_count}: Found {len(items)} {endpoint_type} (Total so far: {len(current_ids)})")
-            
-        endpoint = data.get('next_page')
-    
-    print(f"Found {len(current_ids)} current {endpoint_type} across {page_count} pages")
-    return current_ids
 
-# ---------------------------------------------------------------------------
-# Ticket archive handling
-# ---------------------------------------------------------------------------
 
-def get_all_ticket_ids():
-    """Return *all* ticket IDs (including archived ones) using Incremental Cursor Export.
 
-    Zendesk moves closed-for-120-days tickets into the *archive*. These tickets
-    never appear in the regular /tickets.json collection.  The incremental
-    export endpoints are the only supported way to fetch them.  We iterate over
-    the cursor-based export until `meta.has_more` is False.
-    """
-
-    # Max 1000 tickets per page – recommended by Zendesk docs
-    url = (
-        f"https://{zendesk_subdomain}/api/v2/incremental/tickets/"
-        f"cursor.json?start_time=0&page[size]=1000"
-    )
-
-    all_ids: set[str] = set()
-    page = 0
-
-    tried_cursor = True
-    while url:
-        page += 1
-        response = session.get(url)
-
-        if response.status_code == 429:
-            # Rate-limit – respect Retry-After header
-            retry_after = int(response.headers.get("retry-after", 60))
-            print(f"[tickets-export] Rate limited. Sleeping {retry_after}s …")
-            time.sleep(retry_after)
-            continue
-
-        if response.status_code != 200:
-            print(
-                f"[tickets-export] Cursor export failed (status {response.status_code})."
-            )
-            # fallback to classic incremental export one time
-            if tried_cursor:
-                tried_cursor = False
-                url = (
-                    f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time=0"
-                )
-                print("[tickets-export] Falling back to incremental export …")
-                page = 0
-                continue
-            else:
-                break
-
-        data = response.json()
-        tickets = data.get("tickets", [])
-
-        for t in tickets:
-            all_ids.add(str(t["id"]))
-
-        print(
-            f"[tickets-export] Page {page}: got {len(tickets)} tickets – total so far {len(all_ids)}"
-        )
-
-        if tried_cursor:
-            url = (
-                data.get("links", {}).get("next")
-                if data.get("meta", {}).get("has_more")
-                else None
-            )
-        else:
-            url = data.get("next_page")
-
-    print(f"[tickets-export] Total tickets collected: {len(all_ids)}")
-    return all_ids
-
-def clean_cache_directory(cache_dir, current_ids, item_type):
-    """Remove cached items that no longer exist in Zendesk."""
-    if not os.path.exists(cache_dir):
-        return 0
-        
-    removed_count = 0
-    print(f"Cleaning {item_type} cache directory...")
-    
-    for filename in os.listdir(cache_dir):
-        if filename.endswith('.json') and not filename.startswith('_'):
-            # Extract ID from filename (e.g., "12345.json" -> "12345")
-            item_id = filename.replace('.json', '')
-            
-            if item_id not in current_ids:
-                file_path = os.path.join(cache_dir, filename)
-                try:
-                    os.remove(file_path)
-                    removed_count += 1
-                    print(f"Removed deleted {item_type} from cache: {filename}")
-                except OSError as e:
-                    print(f"Failed to remove {filename}: {e}")
-    
-    print(f"Removed {removed_count} stale {item_type} from cache")
-    return removed_count
 
 def main():
     """Main backup function with persistent local caching."""
