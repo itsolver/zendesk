@@ -118,13 +118,16 @@ def backup_tickets(backup_path, cache_path):
     create_directory(cache_tickets_path)
     create_directory(backup_tickets_path)
     
-    # Use regular tickets endpoint with pagination - much faster than incremental export
-    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count&per_page=100"
+    # Use incremental tickets endpoint to get ALL tickets (including archived)
+    # Start from beginning of time to get complete history
+    START_TIME = "0"  # Epoch start to get all tickets ever created
+    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/incremental/tickets.json?start_time={START_TIME}"
     log = []
     total_cached = 0
     total_downloaded = 0
+    previous_end_time = None
     
-    print("Starting complete ticket backup (using cache for unchanged tickets)")
+    print("Starting complete ticket backup using incremental API (gets ALL tickets including archived)")
     
     def get_ticket_events(ticket_id):
         """Get all events for a ticket."""
@@ -199,7 +202,7 @@ def backup_tickets(backup_path, cache_path):
             break
         
         data = response.json()
-        if not data["tickets"]:
+        if not data.get("tickets"):
             print(f"No tickets found on page {page_count}")
             break
         
@@ -209,9 +212,19 @@ def backup_tickets(backup_path, cache_path):
             results = list(executor.map(process_ticket, data["tickets"]))
             log.extend([r for r in results if r is not None])
         
+        # Update the start_time for the next API call using end_time
+        end_time = data.get("end_time")
+        if end_time == previous_end_time:
+            print("No new tickets found. Ending the process.")
+            break
+        
+        previous_end_time = end_time
+        START_TIME = end_time
+        
         tickets_endpoint = data.get("next_page")
-        if tickets_endpoint:
-            print(f"Moving to next page: {page_count + 1}")
+        if not tickets_endpoint:
+            print("Reached the end of tickets.")
+            break
     
     # Write log to backup directory
     write_log(backup_tickets_path, log, ("File", "Subject", "Date Created", "Date Updated", "Status"))
