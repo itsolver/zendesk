@@ -112,7 +112,7 @@ def backup_tickets(backup_path, cache_path):
     clean_cache_directory(cache_tickets_path, current_ticket_ids, 'tickets')
     
     # Always backup all tickets, but use caching to avoid re-downloading unchanged ones
-    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count"
+    tickets_endpoint = f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count&per_page=100"
     log = []
     total_cached = 0
     total_downloaded = 0
@@ -184,7 +184,9 @@ def backup_tickets(backup_path, cache_path):
             print(f"Failed to save {filename}: {e}")
             return (filename, ticket.get("subject", ""), ticket.get("created_at"), updated_at, "error")
     
+    page_count = 0
     while tickets_endpoint:
+        page_count += 1
         response = session.get(tickets_endpoint)
         if response.status_code == 429:
             time.sleep(int(response.headers.get("retry-after", 60)))
@@ -195,7 +197,10 @@ def backup_tickets(backup_path, cache_path):
         
         data = response.json()
         if not data["tickets"]:
+            print(f"No tickets found on page {page_count}")
             break
+        
+        print(f"Processing tickets page {page_count}: {len(data['tickets'])} tickets")
         
         with ThreadPoolExecutor(max_workers=5) as executor:
             results = list(executor.map(process_ticket, data["tickets"]))
@@ -203,6 +208,8 @@ def backup_tickets(backup_path, cache_path):
             log.extend([r for r in results if r is not None])
         
         tickets_endpoint = data.get("next_page")
+        if tickets_endpoint:
+            print(f"Moving to next page: {page_count + 1}")
     
     # Write log to backup directory
     write_log(backup_tickets_path, log, ("File", "Subject", "Date Created", "Date Updated", "Status"))
@@ -223,7 +230,7 @@ def backup_users(backup_path, cache_path):
     current_user_ids = get_current_item_ids('users')
     clean_cache_directory(cache_users_path, current_user_ids, 'users')
     
-    users_endpoint = f"https://{zendesk_subdomain}/api/v2/users.json"
+    users_endpoint = f"https://{zendesk_subdomain}/api/v2/users.json?per_page=100"
     log = []
     total_cached = 0
     total_downloaded = 0
@@ -280,8 +287,12 @@ def backup_users(backup_path, cache_path):
             print(f"Failed to save {filename}: {e}")
             return (filename, user['name'], user['created_at'], user['updated_at'], 'error')
     
+    page_count = 0
     while users_endpoint:
+        page_count += 1
         data = fetch_data(users_endpoint)
+        
+        print(f"Processing users page {page_count}: {len(data['users'])} users")
         
         with ThreadPoolExecutor(max_workers=10) as executor:
             results = list(executor.map(process_user, data['users']))
@@ -289,6 +300,8 @@ def backup_users(backup_path, cache_path):
             log.extend([r for r in results if r is not None])
         
         users_endpoint = data.get('next_page')
+        if users_endpoint:
+            print(f"Moving to next users page: {page_count + 1}")
     
     write_log(backup_users_path, log, ("File", "Name", "Date Created", "Date Updated", "Status"))
     print(f"Users backup completed: {len(log)} users processed ({total_downloaded} downloaded, {total_cached} cached)")
@@ -308,7 +321,7 @@ def backup_organizations(backup_path, cache_path):
     current_org_ids = get_current_item_ids('organizations')
     clean_cache_directory(cache_orgs_path, current_org_ids, 'organizations')
     
-    orgs_endpoint = f"https://{zendesk_subdomain}/api/v2/organizations.json"
+    orgs_endpoint = f"https://{zendesk_subdomain}/api/v2/organizations.json?per_page=100"
     log = []
     total_cached = 0
     total_downloaded = 0
@@ -365,8 +378,12 @@ def backup_organizations(backup_path, cache_path):
             print(f"Failed to save {filename}: {e}")
             return (filename, org['name'], org['updated_at'], org['updated_at'], 'error')
     
+    page_count = 0
     while orgs_endpoint:
+        page_count += 1
         data = fetch_data(orgs_endpoint)
+        
+        print(f"Processing organizations page {page_count}: {len(data['organizations'])} organizations")
         
         with ThreadPoolExecutor(max_workers=10) as executor:
             results = list(executor.map(process_organization, data['organizations']))
@@ -374,6 +391,8 @@ def backup_organizations(backup_path, cache_path):
             log.extend([r for r in results if r is not None])
         
         orgs_endpoint = data.get('next_page')
+        if orgs_endpoint:
+            print(f"Moving to next organizations page: {page_count + 1}")
     
     write_log(backup_orgs_path, log, ("File", "Name", "Date Created", "Date Updated", "Status"))
     print(f"Organizations backup completed: {len(log)} organizations processed ({total_downloaded} downloaded, {total_cached} cached)")
@@ -393,7 +412,7 @@ def backup_guide_articles(backup_path, cache_path):
     current_article_ids = get_current_item_ids('articles')
     clean_cache_directory(cache_articles_path, current_article_ids, 'articles')
     
-    articles_endpoint = f"https://{zendesk_subdomain}/api/v2/help_center/articles.json"
+    articles_endpoint = f"https://{zendesk_subdomain}/api/v2/help_center/articles.json?per_page=100"
     log = []
     total_cached = 0
     total_downloaded = 0
@@ -458,8 +477,12 @@ def backup_guide_articles(backup_path, cache_path):
             print(f"Failed to save {filename}: {e}")
             return (filename, article['title'], article['created_at'], article['updated_at'], 'error')
     
+    page_count = 0
     while articles_endpoint:
+        page_count += 1
         data = fetch_data(articles_endpoint)
+        
+        print(f"Processing articles page {page_count}: {len(data['articles'])} articles")
         
         with ThreadPoolExecutor(max_workers=10) as executor:
             results = list(executor.map(process_article, data['articles']))
@@ -467,6 +490,8 @@ def backup_guide_articles(backup_path, cache_path):
             log.extend([r for r in results if r is not None])
         
         articles_endpoint = data.get('next_page')
+        if articles_endpoint:
+            print(f"Moving to next articles page: {page_count + 1}")
     
     write_log(backup_articles_path, log, ("File", "Title", "Date Created", "Date Updated", "Status"))
     print(f"Guide articles backup completed: {len(log)} articles processed ({total_downloaded} downloaded, {total_cached} cached)")
@@ -505,7 +530,7 @@ def backup_support_assets(backup_path, cache_path):
         create_directory(backup_asset_type_path)
         
         print(f"Backing up {asset_name}...")
-        endpoint_url = f"https://{zendesk_subdomain}/api/v2/{endpoint}.json"
+        endpoint_url = f"https://{zendesk_subdomain}/api/v2/{endpoint}.json?per_page=100"
         log = []
         
         def backup_asset(asset, asset_type, cache_path, backup_path):
@@ -541,8 +566,12 @@ def backup_support_assets(backup_path, cache_path):
                 print(f"Error saving {filename}: {e}")
                 return (f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None)
         
+        page_count = 0
         while endpoint_url:
+            page_count += 1
             data = fetch_data(endpoint_url)
+            
+            print(f"Processing {asset_name} page {page_count}: {len(data[response_key])} items")
             
             for asset in data[response_key]:
                 try:
@@ -553,6 +582,8 @@ def backup_support_assets(backup_path, cache_path):
                     log.append((f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None))
             
             endpoint_url = data.get('next_page')
+            if endpoint_url:
+                print(f"Moving to next {asset_name} page: {page_count + 1}")
         
         write_log(backup_asset_type_path, log, ("File", "Title", "Active", "Date Created", "Date Updated"))
         all_logs.extend([(asset_name, *entry) for entry in log])
@@ -579,11 +610,12 @@ def get_current_item_ids(endpoint_type):
     """Get list of current item IDs from Zendesk API (without full data)."""
     print(f"Getting current {endpoint_type} IDs from Zendesk...")
     
+    # Use per_page=100 to maximize items per request and reduce API calls
     endpoints = {
-        'tickets': f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count",
-        'users': f"https://{zendesk_subdomain}/api/v2/users.json", 
-        'organizations': f"https://{zendesk_subdomain}/api/v2/organizations.json",
-        'articles': f"https://{zendesk_subdomain}/api/v2/help_center/articles.json"
+        'tickets': f"https://{zendesk_subdomain}/api/v2/tickets.json?include=comment_count&per_page=100",
+        'users': f"https://{zendesk_subdomain}/api/v2/users.json?per_page=100", 
+        'organizations': f"https://{zendesk_subdomain}/api/v2/organizations.json?per_page=100",
+        'articles': f"https://{zendesk_subdomain}/api/v2/help_center/articles.json?per_page=100"
     }
     
     if endpoint_type not in endpoints:
@@ -591,8 +623,10 @@ def get_current_item_ids(endpoint_type):
     
     current_ids = set()
     endpoint = endpoints[endpoint_type]
+    page_count = 0
     
     while endpoint:
+        page_count += 1
         response = session.get(endpoint)
         if response.status_code == 429:
             time.sleep(int(response.headers.get("retry-after", 60)))
@@ -604,12 +638,18 @@ def get_current_item_ids(endpoint_type):
         data = response.json()
         items = data.get(endpoint_type, [])
         
+        if not items:
+            print(f"No items found on page {page_count}")
+            break
+            
         for item in items:
             current_ids.add(str(item['id']))
+        
+        print(f"Page {page_count}: Found {len(items)} {endpoint_type} (Total so far: {len(current_ids)})")
             
         endpoint = data.get('next_page')
     
-    print(f"Found {len(current_ids)} current {endpoint_type}")
+    print(f"Found {len(current_ids)} current {endpoint_type} across {page_count} pages")
     return current_ids
 
 def clean_cache_directory(cache_dir, current_ids, item_type):
