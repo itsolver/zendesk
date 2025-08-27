@@ -34,15 +34,19 @@ def test_gcloud_access():
         if "Reauthentication is needed" in error_message and "gcloud auth application-default login" in error_message:
             print("Google Cloud authentication expired. Attempting automatic reauthentication...")
             try:
+                print("Opening browser for Google Cloud authentication...")
+                print("Please complete the authentication in your browser.")
+                print("This may take a few moments...")
                 # Run gcloud auth application-default login
                 # Use full path to gcloud.cmd for Windows compatibility
+                # Remove timeout since this is an interactive command that opens a browser
                 gcloud_path = r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
                 result = subprocess.run(
                     [gcloud_path, "auth", "application-default", "login"],
                     capture_output=True,
                     text=True,
-                    check=False,
-                    timeout=300  # 5 minute timeout
+                    check=False
+                    # Removed timeout since this opens a browser and requires user interaction
                 )
 
                 if result.returncode == 0:
@@ -53,9 +57,6 @@ def test_gcloud_access():
                     print(f"Reauthentication failed: {result.stderr}")
                     print("Please run 'gcloud auth application-default login' manually.")
                     return False
-            except subprocess.TimeoutExpired:
-                print("Reauthentication timed out. Please run 'gcloud auth application-default login' manually.")
-                return False
             except FileNotFoundError:
                 print("gcloud command not found. Please ensure Google Cloud SDK is installed.")
                 return False
