@@ -198,7 +198,8 @@ def find_disclaimer_in_comment(comment, disclaimer_text):
             'html_match': html_match is not None,
             'author': comment.get('author', {}).get('name', 'Unknown'),
             'created_at': comment.get('created_at', ''),
-            'is_public': comment.get('public', False)
+            'is_public': comment.get('public', False),
+            'comment_data': comment  # Store full comment data for debugging
         }
 
     return None
@@ -232,10 +233,10 @@ def redact_comment_disclaimer(session, ticket_id, comment_id, disclaimer_text):
         print(f"No disclaimer found in comment {comment_id}")
         return False
 
-    # Prepare redaction request
-    redaction_url = f"{base_url}/comment_redactions/{comment_id}.json"
+    # Try the older redaction endpoint first (more compatible)
+    redaction_url = f"{base_url}/tickets/{ticket_id}/comments/{comment_id}/redact.json"
     payload = {
-        'comment_redaction': {
+        'comment': {
             'html_body': redacted_html
         }
     }
@@ -247,8 +248,22 @@ def redact_comment_disclaimer(session, ticket_id, comment_id, disclaimer_text):
         print(f"✓ Successfully redacted disclaimer in comment {comment_id}")
         return True
     else:
-        print(f"✗ Failed to redact comment {comment_id}: {response.status_code}")
-        return False
+        print(f"✗ Failed to redact comment {comment_id}: {response.status_code} - {response.text}")
+        # Try the newer endpoint as fallback
+        print(f"  Trying newer endpoint...")
+        redaction_url_new = f"{base_url}/comment_redactions/{comment_id}.json"
+        payload_new = {
+            'comment_redaction': {
+                'html_body': redacted_html
+            }
+        }
+        response_new = make_api_request(session, 'PUT', redaction_url_new, json=payload_new)
+        if response_new.status_code in [200, 201, 204]:
+            print(f"✓ Successfully redacted disclaimer in comment {comment_id} (using new endpoint)")
+            return True
+        else:
+            print(f"✗ Failed with new endpoint too: {response_new.status_code} - {response_new.text}")
+            return False
 
 def process_ticket(ticket_id, disclaimer_text, dry_run=False, api_token=None):
     """Process a ticket to redact disclaimers in all comments."""
@@ -278,6 +293,10 @@ def process_ticket(ticket_id, disclaimer_text, dry_run=False, api_token=None):
             public_status = "Public" if comment_info['is_public'] else "Private"
             print(f"  - Comment {comment_info['comment_id']} by {comment_info['author']} ({public_status})")
             print(f"    Created: {comment_info['created_at']}")
+            # Debug: Show first 100 chars of the comment body to verify
+            comment_body = comment_info['comment_data'].get('body', '')[:100]
+            print(f"    Preview: {comment_body}...")
+            print(f"    Has HTML body: {'Yes' if comment_info['comment_data'].get('html_body') else 'No'}")
 
         if dry_run:
             print(f"\nDRY RUN: Would redact disclaimers from {len(comments_with_disclaimers)} comments")
