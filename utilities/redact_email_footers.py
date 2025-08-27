@@ -48,6 +48,7 @@ import time
 import argparse
 import sys
 import os
+import threading
 from datetime import datetime, timedelta
 
 # Add parent directory to path for imports
@@ -247,8 +248,18 @@ def process_ticket(ticket_id, disclaimer_text, dry_run=False, api_token=None):
 
         for comment in comments:
             html_body = comment.get('html_body', '')
+
+            # Try exact match first
             if re.search(escaped_disclaimer, html_body, re.IGNORECASE | re.DOTALL):
                 comments_with_disclaimers.append(comment)
+            else:
+                # Try more flexible matching for HTML content
+                # Remove extra whitespace and normalize
+                normalized_html = re.sub(r'\s+', ' ', html_body)
+                normalized_disclaimer = re.sub(r'\s+', ' ', disclaimer_text.strip())
+
+                if re.search(re.escape(normalized_disclaimer), normalized_html, re.IGNORECASE):
+                    comments_with_disclaimers.append(comment)
 
         if not comments_with_disclaimers:
             print(f"No disclaimers found in ticket {ticket_id}")

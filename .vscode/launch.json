@@ -22,6 +22,19 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
+            "args": ["--ticket", "27777", "--dry-run"],
+            "env": {
+                "GOOGLE_APPLICATION_CREDENTIALS": "${env:APPDATA}\\gcloud\\application_default_credentials.json"
+            },
+        },
+        {
+            "name": "Run Current File (No Dry Run)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--ticket", "27777"],
             "env": {
                 "GOOGLE_APPLICATION_CREDENTIALS": "${env:APPDATA}\\gcloud\\application_default_credentials.json"
             },
