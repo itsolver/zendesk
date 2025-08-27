@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Zendesk Chat Redaction Tool
+Zendesk Email Footer Redaction Tool
 
-This script redacts annoying email disclaimers from Zendesk chat tickets.
-It uses the Zendesk Chat Redaction API to identify and redact disclaimer text
-that appears in chat messages, making them more mobile-friendly.
+This script redacts annoying email disclaimers from Zendesk ticket comments.
+It uses the Zendesk Comment Redaction API to identify and redact disclaimer text
+that appears in email footers, making ticket comments more mobile-friendly.
 
 Usage Examples:
     # Test with ticket 27777 (dry run - see what would be redacted)
@@ -27,7 +27,7 @@ Authentication Options (in order of precedence):
     3. Google Cloud Secret Manager (project: billing-sync, secret: ZENDESK_API_TOKEN)
 
 Requirements:
-    - Zendesk API access with chat redaction permissions
+    - Zendesk API access with comment redaction permissions
     - Agent Workspace enabled for the account
     - Deleting tickets enabled for agents
     - requests library
@@ -36,8 +36,9 @@ Requirements:
 Features:
     - Rate limiting to respect Zendesk API limits (350 req/min)
     - Dry run mode to preview changes
-    - Uses Zendesk's native <redact> tags for chat messages
-    - Works with chat tickets (not regular ticket comments)
+    - Uses Zendesk's native <redact> tags for HTML content
+    - Works with closed and archived tickets
+    - Supports formatted text (bold, italics, hyperlinks)
 """
 
 import requests
@@ -48,7 +49,6 @@ import argparse
 import sys
 import os
 from datetime import datetime, timedelta
-import threading
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -161,232 +161,123 @@ def make_api_request(session, method, url, **kwargs):
 
         return response
 
-def get_ticket_audits(session, ticket_id):
-    """Fetch all audits for a ticket to find chat events."""
+def get_ticket_comments(session, ticket_id):
+    """Fetch all comments for a ticket."""
     base_url = f"https://{zendesk_subdomain}/api/v2"
-    url = f"{base_url}/tickets/{ticket_id}/audits.json"
+    url = f"{base_url}/tickets/{ticket_id}/comments.json"
 
-    print(f"Fetching audits for ticket {ticket_id}...")
+    print(f"Fetching comments for ticket {ticket_id}...")
 
-    audits = []
+    comments = []
     while url:
         response = make_api_request(session, 'GET', url)
         data = response.json()
-
-        audits.extend(data.get('audits', []))
+        comments.extend(data.get('comments', []))
         url = data.get('next_page')
 
-    print(f"Found {len(audits)} audits in ticket {ticket_id}")
+    print(f"Found {len(comments)} comments in ticket {ticket_id}")
+    return comments
 
-    # Debug: Show structure of first audit
-    if audits:
-        first_audit = audits[0]
-        print(f"Debug - First audit structure:")
-        print(f"  ID: {first_audit.get('id')}")
-        print(f"  Events count: {len(first_audit.get('events', []))}")
-        if first_audit.get('events'):
-            first_event = first_audit['events'][0]
-            print(f"  First event type: {first_event.get('type')}")
-
-    return audits
-
-def extract_chat_messages_from_audits(audits):
-    """Extract chat messages from ticket audits."""
-    chat_messages = []
-    chat_started_events = {}
-
-    for audit in audits:
-        for event in audit.get('events', []):
-            event_type = event.get('type')
-
-            # Look for ChatStartedEvent to get chat_id
-            if event_type == 'ChatStartedEvent':
-                chat_id = event.get('chat_id')
-                if chat_id:
-                    chat_started_events[audit['id']] = {
-                        'chat_id': chat_id,
-                        'audit_id': audit['id']
-                    }
-
-            # Look for ChatMessage events
-            elif event_type == 'ChatMessage':
-                message = event.get('message', '')
-                if message:
-                    chat_messages.append({
-                        'message': message,
-                        'chat_index': event.get('chat_index'),
-                        'message_id': event.get('message_id'),
-                        'audit_id': audit['id'],
-                        'event': event
-                    })
-
-    # Associate chat messages with their chat_id
-    for message in chat_messages:
-        chat_info = chat_started_events.get(message['audit_id'])
-        if chat_info:
-            message['chat_id'] = chat_info['chat_id']
-
-    return chat_messages
-
-def find_disclaimer_in_chat_message(message_data, disclaimer_text):
-    """Find disclaimer text in a chat message."""
-    message = message_data.get('message', '')
-
-    # Escape special regex characters in disclaimer
-    escaped_disclaimer = re.escape(disclaimer_text.strip())
-
-    # Look for disclaimer in the message
-    match = re.search(escaped_disclaimer, message, re.IGNORECASE | re.DOTALL)
-
-    if match:
-        return {
-            'message': message,
-            'chat_id': message_data.get('chat_id'),
-            'chat_index': message_data.get('chat_index'),
-            'message_id': message_data.get('message_id'),
-            'audit_id': message_data.get('audit_id'),
-            'has_disclaimer': True,
-            'message_data': message_data
-        }
-
-    return None
-
-def redact_chat_message(session, ticket_id, message_data, disclaimer_text):
-    """Redact disclaimer text from a chat message using Zendesk Chat Redaction API."""
+def redact_comment(session, ticket_id, comment_id, disclaimer_text):
+    """Redact disclaimer text from a comment using Zendesk Comment Redaction API."""
     base_url = f"https://{zendesk_subdomain}/api/v2"
 
-    chat_id = message_data.get('chat_id')
-    chat_index = message_data.get('chat_index')
-    message_id = message_data.get('message_id')
-    message = message_data.get('message', '')
+    print(f"Attempting to redact comment {comment_id}...")
 
-    print(f"Attempting to redact chat message (chat_id: {chat_id}, index: {chat_index})...")
+    # Get the current comment
+    comment_url = f"{base_url}/tickets/{ticket_id}/comments/{comment_id}.json"
+    response = make_api_request(session, 'GET', comment_url)
+    comment = response.json().get('comment', {})
 
-    if not chat_id:
-        print("✗ No chat_id found for this message")
+    html_body = comment.get('html_body', '')
+    if not html_body:
+        print(f"Warning: No HTML body found for comment {comment_id}")
         return False
 
     # Escape special regex characters
     escaped_disclaimer = re.escape(disclaimer_text.strip())
 
     # Replace disclaimer with redaction tags
-    redacted_text = re.sub(
+    redacted_html = re.sub(
         escaped_disclaimer,
         '<redact>REDACTED EMAIL DISCLAIMER</redact>',
-        message,
+        html_body,
         flags=re.IGNORECASE | re.DOTALL
     )
 
-    if redacted_text == message:
-        print("No disclaimer found in chat message")
+    if redacted_html == html_body:
+        print(f"No disclaimer found in comment {comment_id}")
         return False
 
-    # Prepare chat redaction request
-    redaction_url = f"{base_url}/chat_redactions/{ticket_id}.json"
-
-    # Use message_id if available, otherwise use chat_index
-    if message_id:
-        payload = {
-            'chat_id': chat_id,
-            'message_id': message_id,
-            'text': redacted_text
-        }
-    elif chat_index is not None:
-        payload = {
-            'chat_id': chat_id,
-            'chat_index': chat_index,
-            'text': redacted_text
-        }
-    else:
-        print("✗ Neither message_id nor chat_index available")
-        return False
+    # Prepare redaction request using the recommended endpoint
+    redaction_url = f"{base_url}/comment_redactions/{comment_id}.json"
+    payload = {
+        'html_body': redacted_html
+    }
 
     try:
-        print(f"  Sending chat redaction request...")
         response = make_api_request(session, 'PUT', redaction_url, json=payload)
 
         if response.status_code in [200, 201, 204]:
-            print("✓ Successfully redacted disclaimer from chat message"            return True
+            print(f"✓ Successfully redacted disclaimer in comment {comment_id}")
+            return True
         else:
-            print(f"✗ Chat redaction failed: {response.status_code} - {response.text}")
+            print(f"✗ Redaction failed: {response.status_code} - {response.text}")
             return False
 
     except Exception as e:
-        print(f"✗ Chat redaction error: {e}")
-        print("  This could be due to:")
-        print("  - Insufficient permissions for chat redaction")
-        print("  - Agent Workspace not enabled")
-        print("  - Ticket deletion not enabled for agents")
-        print("  - Chat is active (redaction doesn't work on active chats)")
+        print(f"✗ Redaction error: {e}")
         return False
 
 def process_ticket(ticket_id, disclaimer_text, dry_run=False, api_token=None):
-    """Process a ticket to redact disclaimers in chat messages."""
+    """Process a ticket to redact disclaimers in comments."""
     session = setup_zendesk_session(api_token)
 
     try:
-        # Get all audits for the ticket to find chat messages
-        audits = get_ticket_audits(session, ticket_id)
+        # Get all comments for the ticket
+        comments = get_ticket_comments(session, ticket_id)
 
-        if not audits:
-            print(f"No audits found for ticket {ticket_id}")
+        if not comments:
+            print(f"No comments found for ticket {ticket_id}")
             return
 
-        # Extract chat messages from audits
-        chat_messages = extract_chat_messages_from_audits(audits)
+        # Find comments with disclaimers
+        comments_with_disclaimers = []
+        escaped_disclaimer = re.escape(disclaimer_text.strip())
 
-        if not chat_messages:
-            print(f"No chat messages found in ticket {ticket_id}")
-            print("This ticket may not contain chat conversations or may be a regular ticket.")
+        for comment in comments:
+            html_body = comment.get('html_body', '')
+            if re.search(escaped_disclaimer, html_body, re.IGNORECASE | re.DOTALL):
+                comments_with_disclaimers.append(comment)
+
+        if not comments_with_disclaimers:
+            print(f"No disclaimers found in ticket {ticket_id}")
             return
 
-        # Find chat messages with disclaimers
-        messages_with_disclaimers = []
-        for message_data in chat_messages:
-            result = find_disclaimer_in_chat_message(message_data, disclaimer_text)
-            if result:
-                messages_with_disclaimers.append(result)
-
-        if not messages_with_disclaimers:
-            print(f"No disclaimers found in chat messages for ticket {ticket_id}")
-            return
-
-        print(f"\nFound {len(messages_with_disclaimers)} chat messages with disclaimers:")
-        for message_info in messages_with_disclaimers:
-            print(f"  - Chat {message_info['chat_id']}, Message {message_info['chat_index'] or message_info['message_id']}")
-            # Show first 100 chars of the message to verify
-            message_preview = message_info['message'][:100]
-            print(f"    Preview: {message_preview}...")
-            print(f"    Has chat_id: {'Yes' if message_info['chat_id'] else 'No'}")
+        print(f"\nFound {len(comments_with_disclaimers)} comments with disclaimers:")
+        for comment in comments_with_disclaimers:
+            print(f"  - Comment {comment['id']} by {comment.get('author', {}).get('name', 'Unknown')}")
 
         if dry_run:
-            print(f"\nDRY RUN: Would redact disclaimers from {len(messages_with_disclaimers)} chat messages")
+            print(f"\nDRY RUN: Would redact disclaimers from {len(comments_with_disclaimers)} comments")
             return
 
-        # Redact disclaimers from chat messages
-        print(f"\nRedacting disclaimers from {len(messages_with_disclaimers)} chat messages...")
+        # Redact disclaimers
+        print(f"\nRedacting disclaimers from {len(comments_with_disclaimers)} comments...")
         successful_redactions = 0
 
-        for message_info in messages_with_disclaimers:
-            if redact_chat_message(session, ticket_id, message_info, disclaimer_text):
+        for comment in comments_with_disclaimers:
+            if redact_comment(session, ticket_id, comment['id'], disclaimer_text):
                 successful_redactions += 1
 
-        print(f"\nRedaction complete: {successful_redactions}/{len(messages_with_disclaimers)} chat messages successfully redacted")
-
-        if successful_redactions == 0:
-            print("\nTroubleshooting suggestions:")
-            print("1. Verify your Zendesk user has chat redaction permissions")
-            print("2. Check if Agent Workspace is enabled for your account")
-            print("3. Verify that ticket deletion is enabled for agents")
-            print("4. Chat redaction doesn't work on active chats")
-            print("5. The ticket may not be a chat ticket")
+        print(f"\nRedaction complete: {successful_redactions}/{len(comments_with_disclaimers)} comments successfully redacted")
 
     except Exception as e:
         print(f"ERROR: Failed to process ticket {ticket_id}: {e}")
         sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description='Redact email disclaimers from Zendesk chat tickets')
+    parser = argparse.ArgumentParser(description='Redact email disclaimers from Zendesk ticket comments')
     parser.add_argument('--ticket', '-t', required=True, type=int, help='Ticket ID to process')
     parser.add_argument('--disclaimer', '-d', default=DEFAULT_DISCLAIMER,
                        help='Disclaimer text to redact (default: standard confidentiality disclaimer)')
@@ -397,7 +288,7 @@ def main():
     args = parser.parse_args()
 
     print("=" * 60)
-    print("Zendesk Chat Redaction Tool")
+    print("Zendesk Email Footer Redaction Tool")
     print("=" * 60)
     print(f"Ticket ID: {args.ticket}")
     print(f"Disclaimer length: {len(args.disclaimer)} characters")
