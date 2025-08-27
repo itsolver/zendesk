@@ -1,6 +1,7 @@
 from google.cloud import secretmanager
 from google.auth.exceptions import DefaultCredentialsError
 from google.api_core.exceptions import PermissionDenied, NotFound
+import subprocess
 
 # Import the Secret Manager client library.
 
@@ -13,7 +14,7 @@ def test_gcloud_access():
     try:
         # Check if credentials are available
         client = secretmanager.SecretManagerServiceClient()
-        
+
         # Test basic access by listing secrets (this will fail if no access)
         parent = f"projects/{PROJECT_ID}"
         try:
@@ -28,8 +29,41 @@ def test_gcloud_access():
         print("Google Cloud credentials not found. Please ensure GOOGLE_APPLICATION_CREDENTIALS is set correctly.")
         return False
     except Exception as e:
-        print(f"Failed to access Google Cloud: {e}")
-        return False
+        error_message = str(e)
+        # Check if this is a reauthentication error
+        if "Reauthentication is needed" in error_message and "gcloud auth application-default login" in error_message:
+            print("Google Cloud authentication expired. Attempting automatic reauthentication...")
+            try:
+                # Run gcloud auth application-default login
+                result = subprocess.run(
+                    ["gcloud", "auth", "application-default", "login"],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                    timeout=300  # 5 minute timeout
+                )
+
+                if result.returncode == 0:
+                    print("Reauthentication successful! Retrying Google Cloud access...")
+                    # Retry the access test after successful authentication
+                    return test_gcloud_access()
+                else:
+                    print(f"Reauthentication failed: {result.stderr}")
+                    print("Please run 'gcloud auth application-default login' manually.")
+                    return False
+            except subprocess.TimeoutExpired:
+                print("Reauthentication timed out. Please run 'gcloud auth application-default login' manually.")
+                return False
+            except FileNotFoundError:
+                print("gcloud command not found. Please ensure Google Cloud SDK is installed.")
+                return False
+            except Exception as auth_error:
+                print(f"Error during reauthentication: {auth_error}")
+                print("Please run 'gcloud auth application-default login' manually.")
+                return False
+        else:
+            print(f"Failed to access Google Cloud: {e}")
+            return False
 
 
 def create_secret(secret_id):
