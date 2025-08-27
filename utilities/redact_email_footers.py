@@ -42,7 +42,6 @@ Features:
 """
 
 import requests
-import json
 import re
 import time
 import argparse
@@ -63,6 +62,9 @@ DEFAULT_DISCLAIMER = """This message contains information which may be confident
 # Rate Limiting Configuration
 MAX_REQUESTS_PER_MINUTE = 350
 REQUEST_INTERVAL = 60.0 / MAX_REQUESTS_PER_MINUTE
+
+# Initialize global rate limiter
+rate_limiter = None
 
 class RateLimiter:
     """Thread-safe rate limiter for Zendesk API calls."""
@@ -179,18 +181,12 @@ def get_ticket_comments(session, ticket_id):
     print(f"Found {len(comments)} comments in ticket {ticket_id}")
     return comments
 
-def redact_comment(session, ticket_id, comment_id, disclaimer_text):
+def redact_comment(session, ticket_id, comment_id, html_body, disclaimer_text):
     """Redact disclaimer text from a comment using Zendesk Comment Redaction API."""
     base_url = f"https://{zendesk_subdomain}/api/v2"
 
     print(f"Attempting to redact comment {comment_id}...")
 
-    # Get the current comment
-    comment_url = f"{base_url}/tickets/{ticket_id}/comments/{comment_id}.json"
-    response = make_api_request(session, 'GET', comment_url)
-    comment = response.json().get('comment', {})
-
-    html_body = comment.get('html_body', '')
     if not html_body:
         print(f"Warning: No HTML body found for comment {comment_id}")
         return False
@@ -206,6 +202,19 @@ def redact_comment(session, ticket_id, comment_id, disclaimer_text):
         flags=re.IGNORECASE | re.DOTALL
     )
 
+    # Also try flexible matching for HTML content
+    if redacted_html == html_body:
+        # Remove extra whitespace and normalize for better matching
+        normalized_html = re.sub(r'\s+', ' ', html_body)
+        normalized_disclaimer = re.sub(r'\s+', ' ', disclaimer_text.strip())
+
+        redacted_html = re.sub(
+            re.escape(normalized_disclaimer),
+            '<redact>REDACTED EMAIL DISCLAIMER</redact>',
+            normalized_html,
+            flags=re.IGNORECASE
+        )
+
     if redacted_html == html_body:
         print(f"No disclaimer found in comment {comment_id}")
         return False
@@ -213,6 +222,7 @@ def redact_comment(session, ticket_id, comment_id, disclaimer_text):
     # Prepare redaction request using the recommended endpoint
     redaction_url = f"{base_url}/comment_redactions/{comment_id}.json"
     payload = {
+        'ticket_id': ticket_id,
         'html_body': redacted_html
     }
 
@@ -278,7 +288,7 @@ def process_ticket(ticket_id, disclaimer_text, dry_run=False, api_token=None):
         successful_redactions = 0
 
         for comment in comments_with_disclaimers:
-            if redact_comment(session, ticket_id, comment['id'], disclaimer_text):
+            if redact_comment(session, ticket_id, comment['id'], comment.get('html_body', ''), disclaimer_text):
                 successful_redactions += 1
 
         print(f"\nRedaction complete: {successful_redactions}/{len(comments_with_disclaimers)} comments successfully redacted")
@@ -309,7 +319,8 @@ def main():
 
     # Initialize global rate limiter
     global rate_limiter
-    rate_limiter = RateLimiter()
+    if rate_limiter is None:
+        rate_limiter = RateLimiter()
 
     process_ticket(args.ticket, args.disclaimer, args.dry_run, args.api_token)
 
