@@ -14,7 +14,7 @@ from secret_manager import access_secret_version, test_gcloud_access
 
 # Configuration
 LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups")
-ONEDRIVE_BACKUP_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Suppliers\Zendesk\Backups")
+BACKUP_DESTINATION_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Suppliers\Zendesk\Backups")
 BATCH_SIZE = 100  # Process items in batches to reduce memory usage
 
 # Rate Limiting Configuration for Zendesk Suite Professional
@@ -780,7 +780,7 @@ def main():
     
     print(f"Persistent cache directory: {persistent_cache_path}")
     print(f"Current backup directory: {backup_path}")
-    print(f"OneDrive sync directory: {ONEDRIVE_BACKUP_PATH}")
+    print(f"OneDrive sync directory: {BACKUP_DESTINATION_PATH}")
     
     # Backup all asset types using persistent local cache
     try:
@@ -836,8 +836,8 @@ def main():
         create_backup_zip(backup_path, local_zip_path)
         
         # Copy zip file to OneDrive sync folder (only one file to sync)
-        create_directory(ONEDRIVE_BACKUP_PATH)
-        onedrive_zip_path = os.path.join(ONEDRIVE_BACKUP_PATH, zip_filename)
+        create_directory(BACKUP_DESTINATION_PATH)
+        onedrive_zip_path = os.path.join(BACKUP_DESTINATION_PATH, zip_filename)
         shutil.copy2(local_zip_path, onedrive_zip_path)
         print(f"Copied zip file to OneDrive sync folder: {onedrive_zip_path}")
         
