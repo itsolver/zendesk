@@ -15,6 +15,16 @@
                 "GOOGLE_APPLICATION_CREDENTIALS": "${env:APPDATA}\\gcloud\\application_default_credentials.json"
             },
         },
-        
+        {
+            "name": "Run Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "GOOGLE_APPLICATION_CREDENTIALS": "${env:APPDATA}\\gcloud\\application_default_credentials.json"
+            },
+        }
     ]
 }
