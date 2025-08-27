@@ -176,6 +176,17 @@ def get_ticket_comments(session, ticket_id):
         url = data.get('next_page')
 
     print(f"Found {len(comments)} comments in ticket {ticket_id}")
+
+    # Debug: Show structure of first comment
+    if comments:
+        first_comment = comments[0]
+        print(f"Debug - First comment structure:")
+        print(f"  ID: {first_comment.get('id')}")
+        print(f"  Type: {first_comment.get('type')}")
+        print(f"  Keys: {list(first_comment.keys())}")
+        if 'author' in first_comment:
+            print(f"  Author: {first_comment['author']}")
+
     return comments
 
 def find_disclaimer_in_comment(comment, disclaimer_text):
@@ -208,14 +219,25 @@ def redact_comment_disclaimer(session, ticket_id, comment_id, disclaimer_text):
     """Redact disclaimer text from a comment using Zendesk API."""
     base_url = f"https://{zendesk_subdomain}/api/v2"
 
-    # Get the current comment to see its content
-    comment_url = f"{base_url}/tickets/{ticket_id}/comments/{comment_id}.json"
-    response = make_api_request(session, 'GET', comment_url)
-    comment = response.json().get('comment', {})
+    print(f"Attempting to redact comment {comment_id}...")
 
-    html_body = comment.get('html_body', '')
-    if not html_body:
-        print(f"Warning: No HTML body found for comment {comment_id}")
+    # First, try to get the current comment to verify it exists
+    try:
+        comment_url = f"{base_url}/tickets/{ticket_id}/comments/{comment_id}.json"
+        response = make_api_request(session, 'GET', comment_url)
+        comment = response.json().get('comment', {})
+
+        print(f"✓ Successfully retrieved comment {comment_id}")
+        html_body = comment.get('html_body', '')
+
+        if not html_body:
+            print(f"Warning: No HTML body found for comment {comment_id}")
+            return False
+
+    except Exception as e:
+        print(f"✗ Failed to retrieve comment {comment_id}: {e}")
+        print("  This might be a permissions issue or the comment might not be redactable")
+        print("  Comment redaction requires specific Zendesk permissions")
         return False
 
     # Escape special regex characters
@@ -233,37 +255,55 @@ def redact_comment_disclaimer(session, ticket_id, comment_id, disclaimer_text):
         print(f"No disclaimer found in comment {comment_id}")
         return False
 
-    # Try the older redaction endpoint first (more compatible)
-    redaction_url = f"{base_url}/tickets/{ticket_id}/comments/{comment_id}/redact.json"
-    payload = {
-        'comment': {
-            'html_body': redacted_html
+    # Try different redaction approaches
+    endpoints_to_try = [
+        {
+            'url': f"{base_url}/tickets/{ticket_id}/comments/{comment_id}/redact.json",
+            'payload': {'comment': {'html_body': redacted_html}},
+            'name': 'ticket comment redact (old)'
+        },
+        {
+            'url': f"{base_url}/comment_redactions/{comment_id}.json",
+            'payload': {'comment_redaction': {'html_body': redacted_html}},
+            'name': 'comment_redactions (new)'
+        },
+        {
+            'url': f"{base_url}/tickets/{ticket_id}/comments/{comment_id}.json",
+            'payload': {'comment': {'html_body': redacted_html}},
+            'name': 'direct comment update'
         }
-    }
+    ]
 
-    # Make the redaction request
-    response = make_api_request(session, 'PUT', redaction_url, json=payload)
+    # If we have audit_id from the comment data, try audit redaction as well
+    audit_id = comment.get('audit_id')
+    if audit_id:
+        endpoints_to_try.append({
+            'url': f"{base_url}/audit_redactions/{audit_id}.json",
+            'payload': {'audit_redaction': {'html_body': redacted_html}},
+            'name': 'audit redaction'
+        })
 
-    if response.status_code in [200, 201, 204]:
-        print(f"✓ Successfully redacted disclaimer in comment {comment_id}")
-        return True
-    else:
-        print(f"✗ Failed to redact comment {comment_id}: {response.status_code} - {response.text}")
-        # Try the newer endpoint as fallback
-        print(f"  Trying newer endpoint...")
-        redaction_url_new = f"{base_url}/comment_redactions/{comment_id}.json"
-        payload_new = {
-            'comment_redaction': {
-                'html_body': redacted_html
-            }
-        }
-        response_new = make_api_request(session, 'PUT', redaction_url_new, json=payload_new)
-        if response_new.status_code in [200, 201, 204]:
-            print(f"✓ Successfully redacted disclaimer in comment {comment_id} (using new endpoint)")
-            return True
-        else:
-            print(f"✗ Failed with new endpoint too: {response_new.status_code} - {response_new.text}")
-            return False
+    for endpoint in endpoints_to_try:
+        try:
+            print(f"  Trying {endpoint['name']} endpoint...")
+            response = make_api_request(session, 'PUT', endpoint['url'], json=endpoint['payload'])
+
+            if response.status_code in [200, 201, 204]:
+                print(f"✓ Successfully redacted disclaimer in comment {comment_id} (using {endpoint['name']})")
+                return True
+            else:
+                print(f"  ✗ {endpoint['name']} failed: {response.status_code} - {response.text}")
+
+        except Exception as e:
+            print(f"  ✗ {endpoint['name']} error: {e}")
+
+    print(f"✗ All redaction methods failed for comment {comment_id}")
+    print("  This could be due to:")
+    print("  - Insufficient permissions for comment redaction")
+    print("  - Comment is not redactable (e.g., agent comments, system comments)")
+    print("  - Zendesk plan limitations")
+    print("  - Email-generated comments may require different permissions")
+    return False
 
 def process_ticket(ticket_id, disclaimer_text, dry_run=False, api_token=None):
     """Process a ticket to redact disclaimers in all comments."""
@@ -304,13 +344,36 @@ def process_ticket(ticket_id, disclaimer_text, dry_run=False, api_token=None):
 
         # Redact disclaimers
         print(f"\nRedacting disclaimers from {len(comments_with_disclaimers)} comments...")
-        successful_redactions = 0
+    successful_redactions = 0
 
-        for comment_info in comments_with_disclaimers:
-            if redact_comment_disclaimer(session, ticket_id, comment_info['comment_id'], disclaimer_text):
-                successful_redactions += 1
+    for comment_info in comments_with_disclaimers:
+        # Check if this comment is redactable based on its properties
+        comment_data = comment_info['comment_data']
+        is_redactable = (
+            comment_data.get('public', False) and  # Public comments are typically redactable
+            'html_body' in comment_data and        # Must have HTML body
+            len(comment_data.get('html_body', '')) > 0  # HTML body must not be empty
+        )
 
-        print(f"\nRedaction complete: {successful_redactions}/{len(comments_with_disclaimers)} comments successfully redacted")
+        if not is_redactable:
+            print(f"⚠ Comment {comment_info['comment_id']} is not redactable (private or system comment)")
+            continue
+
+        if redact_comment_disclaimer(session, ticket_id, comment_info['comment_id'], disclaimer_text):
+            successful_redactions += 1
+
+    print(f"\nRedaction complete: {successful_redactions}/{len(comments_with_disclaimers)} comments successfully redacted")
+
+    if successful_redactions == 0:
+        print("\nTroubleshooting suggestions:")
+        print("1. Verify your Zendesk user has comment redaction permissions")
+        print("2. Check if your Zendesk plan supports comment redaction")
+        print("3. Some comment types (system, agent) cannot be redacted")
+        print("4. Email-generated comments may have different redaction rules")
+        print("\nAlternative approaches:")
+        print("- Use Zendesk's web interface to redact comments manually")
+        print("- Contact Zendesk support about redaction permissions")
+        print("- Consider using audit redaction if available in your plan")
 
     except Exception as e:
         print(f"ERROR: Failed to process ticket {ticket_id}: {e}")
