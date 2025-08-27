@@ -6,7 +6,7 @@
         "command": "cmd",
         "args": [
             "/c",
-            "set GOOGLE_APPLICATION_CREDENTIALS=C:\\Users\\AngusMcLauchlan\\Projects\\itsolver\\zendesk\\service_account.json && gcloud auth application-default login && ${workspaceFolder}\\.venv\\Scripts\\python.exe C:\\Users\\angusmclauchlan\\Projects\\itsolver\\zendesk\\backup_zendesk_support_tickets_local.py"
+            "set GOOGLE_APPLICATION_CREDENTIALS=C:\\Users\\AngusMcLauchlan\\Projects\\itsolver\\zendesk\\service_account.json && ${workspaceFolder}\\.venv\\Scripts\\python.exe C:\\Users\\angusmclauchlan\\Projects\\itsolver\\zendesk\\backup_zendesk_all.py"
         ],
         "group": {
             "kind": "build",
