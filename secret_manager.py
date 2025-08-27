@@ -35,8 +35,10 @@ def test_gcloud_access():
             print("Google Cloud authentication expired. Attempting automatic reauthentication...")
             try:
                 # Run gcloud auth application-default login
+                # Use full path to gcloud.cmd for Windows compatibility
+                gcloud_path = r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
                 result = subprocess.run(
-                    ["gcloud", "auth", "application-default", "login"],
+                    [gcloud_path, "auth", "application-default", "login"],
                     capture_output=True,
                     text=True,
                     check=False,
