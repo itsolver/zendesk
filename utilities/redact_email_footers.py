@@ -191,33 +191,106 @@ def redact_comment(session, ticket_id, comment_id, html_body, disclaimer_text):
         print(f"Warning: No HTML body found for comment {comment_id}")
         return False
 
-    # Escape special regex characters
-    escaped_disclaimer = re.escape(disclaimer_text.strip())
+    # Clean and prepare the disclaimer text for matching
+    cleaned_disclaimer = disclaimer_text.strip()
 
-    # Replace disclaimer with redaction tags
-    redacted_html = re.sub(
-        escaped_disclaimer,
-        '<redact>REDACTED EMAIL DISCLAIMER</redact>',
-        html_body,
-        flags=re.IGNORECASE | re.DOTALL
-    )
+    # Try multiple matching strategies to handle HTML formatting differences
+    redacted_html = None
 
-    # Also try flexible matching for HTML content
-    if redacted_html == html_body:
-        # Remove extra whitespace and normalize for better matching
-        normalized_html = re.sub(r'\s+', ' ', html_body)
-        normalized_disclaimer = re.sub(r'\s+', ' ', disclaimer_text.strip())
-
+    # Strategy 1: Exact match with HTML entities handled
+    if redacted_html is None:
+        escaped_disclaimer = re.escape(cleaned_disclaimer)
         redacted_html = re.sub(
-            re.escape(normalized_disclaimer),
+            escaped_disclaimer,
             '<redact>REDACTED EMAIL DISCLAIMER</redact>',
-            normalized_html,
-            flags=re.IGNORECASE
+            html_body,
+            flags=re.IGNORECASE | re.DOTALL
         )
+        if redacted_html != html_body:
+            print("Found disclaimer using exact match")
 
-    if redacted_html == html_body:
+    # Strategy 2: Match with normalized whitespace
+    if redacted_html is None or redacted_html == html_body:
+        # Normalize whitespace in both HTML and disclaimer
+        normalized_html = re.sub(r'\s+', ' ', html_body)
+        normalized_disclaimer = re.sub(r'\s+', ' ', cleaned_disclaimer)
+
+        # Look for the disclaimer in the normalized HTML
+        escaped_normalized = re.escape(normalized_disclaimer)
+        if re.search(escaped_normalized, normalized_html, re.IGNORECASE):
+            # Replace in the original HTML by finding the best match
+            # Use a more flexible pattern that accounts for whitespace variations
+            flexible_pattern = re.sub(r'\s+', r'\s+', re.escape(cleaned_disclaimer))
+            redacted_html = re.sub(
+                flexible_pattern,
+                '<redact>REDACTED EMAIL DISCLAIMER</redact>',
+                html_body,
+                flags=re.IGNORECASE | re.DOTALL,
+                count=1
+            )
+            print("Found disclaimer using normalized match")
+
+    # Strategy 3: Look for the disclaimer wrapped in <i> tags (common in email signatures)
+    if redacted_html is None or redacted_html == html_body:
+        # Pattern to match italicized disclaimer
+        italic_pattern = r'<i[^>]*>.*?' + re.escape(cleaned_disclaimer) + r'.*?</i>'
+        if re.search(italic_pattern, html_body, re.IGNORECASE | re.DOTALL):
+            redacted_html = re.sub(
+                italic_pattern,
+                '<redact>REDACTED EMAIL DISCLAIMER</redact>',
+                html_body,
+                flags=re.IGNORECASE | re.DOTALL
+            )
+            print("Found disclaimer in italic tags")
+
+    # Strategy 4: Multi-line disclaimer with HTML line breaks
+    if redacted_html is None or redacted_html == html_body:
+        # Handle disclaimers that span multiple lines with <br> tags
+        lines = cleaned_disclaimer.split('\n')
+        if len(lines) > 1:
+            # Create a pattern that matches across multiple lines with HTML breaks
+            line_patterns = []
+            for line in lines:
+                line_patterns.append(re.escape(line.strip()))
+
+            # Join with flexible spacing (including <br>, &nbsp;, etc.)
+            flexible_pattern = r'\s*(?:<br[^>]*>|<br/?>|\s|&nbsp;)\s*'.join(line_patterns)
+
+            if re.search(flexible_pattern, html_body, re.IGNORECASE | re.DOTALL):
+                redacted_html = re.sub(
+                    flexible_pattern,
+                    '<redact>REDACTED EMAIL DISCLAIMER</redact>',
+                    html_body,
+                    flags=re.IGNORECASE | re.DOTALL
+                )
+                print("Found disclaimer using multi-line pattern")
+
+    # Strategy 5: Word-by-word matching for heavily formatted text
+    if redacted_html is None or redacted_html == html_body:
+        words = cleaned_disclaimer.split()
+        if len(words) > 5:  # Only for longer disclaimers
+            # Match first few words and last few words with wildcard in between
+            first_words = ' '.join(words[:3])
+            last_words = ' '.join(words[-3:])
+
+            word_pattern = re.escape(first_words) + r'.*?' + re.escape(last_words)
+            if re.search(word_pattern, html_body, re.IGNORECASE | re.DOTALL):
+                redacted_html = re.sub(
+                    word_pattern,
+                    '<redact>REDACTED EMAIL DISCLAIMER</redact>',
+                    html_body,
+                    flags=re.IGNORECASE | re.DOTALL
+                )
+                print("Found disclaimer using word-by-word match")
+
+    # If no match found, return early
+    if redacted_html is None or redacted_html == html_body:
         print(f"No disclaimer found in comment {comment_id}")
         return False
+
+    # Ensure the redaction is properly formatted
+    # Replace any nested redaction tags
+    redacted_html = re.sub(r'<redact[^>]*>.*?<redact[^>]*>.*?</redact>.*?</redact>', '<redact>REDACTED EMAIL DISCLAIMER</redact>', redacted_html)
 
     # Prepare redaction request using the recommended endpoint
     redaction_url = f"{base_url}/comment_redactions/{comment_id}.json"
@@ -317,7 +390,7 @@ def main():
     print(f"API Token: {'Provided via argument' if args.api_token else 'From environment or Secret Manager'}")
     print()
 
-    # Initialize global rate limiter
+    # Initialize rate limiter if not already done
     global rate_limiter
     if rate_limiter is None:
         rate_limiter = RateLimiter()
