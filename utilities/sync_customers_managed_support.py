@@ -33,7 +33,7 @@ from secret_manager import access_secret_version, test_gcloud_access
 
 # Configuration
 LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups")
-CUSTOMERS_FILE = "customers.json"
+CUSTOMERS_FILE = r"C:\Users\AngusMcLauchlan\Projects\itsolver\gsuitedev\Prompting\Claude\IT Solver\customers.json"
 
 # Rate Limiting Configuration for Zendesk Suite Professional
 MAX_REQUESTS_PER_MINUTE = 350
@@ -345,6 +345,9 @@ def update_customers_json(managed_support_orgs, users):
         'total_organizations': len(managed_support_orgs)
     }
 
+    # Sort customers by name before saving
+    updated_customers.sort(key=lambda x: x.get('name', '').lower())
+
     # Save updated customers file
     try:
         with open(CUSTOMERS_FILE, 'w', encoding='utf-8') as f:
@@ -353,6 +356,7 @@ def update_customers_json(managed_support_orgs, users):
         print(f"  - Total customers: {len(updated_customers)}")
         print(f"  - New customers added: {new_customers}")
         print(f"  - Customers with email updates: {updated_customers_count}")
+        print("  - Customers sorted alphabetically by name")
     except (IOError, OSError, json.JSONDecodeError) as e:
         print(f"✗ Error saving {CUSTOMERS_FILE}: {e}")
         return False

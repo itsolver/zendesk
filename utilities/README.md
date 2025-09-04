@@ -36,6 +36,7 @@ This directory contains utility scripts for managing Zendesk data synchronizatio
 4. **customers.json Updates**
    - **New Customers**: Adds organizations with managed support tags
    - **Email Updates**: Refreshes authorized_emails arrays
+   - **Sorting**: Automatically sorts all customers alphabetically by name (case-insensitive)
    - **Metadata**: Adds timestamps and change tracking
    - **Preservation**: Maintains existing custom fields
 
@@ -84,7 +85,7 @@ python utilities/sync_customers_managed_support.py
 
 - Python 3.7+
 - Google Cloud SDK configured with Secret Manager access
-- `customers.json` file in project root
+- `customers.json` file located at: `C:\Users\AngusMcLauchlan\Projects\itsolver\gsuitedev\Prompting\Claude\IT Solver\customers.json`
 - Zendesk API access with organization and user read permissions
 - Persistent cache directory (auto-created)
 
@@ -103,7 +104,7 @@ The script uses these configuration values (defined in the script):
 
 ```python
 LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\...\Cache\Zendesk_backups")
-CUSTOMERS_FILE = "customers.json"
+CUSTOMERS_FILE = r"C:\Users\AngusMcLauchlan\Projects\itsolver\gsuitedev\Prompting\Claude\IT Solver\customers.json"
 MAX_REQUESTS_PER_MINUTE = 350  # Zendesk API rate limit
 ```
 
