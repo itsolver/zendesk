@@ -11,5 +11,6 @@ firebase-admin>=6.2.0  # Optional: For Firestore token storage
 # HTTP and utility libraries
 requests>=2.31.0
 urllib3>=1.26.16
+dnspython>=2.4.0
 
 # Other dependencies

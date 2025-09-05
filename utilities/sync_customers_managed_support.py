@@ -23,6 +23,8 @@ import os
 import time
 import threading
 from datetime import datetime, timedelta
+import dns.resolver
+import dns.exception
 
 # Add parent directory to path for imports
 import sys
@@ -86,6 +88,33 @@ class RateLimiter:
 def create_directory(path):
     """Create directory if it doesn't exist."""
     os.makedirs(path, exist_ok=True)
+
+def get_email_provider_from_mx(domain):
+    """
+    Query MX records for a domain and determine email provider.
+    Returns 'Google Workspace', 'Microsoft 365', or 'Unknown'
+    """
+    try:
+        # Query MX records
+        answers = dns.resolver.resolve(domain, 'MX')
+        mx_records = [str(rdata.exchange).lower() for rdata in answers]
+
+        # Simple check: just look for the key indicators
+        for mx_record in mx_records:
+            if 'aspmx.l.google.com' in mx_record:
+                return 'Google Workspace'
+            if 'mail.protection.outlook.com' in mx_record:
+                return 'Microsoft 365'
+
+        # If no known indicators found, return Unknown
+        return 'Unknown'
+
+    except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.exception.DNSException) as e:
+        print(f"Warning: Could not resolve MX records for {domain}: {e}")
+        return 'Unknown'
+    except Exception as e:
+        print(f"Warning: Error checking MX records for {domain}: {e}")
+        return 'Unknown'
 
 def setup_zendesk_session():
     """Set up authenticated Zendesk API session."""
@@ -258,7 +287,7 @@ def get_managed_support_organizations(organizations):
 
     return managed_support_orgs
 
-def update_customers_json(managed_support_orgs, users):
+def update_customers_json(managed_support_orgs):
     """Update customers.json with managed support organizations."""
     print("=== Updating customers.json ===")
 
@@ -283,12 +312,26 @@ def update_customers_json(managed_support_orgs, users):
         support_plan = data['support_plan']
         support_tag = data['support_tag']
 
+        # Determine email provider from MX records
+        domains = org.get('domain_names', [])
+        email_provider = "Unknown"
+
+        if domains:
+            # Check MX records for domains until we find a definitive match
+            for domain in domains:
+                provider = get_email_provider_from_mx(domain.strip())
+                if provider != "Unknown":
+                    email_provider = provider
+                    break  # Found a match, no need to check other domains
+        else:
+            print(f"Warning: No domains found for organization {org.get('name', '')}")
+
         customer_data = {
             "name": org.get('name', ''),
             "organization_id": org_id,
-            "domains": org.get('domain_names', []),
+            "domains": domains,
             "plans": {
-                "software": "Microsoft 365",  # Default assumption
+                "software": email_provider,
                 "support": support_plan
             },
             "trading_names": org.get('trading_names', []),
@@ -386,7 +429,7 @@ def main():
         managed_support_orgs = get_managed_support_organizations(organizations)
 
         print(f"Found {len(managed_support_orgs)} organizations with managed support:")
-        for org_id, data in managed_support_orgs.items():
+        for _, data in managed_support_orgs.items():
             org = data['organization']
             support_plan = data['support_plan']
             print(f"  - {org.get('name', '')}: {support_plan}")
@@ -394,7 +437,7 @@ def main():
 
         # Step 4: Update customers.json
         print("Step 4: Updating customers.json...")
-        update_success = update_customers_json(managed_support_orgs, users)
+        update_success = update_customers_json(managed_support_orgs)
 
         if update_success:
             # Calculate duration
