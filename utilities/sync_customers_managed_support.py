@@ -258,17 +258,6 @@ def get_managed_support_organizations(organizations):
 
     return managed_support_orgs
 
-def get_organization_users(org_id, users):
-    """Get all users for an organization."""
-    org_users = []
-    for user in users.values():
-        if user.get('organization_id') == org_id:
-            # Only include users with valid email addresses
-            if user.get('email') and user.get('active', True):
-                org_users.append(user['email'])
-
-    return sorted(org_users)  # Sort for consistency
-
 def update_customers_json(managed_support_orgs, users):
     """Update customers.json with managed support organizations."""
     print("=== Updating customers.json ===")
@@ -294,13 +283,9 @@ def update_customers_json(managed_support_orgs, users):
         support_plan = data['support_plan']
         support_tag = data['support_tag']
 
-        # Get authorized emails for this organization
-        authorized_emails = get_organization_users(org_id, users)
-
         customer_data = {
             "name": org.get('name', ''),
             "organization_id": org_id,
-            "authorized_emails": authorized_emails,
             "domains": org.get('domain_names', []),
             "plans": {
                 "software": "Microsoft 365",  # Default assumption
@@ -318,20 +303,17 @@ def update_customers_json(managed_support_orgs, users):
             existing = existing_customers[org_id]
             # Preserve any custom fields that might exist
             for key, value in existing.items():
-                if key not in customer_data:
+                if key not in customer_data and key != 'authorized_emails':
                     customer_data[key] = value
 
-            # Check if emails have changed
-            if set(customer_data['authorized_emails']) != set(existing.get('authorized_emails', [])):
-                updated_customers_count += 1
-                print(f"Updated authorized_emails for {org.get('name', '')} ({len(authorized_emails)} users)")
-
+            updated_customers_count += 1
+            print(f"Updated customer: {org.get('name', '')}")
             updated_customers.append(customer_data)
         else:
             # Add new customer
             updated_customers.append(customer_data)
             new_customers += 1
-            print(f"Added new customer: {org.get('name', '')} ({len(authorized_emails)} users)")
+            print(f"Added new customer: {org.get('name', '')}")
 
     # Update the customers data
     customers_data['customers'] = updated_customers
@@ -355,7 +337,7 @@ def update_customers_json(managed_support_orgs, users):
         print(f"✓ Successfully updated {CUSTOMERS_FILE}")
         print(f"  - Total customers: {len(updated_customers)}")
         print(f"  - New customers added: {new_customers}")
-        print(f"  - Customers with email updates: {updated_customers_count}")
+        print(f"  - Customers updated: {updated_customers_count}")
         print("  - Customers sorted alphabetically by name")
     except (IOError, OSError, json.JSONDecodeError) as e:
         print(f"✗ Error saving {CUSTOMERS_FILE}: {e}")
@@ -407,8 +389,7 @@ def main():
         for org_id, data in managed_support_orgs.items():
             org = data['organization']
             support_plan = data['support_plan']
-            user_count = len(get_organization_users(org_id, users))
-            print(f"  - {org.get('name', '')}: {support_plan} ({user_count} users)")
+            print(f"  - {org.get('name', '')}: {support_plan}")
         print()
 
         # Step 4: Update customers.json
