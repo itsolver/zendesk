@@ -787,12 +787,14 @@ def main():
     # Backup all asset types using persistent local cache
     try:
         print("\n--- Using persistent local cache for improved performance ---")
-        tickets_log = backup_tickets(backup_path, persistent_cache_path)
-        
-        users_log = backup_users(backup_path, persistent_cache_path)
-        orgs_log = backup_organizations(backup_path, persistent_cache_path)
-        articles_log = backup_guide_articles(backup_path, persistent_cache_path)
+        # Backup faster items first
         assets_log = backup_support_assets(backup_path, persistent_cache_path)
+        articles_log = backup_guide_articles(backup_path, persistent_cache_path)
+
+        # Backup longest-running items last
+        orgs_log = backup_organizations(backup_path, persistent_cache_path)
+        tickets_log = backup_tickets(backup_path, persistent_cache_path)
+        users_log = backup_users(backup_path, persistent_cache_path)
         
         # Create summary log
         summary_path = os.path.join(backup_path, '_backup_summary.txt')
