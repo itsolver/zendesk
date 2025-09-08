@@ -26,42 +26,123 @@ def test_gcloud_access():
             print(f"Google Cloud access denied or project not found: {e}")
             return False
     except DefaultCredentialsError:
-        print("Google Cloud credentials not found. Please ensure GOOGLE_APPLICATION_CREDENTIALS is set correctly.")
-        return False
+        print("Google Cloud credentials not found.")
+        print("Would you like to authenticate interactively now? (y/n): ", end="")
+        try:
+            response = input().strip().lower()
+            if response == 'y' or response == 'yes':
+                print("Starting interactive Google Cloud authentication...")
+                try:
+                    print("Opening browser for Google Cloud authentication...")
+                    print("Please complete the authentication in your browser.")
+                    print("Press Enter when you have completed the authentication in the browser.")
+                    input("Press Enter to continue after authentication...")
+
+                    # Try to find gcloud in PATH first, then fallback to specific path
+                    gcloud_commands = [
+                        ["gcloud", "auth", "application-default", "login"],
+                        [r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd", "auth", "application-default", "login"]
+                    ]
+
+                    success = False
+                    for gcloud_cmd in gcloud_commands:
+                        try:
+                            print(f"Running: {' '.join(gcloud_cmd)}")
+                            result = subprocess.run(
+                                gcloud_cmd,
+                                check=False,
+                                # Don't capture output to allow interactive authentication
+                            )
+
+                            if result.returncode == 0:
+                                print("Authentication completed successfully!")
+                                success = True
+                                break
+                            else:
+                                print(f"Authentication command failed with return code: {result.returncode}")
+                        except FileNotFoundError:
+                            print(f"gcloud command not found at: {gcloud_cmd[0]}")
+                            continue
+                        except Exception as cmd_error:
+                            print(f"Error running gcloud command: {cmd_error}")
+                            continue
+
+                    if success:
+                        print("Retrying Google Cloud access after authentication...")
+                        # Retry the access test after successful authentication
+                        return test_gcloud_access()
+                    else:
+                        print("Authentication failed.")
+                        print("Please ensure GOOGLE_APPLICATION_CREDENTIALS is set or run 'gcloud auth application-default login' manually.")
+                        return False
+
+                except KeyboardInterrupt:
+                    print("\nAuthentication cancelled by user.")
+                    print("Please ensure GOOGLE_APPLICATION_CREDENTIALS is set or run 'gcloud auth application-default login' manually.")
+                    return False
+                except Exception as auth_error:
+                    print(f"Error during authentication: {auth_error}")
+                    print("Please ensure GOOGLE_APPLICATION_CREDENTIALS is set or run 'gcloud auth application-default login' manually.")
+                    return False
+            else:
+                print("Please ensure GOOGLE_APPLICATION_CREDENTIALS is set or run 'gcloud auth application-default login' manually.")
+                return False
+        except (KeyboardInterrupt, EOFError):
+            print("\nCancelled. Please ensure GOOGLE_APPLICATION_CREDENTIALS is set or run 'gcloud auth application-default login' manually.")
+            return False
     except Exception as e:
         error_message = str(e)
         # Check if this is a reauthentication error
         if "Reauthentication is needed" in error_message and "gcloud auth application-default login" in error_message:
-            print("Google Cloud authentication expired. Attempting automatic reauthentication...")
+            print("Google Cloud authentication expired. Starting interactive authentication...")
             try:
                 print("Opening browser for Google Cloud authentication...")
                 print("Please complete the authentication in your browser.")
-                print("This may take a few moments...")
-                # Run gcloud auth application-default login
-                # Use full path to gcloud.cmd for Windows compatibility
-                # Remove timeout since this is an interactive command that opens a browser
-                gcloud_path = r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
-                result = subprocess.run(
-                    [gcloud_path, "auth", "application-default", "login"],
-                    capture_output=True,
-                    text=True,
-                    check=False
-                    # Removed timeout since this opens a browser and requires user interaction
-                )
+                print("Press Enter when you have completed the authentication in the browser.")
+                input("Press Enter to continue after authentication...")
 
-                if result.returncode == 0:
-                    print("Reauthentication successful! Retrying Google Cloud access...")
+                # Try to find gcloud in PATH first, then fallback to specific path
+                gcloud_commands = [
+                    ["gcloud", "auth", "application-default", "login"],
+                    [r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd", "auth", "application-default", "login"]
+                ]
+
+                success = False
+                for gcloud_cmd in gcloud_commands:
+                    try:
+                        print(f"Running: {' '.join(gcloud_cmd)}")
+                        result = subprocess.run(
+                            gcloud_cmd,
+                            check=False,
+                            # Don't capture output to allow interactive authentication
+                        )
+
+                        if result.returncode == 0:
+                            print("Authentication completed successfully!")
+                            success = True
+                            break
+                        else:
+                            print(f"Authentication command failed with return code: {result.returncode}")
+                    except FileNotFoundError:
+                        print(f"gcloud command not found at: {gcloud_cmd[0]}")
+                        continue
+                    except Exception as cmd_error:
+                        print(f"Error running gcloud command: {cmd_error}")
+                        continue
+
+                if success:
+                    print("Retrying Google Cloud access after authentication...")
                     # Retry the access test after successful authentication
                     return test_gcloud_access()
                 else:
-                    print(f"Reauthentication failed: {result.stderr}")
-                    print("Please run 'gcloud auth application-default login' manually.")
+                    print("Authentication failed. Please run 'gcloud auth application-default login' manually.")
                     return False
-            except FileNotFoundError:
-                print("gcloud command not found. Please ensure Google Cloud SDK is installed.")
+
+            except KeyboardInterrupt:
+                print("\nAuthentication cancelled by user.")
                 return False
             except Exception as auth_error:
-                print(f"Error during reauthentication: {auth_error}")
+                print(f"Error during authentication: {auth_error}")
                 print("Please run 'gcloud auth application-default login' manually.")
                 return False
         else:

@@ -125,6 +125,7 @@ if not test_gcloud_access():
     print("1. GOOGLE_APPLICATION_CREDENTIALS environment variable is set")
     print("2. You have access to the 'billing-sync' project")
     print("3. You have Secret Manager permissions")
+    print("   OR run interactive authentication when prompted")
     exit(1)
 
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
@@ -653,6 +654,7 @@ def backup_support_assets(backup_path, cache_path):
         'macros': {'name': 'macros', 'response_key': 'macros'},
         'organization_fields': {'name': 'organization_fields', 'response_key': 'organization_fields'},
         'ticket_fields': {'name': 'ticket_fields', 'response_key': 'ticket_fields'},
+         'ticket_forms': {'name': 'ticket_forms', 'response_key': 'ticket_forms'},
         'triggers': {'name': 'triggers', 'response_key': 'triggers'},
         'user_fields': {'name': 'user_fields', 'response_key': 'user_fields'},
         'views': {'name': 'views', 'response_key': 'views'}
@@ -675,7 +677,7 @@ def backup_support_assets(backup_path, cache_path):
         def backup_asset(asset, asset_type, cache_path, backup_path):
             """Backup a single asset."""
             # Determine the title key based on asset type
-            title_key = 'name' if asset_type in ['triggers', 'automations', 'macros', 'views'] else 'title'
+            title_key = 'name' if asset_type in ['triggers', 'automations', 'macros', 'ticket_forms', 'views'] else 'title'
             
             # Try to find a valid title
             title = None
