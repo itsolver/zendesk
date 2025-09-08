@@ -1,4 +1,5 @@
 import requests
+from requests.adapters import HTTPAdapter
 import json
 import os
 import time
@@ -24,13 +25,12 @@ MAX_REQUESTS_PER_MINUTE = 350
 MAX_REQUESTS_PER_SECOND = MAX_REQUESTS_PER_MINUTE / 60.0
 REQUEST_INTERVAL = 1.0 / MAX_REQUESTS_PER_SECOND  # ~0.17 seconds between requests
 
-# Thread pool sizes optimized for rate limits
-# Conservative approach: lower concurrency to respect rate limits
-TICKET_WORKERS = 3  # Reduced from 5, tickets make additional API calls for events
-USER_WORKERS = 4    # Reduced from 10
-ORG_WORKERS = 4     # Reduced from 10  
-ARTICLE_WORKERS = 4 # Reduced from 10
-ASSET_WORKERS = 5   # Support assets are typically fewer in number
+# Thread pool sizes optimized for rate limits (override via env)
+TICKET_WORKERS = int(os.environ.get("TICKET_WORKERS", "6"))
+USER_WORKERS = int(os.environ.get("USER_WORKERS", "8"))
+ORG_WORKERS = int(os.environ.get("ORG_WORKERS", "4"))  
+ARTICLE_WORKERS = int(os.environ.get("ARTICLE_WORKERS", "4"))
+ASSET_WORKERS = int(os.environ.get("ASSET_WORKERS", "5"))   # Support assets are typically fewer in number
 
 # Note: We no longer use incremental backups based on last run time
 # Instead, we always backup all tickets but use local caching to avoid re-downloading unchanged ones
@@ -131,6 +131,16 @@ if not test_gcloud_access():
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
 session = requests.Session()
 session.auth = (zendesk_user, zendesk_secret)
+session.headers.update({
+    'Connection': 'keep-alive',
+    'Accept-Encoding': 'gzip, deflate',
+    'User-Agent': 'itsolver-zendesk-backup/1.0'
+})
+
+# Increase HTTP connection pool for better concurrency across threads
+_adapter = HTTPAdapter(pool_connections=50, pool_maxsize=50)
+session.mount('https://', _adapter)
+session.mount('http://', _adapter)
 
 def slugify(value, allow_unicode=False):
     """Convert to filename-safe string."""
@@ -289,7 +299,7 @@ def backup_tickets(backup_path, cache_path):
             
             # Save to cache
             with open(cache_file_path, "w", encoding="utf-8") as ticket_file:
-                json.dump(ticket, ticket_file, indent=2)
+                json.dump(ticket, ticket_file, separators=(",", ":"))
             
             # Copy to backup
             shutil.copy2(cache_file_path, backup_file_path)
@@ -399,7 +409,7 @@ def backup_users(backup_path, cache_path):
         try:
             # Save to cache
             with open(cache_file_path, 'w', encoding='utf-8') as f:
-                json.dump(user, f, indent=2)
+                json.dump(user, f, separators=(",", ":"))
             
             # Copy to backup
             shutil.copy2(cache_file_path, backup_file_path)
