@@ -351,7 +351,13 @@ IMPORTANT: Include these EXACT sections at the end of the article (copy them ver
   for expert assistance tailored to your needs.
 </p>
 
-Format the output as a complete HTML article using the template structure provided.
+Format the output as clean HTML content starting directly with the H1 tag. Do NOT include:
+- DOCTYPE declaration
+- HTML, HEAD, or BODY tags
+- Any CSS styling or STYLE tags
+- Any meta tags
+
+Start directly with <h1> and include only the article content with standard HTML tags (h1, h2, p, ul, ol, etc.).
 """
 
     # Use Grok API to generate the article
