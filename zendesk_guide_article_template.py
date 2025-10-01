@@ -1,0 +1,86 @@
+def get_template():
+    """Return the HTML template for Zendesk Guide articles."""
+    return """<h1>[Article Title]</h1>
+
+<!-- Introduction section -->
+<p>[Brief description of the article]</p>
+
+<!-- For "How to" articles only - remove if not applicable -->
+<div class="how-to-section">
+  <h2>Overview</h2>
+  <p>[Overview of the process or solution]</p>
+  
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>[Prerequisite 1]</li>
+    <li>[Prerequisite 2]</li>
+    <!-- Add more prerequisites as needed -->
+  </ul>
+</div>
+
+<!-- For troubleshooting articles only - remove if not applicable -->
+<div class="troubleshooting-section">
+  <h2>Issue Description</h2>
+  <p>[Detailed description of the issue]</p>
+  
+  <h2>Symptoms</h2>
+  <ul>
+    <li>[Symptom 1]</li>
+    <li>[Symptom 2]</li>
+    <!-- Add more symptoms as needed -->
+  </ul>
+  
+  <h2>Affected Systems</h2>
+  <p>[List of affected systems, software versions, etc.]</p>
+</div>
+
+<!-- Steps section - use appropriate title based on article type -->
+<h2>[How to... / Resolution Steps / etc.]</h2>
+<ol>
+  <li>
+    <p>[Step 1 description]</p>
+    <!-- If step has an image -->
+    <img src="[image-url]" alt="[image description]">
+    <!-- If step has a note -->
+    <p class="note">[Additional note about this step]</p>
+  </li>
+  <!-- Add more steps as needed -->
+</ol>
+
+<!-- Optional sections - remove if not needed -->
+<div class="additional-info">
+  <h2>Additional Information</h2>
+  <ul>
+    <li>[Additional note 1]</li>
+    <li>[Additional note 2]</li>
+    <!-- Add more notes as needed -->
+  </ul>
+</div>
+
+<div class="troubleshooting-tips">
+  <h2>Troubleshooting Tips</h2>
+  <ul>
+    <li>[Troubleshooting tip 1]</li>
+    <li>[Troubleshooting tip 2]</li>
+    <!-- Add more tips as needed -->
+  </ul>
+</div>
+
+<!-- Feedback section -->
+<h2>Was this helpful?</h2>
+<p>
+  If you've followed this guide, we'd love to hear about your experience. Please leave a comment below 
+  to share whether this guide helped you achieve your goal. If you found an alternative approach 
+  that worked, we encourage you to share that as well. Your feedback helps us improve our documentation 
+  and assists others in the community.
+</p>
+
+<!-- Further assistance section -->
+<h2>Need Further Assistance?</h2>
+<p>
+  If you need additional support or would like personalized guidance, we're here to help. 
+  Check out our dedicated support plans at 
+  <a href="https://itsolver.net/support-plans?utm_source=zendesk&utm_medium=kb_article&utm_campaign=support_referral" 
+     target="_blank">IT Solver Support Plans</a>
+  for expert assistance tailored to your needs.
+</p>"""
