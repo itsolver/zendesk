@@ -1,5 +1,4 @@
 import requests
-import json
 import os
 import time
 import re
@@ -8,7 +7,7 @@ from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version, test_gcloud_access
-from typing import List, Dict, Any
+from typing import List, Dict
 
 # Configuration
 BATCH_SIZE = 100
@@ -82,6 +81,7 @@ if not test_gcloud_access():
     exit(1)
 
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
+grok_api_key = access_secret_version("billing-sync", "GROK_API_KEY", "latest")
 session = requests.Session()
 session.auth = (zendesk_user, zendesk_secret)
 session.headers.update({
@@ -337,7 +337,7 @@ Format the output as a complete HTML article using the template structure provid
     grok_api_url = "https://api.x.ai/v1/chat/completions"
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {os.environ.get('GROK_API_KEY', '')}"
+        "Authorization": f"Bearer {grok_api_key}"
     }
 
     payload = {
@@ -358,7 +358,7 @@ Format the output as a complete HTML article using the template structure provid
 
     try:
         print("Generating knowledge base article with Grok AI...")
-        response = requests.post(grok_api_url, headers=headers, json=payload)
+        response = requests.post(grok_api_url, headers=headers, json=payload, timeout=30)
         response.raise_for_status()
 
         grok_response = response.json()
