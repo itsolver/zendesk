@@ -494,11 +494,11 @@ If the provided ticket data lacks detail, infer likely solutions based on the te
         if any(indicator in content_lower for indicator in generic_indicators):
             raise ValueError("Generated article contains generic placeholder content. This indicates the AI had insufficient information to work with.")
 
-        print(f"✓ Generated high-quality article ({len(article_content)} characters)")
+        print(f"[OK] Generated high-quality article ({len(article_content)} characters)")
         return article_content
 
     except Exception as e:
-        print(f"\n✗ ERROR: Failed to generate article with Grok API: {e}")
+        print(f"\n[ERROR] Failed to generate article with Grok API: {e}")
         print("ABORTING: Cannot generate article without AI assistance.")
         print("Possible reasons:")
         print("  - API connection failed")
