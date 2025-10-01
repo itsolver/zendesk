@@ -486,13 +486,13 @@ def upload_to_zendesk_help_center(article_html, title, section_id):
 
         result = response.json()
         article_id = result['article']['id']
-        print(f"✅ Article uploaded successfully! Article ID: {article_id}")
+        print(f"Article uploaded successfully! Article ID: {article_id}")
         print(f"Article URL: https://support.itsolver.net/hc/en-au/articles/{article_id}")
 
         return article_id
 
     except requests.RequestException as e:
-        print(f"❌ Failed to upload article: {e}")
+        print(f"Failed to upload article: {e}")
         if hasattr(e, 'response') and e.response:
             print(f"Response: {e.response.text}")
         return None
@@ -683,7 +683,7 @@ def main():
     if section_id:
         article_id = upload_to_zendesk_help_center(article_html, article_title, section_id)
         if article_id:
-            print(f"\n🎉 Article successfully uploaded to Zendesk Help Center as a draft!")
+            print(f"\nArticle successfully uploaded to Zendesk Help Center as a draft!")
             print(f"You can review/edit it at: https://support.itsolver.net/hc/en-au/articles/{article_id}")
     else:
         print("Upload skipped.")
