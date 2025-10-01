@@ -323,13 +323,22 @@ Resolution Patterns:
 {chr(10).join(f"- {step}" for step in steps[:10])}
 
 Please generate a comprehensive knowledge base article that:
-1. Identifies the main problem or question this addresses
-2. Provides a clear, step-by-step solution
-3. Includes troubleshooting tips
-4. Is written in a professional, helpful tone
-5. Uses the structure from the provided HTML template
-6. Contains NO personal information or specific customer details
-7. Is generalized to help future customers with similar issues
+1. Create SEO and GEO optimized headings (H2-H6) that:
+   - Include the main problem/solution keywords naturally in headings
+   - Use descriptive, long-tail keywords that users actually search for
+   - Structure headings for AI comprehension (clear problem-solution format)
+   - Show expertise and authority in the topic through heading hierarchy
+   - Make content scannable for both humans and AI models with semantic heading structure
+   - Use question-based headings when appropriate (e.g., "How to Fix...", "Why Does... Happen?")
+   - Include action-oriented headings (e.g., "Step-by-Step Solution", "Troubleshooting Guide")
+2. Identifies the main problem or question this addresses in the opening paragraph
+3. Provides a clear, step-by-step solution with numbered lists and descriptive subheadings
+4. Includes comprehensive troubleshooting tips under dedicated headings
+5. Is written in a professional, helpful tone that demonstrates expertise
+6. Uses semantic HTML structure with proper heading hierarchy (H2 for main sections, H3 for subsections, etc.)
+7. Contains NO personal information or specific customer details
+8. Is generalized to help future customers with similar issues
+9. Includes relevant keywords naturally throughout headings and content for search optimization
 
 IMPORTANT: Include these EXACT sections at the end of the article (copy them verbatim):
 
@@ -397,61 +406,72 @@ Start directly with content like <p>, <h2>, <ul>, etc., and include only the art
 
     except Exception as e:
         print(f"Error generating article with Grok API: {e}")
-        return generate_fallback_article(ticket_data, search_query)
+        print("Aborting - cannot generate article without AI assistance.")
+        raise e
 
-def generate_fallback_article(ticket_data: List[Dict], search_query: str) -> str:
-    """Fallback article generation if Grok API fails."""
-    print("Using fallback article generation...")
+def generate_content_tags_and_labels(article_html, title, search_query):
+    """Generate detailed email troubleshooting article."""
+    article = f"""<h2>Understanding Email Connection and Synchronization Issues</h2>
+<p>Email connectivity problems can significantly impact productivity. Whether you're using Outlook, webmail, or other email clients, connection issues often stem from authentication, server settings, or network problems.</p>
 
-    # Count common tags and statuses
-    tag_counts = {}
-    status_counts = {}
-
-    for ticket in ticket_data:
-        for tag in ticket.get('tags', []):
-            tag_counts[tag] = tag_counts.get(tag, 0) + 1
-
-        status = ticket.get('status')
-        if status:
-            status_counts[status] = status_counts.get(status, 0) + 1
-
-    # Generate basic article structure
-    article = f"""<h1>How to Resolve Issues Related to: {search_query}</h1>
-
-<p>This article provides guidance for common issues related to "{search_query}". Based on analysis of {len(ticket_data)} support tickets, here are the most effective solutions.</p>
-
-<h2>Common Symptoms</h2>
+<h2>Common Email Problem Symptoms</h2>
 <ul>
-"""
-
-    # Add common tags as symptoms
-    for tag, count in sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:5]:
-        if count > 1:
-            article += f"<li>Issues tagged as '{tag}' (appears in {count} tickets)</li>\n"
-
-    article += "</ul>\n\n<h2>Resolution Steps</h2>\n<ol>\n"
-
-    # Add generic resolution steps based on patterns
-    article += """<li><p>Verify the basic configuration and settings</p></li>
-<li><p>Check for any recent changes or updates that might have caused the issue</p></li>
-<li><p>Restart the affected service or application</p></li>
-<li><p>Clear any cached data or temporary files</p></li>
-<li><p>If the issue persists, gather detailed error messages and logs for further analysis</p></li>
-</ol>
-
-<h2>Additional Information</h2>
-<ul>
-<li>This issue typically affects users experiencing configuration or compatibility problems</li>
-<li>Most cases are resolved through the steps above</li>
-<li>Complex cases may require detailed investigation of system logs</li>
+<li>Unable to send or receive emails</li>
+<li>"Connection failed" or "server unavailable" errors</li>
+<li>Emails stuck in Outbox</li>
+<li>Authentication prompts or password errors</li>
+<li>Slow email synchronization</li>
+<li>Calendar or contact sync issues</li>
 </ul>
 
+<h2>Step-by-Step Solution: Restore Email Connectivity</h2>
+
+<ol>
+<li><strong>Check Internet Connection</strong><br>
+   Ensure you have a stable internet connection. Try accessing other websites or services to confirm connectivity.</li>
+
+<li><strong>Verify Email Account Settings</strong><br>
+   Check your email server settings. For Outlook/Exchange: server should be <code>outlook.office365.com</code>, port 993 for IMAP. Ensure username and password are correct.</li>
+
+<li><strong>Test Webmail Access</strong><br>
+   Try accessing your email via webmail (Outlook.com, Gmail, etc.). If webmail works, the issue is with your email client configuration.</li>
+
+<li><strong>Clear Email Client Cache</strong><br>
+   In Outlook: File > Account Settings > Repair Account. In other clients, clear cache or recreate the account.</li>
+
+<li><strong>Check Firewall and Antivirus</strong><br>
+   Temporarily disable firewall/antivirus to test. Add exceptions for your email ports if needed.</li>
+
+<li><strong>Update Email Client</strong><br>
+   Ensure your email client is up to date. Check for and install any available updates.</li>
+</ol>
+
+<h2>Troubleshooting Tips</h2>
+<ul>
+<li><strong>Two-Factor Authentication:</strong> If enabled, ensure app passwords are used for email clients</li>
+<li><strong>Server-Side Rules:</strong> Check if email rules are filtering messages unexpectedly</li>
+<li><strong>Storage Quotas:</strong> Verify your mailbox hasn't exceeded storage limits</li>
+<li><strong>Network Settings:</strong> Check proxy settings and VPN configurations</li>
+</ul>
+
+<!-- Feedback section -->
 <h2>Was this helpful?</h2>
-<p>If you've followed this guide, we'd love to hear about your experience. Please leave a comment below to share whether this guide helped you achieve your goal.</p>
+<p>
+  If you've followed this guide, we'd love to hear about your experience. Please leave a comment below
+  to share whether this guide helped you achieve your goal. If you found an alternative approach
+  that worked, we encourage you to share that as well. Your feedback helps us improve our documentation
+  and assists others in the community.
+</p>
 
+<!-- Further assistance section -->
 <h2>Need Further Assistance?</h2>
-<p>If you need additional support or would like personalized guidance, we're here to help. Check out our dedicated support plans at <a href="https://itsolver.net/support-plans?utm_source=zendesk&utm_medium=kb_article&utm_campaign=support_referral" target="_blank">IT Solver Support Plans</a> for expert assistance tailored to your needs.</p>"""
-
+<p>
+  If you need additional support or would like personalized guidance, we're here to help.
+  Check out our dedicated support plans at
+  <a href="https://itsolver.net/support-plans?utm_source=zendesk&utm_medium=kb_article&utm_campaign=support_referral"
+     target="_blank">IT Solver Support Plans</a>
+  for expert assistance tailored to your needs.
+</p>"""
     return article
 
 def generate_content_tags_and_labels(article_html, title, search_query):
