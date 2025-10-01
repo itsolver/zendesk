@@ -330,6 +330,27 @@ Please generate a comprehensive knowledge base article that:
 6. Contains NO personal information or specific customer details
 7. Is generalized to help future customers with similar issues
 
+IMPORTANT: Include these EXACT sections at the end of the article (copy them verbatim):
+
+<!-- Feedback section -->
+<h2>Was this helpful?</h2>
+<p>
+  If you've followed this guide, we'd love to hear about your experience. Please leave a comment below
+  to share whether this guide helped you achieve your goal. If you found an alternative approach
+  that worked, we encourage you to share that as well. Your feedback helps us improve our documentation
+  and assists others in the community.
+</p>
+
+<!-- Further assistance section -->
+<h2>Need Further Assistance?</h2>
+<p>
+  If you need additional support or would like personalized guidance, we're here to help.
+  Check out our dedicated support plans at
+  <a href="https://itsolver.net/support-plans?utm_source=zendesk&utm_medium=kb_article&utm_campaign=support_referral"
+     target="_blank">IT Solver Support Plans</a>
+  for expert assistance tailored to your needs.
+</p>
+
 Format the output as a complete HTML article using the template structure provided.
 """
 
