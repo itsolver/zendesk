@@ -323,13 +323,19 @@ Resolution Patterns:
 {chr(10).join(f"- {step}" for step in steps[:10])}
 
 Please generate a comprehensive knowledge base article that:
-1. Identifies the main problem or question this addresses
-2. Provides a clear, step-by-step solution
-3. Includes troubleshooting tips
-4. Is written in a professional, helpful tone
-5. Uses the structure from the provided HTML template
-6. Contains NO personal information or specific customer details
-7. Is generalized to help future customers with similar issues
+1. Uses H1 headings that are optimized for both SEO and GEO (Generative Engine Optimization):
+   - Include the main problem/solution keywords naturally
+   - Use descriptive, long-tail keywords that users actually search for
+   - Structure for AI comprehension (clear problem-solution format)
+   - Show expertise and authority in the topic
+   - Make it scannable for both humans and AI models
+2. Identifies the main problem or question this addresses
+3. Provides a clear, step-by-step solution
+4. Includes troubleshooting tips
+5. Is written in a professional, helpful tone
+6. Uses the structure from the provided HTML template
+7. Contains NO personal information or specific customer details
+8. Is generalized to help future customers with similar issues
 
 IMPORTANT: Include these EXACT sections at the end of the article (copy them verbatim):
 
@@ -369,7 +375,7 @@ Start directly with <h1> and include only the article content with standard HTML
     }
 
     payload = {
-        "model": "grok-code-fast-1",
+        "model": "grok-4-fast-reasoning",
         "messages": [
             {
                 "role": "system",
@@ -526,7 +532,7 @@ Format: "SECTION_NUMBER: explanation"
         }
 
         payload = {
-            "model": "grok-code-fast-1",
+            "model": "grok-4-fast-non-reasoning",
             "messages": [
                 {
                     "role": "system",
@@ -605,16 +611,8 @@ def get_section_choice(article_html, search_query):
         "4": ("115001312963", "Google Workspace")
     }
 
-    override = input("Press Enter to use auto-selected section, or choose different section (1-4) or 'skip': ").strip().lower()
-    if not override:
-        return auto_section_id
-    elif override == 'skip':
-        return None
-    elif override in sections:
-        return sections[override][0]
-    else:
-        print("Invalid choice, using auto-selected section.")
-        return auto_section_id
+    # Always use auto-selected section without user input
+    return auto_section_id
 
 def main():
     """Main function to generate KB article from ticket search."""
