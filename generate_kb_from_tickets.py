@@ -565,19 +565,13 @@ def main():
     # Get user input - support command line args for testing
     if len(sys.argv) > 1:
         search_query = sys.argv[1]
-        max_results = int(sys.argv[2]) if len(sys.argv) > 2 else 50
+        max_results = 10  # Fixed maximum for optimal analysis
     else:
         search_query = input("Enter the search query for tickets: ").strip()
         if not search_query:
             print("Search query cannot be empty.")
             return
-
-        max_results_input = input("Maximum number of tickets to analyze (default 50): ").strip()
-        try:
-            max_results = int(max_results_input) if max_results_input else 50
-        except ValueError:
-            print("Invalid number, using default of 50 tickets.")
-            max_results = 50
+        max_results = 10  # Fixed maximum for optimal analysis
 
     # Search tickets
     print(f"\nSearching for up to {max_results} tickets matching: '{search_query}'")
