@@ -1,0 +1,50 @@
+How to stop "Intelligent Work" Pop-Up
+
+Anonymous
+Feb 23, 2024, 7:52 AM
+When I open any office 365 program, a "Intelligent Work" pop-up appears in the bottom right corner of the screen. I switch applications, it pops up. I minimize then open again, it pops up. I cannot find intelligent services options in any program options to turn off. Please help.
+
+Microsoft 365 and Office | Install, redeem, activate | Other | Other
+
+Locked Question. This question was migrated from the Microsoft Support Community. You can vote on whether it's helpful, but you can't add comments or replies or follow the question.
+
+I have the same question 
+184
+{count} votes
+ Accepted answer
+
+Anonymous
+Feb 24, 2024, 6:21 AM
+I believe this is due to the MSI Center software, especially the MSI AI Engine feature. To turn off this extremely annoying message, you can open the MSI Center, open the MSI AI Engine feature, click on the gear icon next to "AI Engine: ON" then uncheck the "Show the profile switching animation when AI Engine initiates."
+
+Please sign in to rate this answer.
+710 people found this answer helpful.
+22 additional answers
+
+Anonymous
+Feb 23, 2024, 10:43 AM
+I have the same issue. Did not tell my PC to do this, just started doing it today.
+
+Please sign in to rate this answer.
+8 people found this answer helpful.
+
+Anonymous
+Feb 23, 2024, 11:09 AM
+I have the same issue.
+
+Please sign in to rate this answer.
+3 people found this answer helpful.
+
+Anonymous
+Feb 24, 2024, 6:24 AM
+Believe this just started happening due to an MSI Center software update that I received today. See my reply to the original message.
+
+Please sign in to rate this answer.
+7 people found this answer helpful.
+
+Anonymous
+Feb 27, 2024, 1:44 AM
+Turning AI off seems to solve that problem.
+
+Please sign in to rate this answer.
+6 people found this answer helpful.
