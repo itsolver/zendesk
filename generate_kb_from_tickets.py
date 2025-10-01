@@ -1,5 +1,4 @@
 import requests
-import os
 import time
 import re
 import threading
@@ -409,70 +408,6 @@ Start directly with content like <p>, <h2>, <ul>, etc., and include only the art
         print("Aborting - cannot generate article without AI assistance.")
         raise e
 
-def generate_content_tags_and_labels(article_html, title, search_query):
-    """Generate detailed email troubleshooting article."""
-    article = f"""<h2>Understanding Email Connection and Synchronization Issues</h2>
-<p>Email connectivity problems can significantly impact productivity. Whether you're using Outlook, webmail, or other email clients, connection issues often stem from authentication, server settings, or network problems.</p>
-
-<h2>Common Email Problem Symptoms</h2>
-<ul>
-<li>Unable to send or receive emails</li>
-<li>"Connection failed" or "server unavailable" errors</li>
-<li>Emails stuck in Outbox</li>
-<li>Authentication prompts or password errors</li>
-<li>Slow email synchronization</li>
-<li>Calendar or contact sync issues</li>
-</ul>
-
-<h2>Step-by-Step Solution: Restore Email Connectivity</h2>
-
-<ol>
-<li><strong>Check Internet Connection</strong><br>
-   Ensure you have a stable internet connection. Try accessing other websites or services to confirm connectivity.</li>
-
-<li><strong>Verify Email Account Settings</strong><br>
-   Check your email server settings. For Outlook/Exchange: server should be <code>outlook.office365.com</code>, port 993 for IMAP. Ensure username and password are correct.</li>
-
-<li><strong>Test Webmail Access</strong><br>
-   Try accessing your email via webmail (Outlook.com, Gmail, etc.). If webmail works, the issue is with your email client configuration.</li>
-
-<li><strong>Clear Email Client Cache</strong><br>
-   In Outlook: File > Account Settings > Repair Account. In other clients, clear cache or recreate the account.</li>
-
-<li><strong>Check Firewall and Antivirus</strong><br>
-   Temporarily disable firewall/antivirus to test. Add exceptions for your email ports if needed.</li>
-
-<li><strong>Update Email Client</strong><br>
-   Ensure your email client is up to date. Check for and install any available updates.</li>
-</ol>
-
-<h2>Troubleshooting Tips</h2>
-<ul>
-<li><strong>Two-Factor Authentication:</strong> If enabled, ensure app passwords are used for email clients</li>
-<li><strong>Server-Side Rules:</strong> Check if email rules are filtering messages unexpectedly</li>
-<li><strong>Storage Quotas:</strong> Verify your mailbox hasn't exceeded storage limits</li>
-<li><strong>Network Settings:</strong> Check proxy settings and VPN configurations</li>
-</ul>
-
-<!-- Feedback section -->
-<h2>Was this helpful?</h2>
-<p>
-  If you've followed this guide, we'd love to hear about your experience. Please leave a comment below
-  to share whether this guide helped you achieve your goal. If you found an alternative approach
-  that worked, we encourage you to share that as well. Your feedback helps us improve our documentation
-  and assists others in the community.
-</p>
-
-<!-- Further assistance section -->
-<h2>Need Further Assistance?</h2>
-<p>
-  If you need additional support or would like personalized guidance, we're here to help.
-  Check out our dedicated support plans at
-  <a href="https://itsolver.net/support-plans?utm_source=zendesk&utm_medium=kb_article&utm_campaign=support_referral"
-     target="_blank">IT Solver Support Plans</a>
-  for expert assistance tailored to your needs.
-</p>"""
-    return article
 
 def generate_content_tags_and_labels(article_html, title, search_query):
     """Generate appropriate content tags and labels based on article content."""
@@ -569,7 +504,6 @@ def determine_best_section(article_html, search_query):
     print("Analyzing article content with AI to determine best section...")
 
     # Extract clean text content from HTML (remove HTML tags)
-    import re
     clean_text = re.sub(r'<[^>]+>', '', article_html)
     # Remove extra whitespace
     clean_text = ' '.join(clean_text.split())
@@ -670,14 +604,6 @@ def get_section_choice(article_html, search_query):
 
     print(f"\nAutomatically selected section: {auto_section_name} (ID: {auto_section_id})")
 
-    # Show all available sections
-    sections = {
-        "1": ("200392289", "Solutions (general area for solutions)"),
-        "2": ("200392299", "Tips & Tricks"),
-        "3": ("115001399286", "Microsoft 365"),
-        "4": ("115001312963", "Google Workspace")
-    }
-
     # Always use auto-selected section without user input
     return auto_section_id
 
@@ -743,19 +669,15 @@ def main():
 
     # Create SEO/GEO optimized title from search query
     # Use the search query to create a descriptive, keyword-rich title
-    if search_query.lower() in ['ctfmon', 'windows search', 'language bar']:
-        article_title = f"How to Fix Windows Search Not Working and Ctfmon Input Issues on Windows 10/11"
-    else:
-        # For other queries, create a descriptive title
-        clean_query = search_query.replace('_', ' ').replace('-', ' ').title()
-        article_title = f"How to Resolve {clean_query} Issues - Complete Troubleshooting Guide"
+    clean_query = search_query.replace('_', ' ').replace('-', ' ').title()
+    article_title = f"How to Resolve {clean_query} Issues - Complete Troubleshooting Guide"
 
     # Upload to Zendesk Help Center
     section_id = get_section_choice(article_html, search_query)
     if section_id:
         article_id = upload_to_zendesk_help_center(article_html, article_title, section_id, search_query)
         if article_id:
-            print(f"\nArticle successfully uploaded to Zendesk Help Center as a draft!")
+            print("\nArticle successfully uploaded to Zendesk Help Center as a draft!")
             print(f"You can review/edit it at: https://support.itsolver.net/hc/en-au/articles/{article_id}")
     else:
         print("Upload skipped.")
