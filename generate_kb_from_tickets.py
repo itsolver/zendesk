@@ -492,44 +492,104 @@ def upload_to_zendesk_help_center(article_html, title, section_id):
         return None
 
 def determine_best_section(article_html, search_query):
-    """Automatically determine the most relevant section based on article content and search query."""
-    content_lower = article_html.lower()
-    query_lower = search_query.lower()
+    """Use Grok AI to analyze the article content and determine the most relevant section."""
+    print("Analyzing article content with AI to determine best section...")
 
-    # Define keywords for each section
-    microsoft_keywords = [
-        'microsoft 365', 'office 365', 'outlook', 'exchange', 'teams', 'sharepoint',
-        'onedrive', 'azure', 'windows', 'active directory', 'powershell', 'excel',
-        'word', 'powerpoint', 'access', 'skype', 'lync', 'intune', 'autopilot'
-    ]
+    # Extract clean text content from HTML (remove HTML tags)
+    import re
+    clean_text = re.sub(r'<[^>]+>', '', article_html)
+    # Remove extra whitespace
+    clean_text = ' '.join(clean_text.split())
 
-    google_keywords = [
-        'google workspace', 'gmail', 'google docs', 'google sheets', 'google drive',
-        'google calendar', 'google meet', 'chrome', 'android', 'gsuite', 'g suite'
-    ]
+    analysis_prompt = f"""
+Based on the following knowledge base article content and the original search query "{search_query}",
+determine which Zendesk Help Center section would be most appropriate:
 
-    tips_keywords = [
-        'tip', 'trick', 'shortcut', 'productivity', 'efficiency', 'quick', 'easy',
-        'best practice', 'optimize', 'improve', 'enhance'
-    ]
+Available sections:
+1. Solutions (ID: 200392289) - General solutions for various technical issues, system problems, troubleshooting guides
+2. Tips & Tricks (ID: 200392299) - Productivity tips, shortcuts, best practices, efficiency improvements
+3. Microsoft 365 (ID: 115001399286) - Microsoft 365, Office 365, Outlook, Exchange, Teams, SharePoint, OneDrive, Windows, Azure, Intune, etc.
+4. Google Workspace (ID: 115001312963) - Google Workspace, Gmail, Google Docs, Google Sheets, Google Drive, Google Calendar, etc.
 
-    # Count keyword matches
-    microsoft_score = sum(1 for keyword in microsoft_keywords if keyword in content_lower or keyword in query_lower)
-    google_score = sum(1 for keyword in google_keywords if keyword in content_lower or keyword in query_lower)
-    tips_score = sum(1 for keyword in tips_keywords if keyword in content_lower or keyword in query_lower)
+Article Title and Content:
+{clean_text[:2000]}... (truncated for analysis)
 
-    # Determine best section
-    max_score = max(microsoft_score, google_score, tips_score)
+Respond with ONLY the section number (1-4) and a brief explanation (max 50 words) why this section is most appropriate.
+Format: "SECTION_NUMBER: explanation"
+"""
 
-    if max_score == 0:
-        # No specific keywords found, use Solutions as default
-        return "200392289", "Solutions (general area for solutions)"
-    elif microsoft_score == max_score:
-        return "115001399286", "Microsoft 365"
-    elif google_score == max_score:
-        return "115001312963", "Google Workspace"
-    else:  # tips_score == max_score
-        return "200392299", "Tips & Tricks"
+    try:
+        grok_api_url = "https://api.x.ai/v1/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {grok_api_key}"
+        }
+
+        payload = {
+            "model": "grok-code-fast-1",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are an expert at categorizing technical content for knowledge bases. Analyze the provided article and determine the most appropriate section based on content, technical focus, and user intent."
+                },
+                {
+                    "role": "user",
+                    "content": analysis_prompt
+                }
+            ],
+            "max_tokens": 100,
+            "temperature": 0.3
+        }
+
+        response = requests.post(grok_api_url, headers=headers, json=payload, timeout=30)
+        response.raise_for_status()
+
+        grok_response = response.json()
+        analysis_result = grok_response['choices'][0]['message']['content'].strip()
+
+        # Parse the result - should be in format "SECTION_NUMBER: explanation"
+        if ':' in analysis_result:
+            section_num = analysis_result.split(':')[0].strip()
+            explanation = analysis_result.split(':', 1)[1].strip()
+        else:
+            # Fallback if format is unexpected
+            section_num = analysis_result.strip()
+            explanation = "AI-determined section"
+
+        # Map section number to actual section info
+        section_mapping = {
+            "1": ("200392289", "Solutions (general area for solutions)"),
+            "2": ("200392299", "Tips & Tricks"),
+            "3": ("115001399286", "Microsoft 365"),
+            "4": ("115001312963", "Google Workspace")
+        }
+
+        if section_num in section_mapping:
+            section_id, section_name = section_mapping[section_num]
+            print(f"AI Analysis: {explanation}")
+            return section_id, section_name
+        else:
+            print(f"Unexpected AI response: {analysis_result}, using Solutions as default")
+            return "200392289", "Solutions (general area for solutions)"
+
+    except Exception as e:
+        print(f"AI section analysis failed: {e}, using keyword-based fallback")
+        # Fallback to simple keyword matching
+        content_lower = article_html.lower()
+        query_lower = search_query.lower()
+
+        microsoft_keywords = ['microsoft', 'office', 'outlook', 'exchange', 'windows', 'azure', 'teams', 'sharepoint', 'onedrive']
+        google_keywords = ['google', 'gmail', 'docs', 'sheets', 'drive', 'workspace', 'gsuite']
+
+        microsoft_score = sum(1 for keyword in microsoft_keywords if keyword in content_lower or keyword in query_lower)
+        google_score = sum(1 for keyword in google_keywords if keyword in content_lower or keyword in query_lower)
+
+        if microsoft_score > google_score:
+            return "115001399286", "Microsoft 365"
+        elif google_score > microsoft_score:
+            return "115001312963", "Google Workspace"
+        else:
+            return "200392289", "Solutions (general area for solutions)"
 
 def get_section_choice(article_html, search_query):
     """Get section choice - automatically determined or user override."""
