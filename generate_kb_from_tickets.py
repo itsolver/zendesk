@@ -491,8 +491,53 @@ def upload_to_zendesk_help_center(article_html, title, section_id):
             print(f"Response: {e.response.text}")
         return None
 
-def get_section_choice():
-    """Get section choice from user."""
+def determine_best_section(article_html, search_query):
+    """Automatically determine the most relevant section based on article content and search query."""
+    content_lower = article_html.lower()
+    query_lower = search_query.lower()
+
+    # Define keywords for each section
+    microsoft_keywords = [
+        'microsoft 365', 'office 365', 'outlook', 'exchange', 'teams', 'sharepoint',
+        'onedrive', 'azure', 'windows', 'active directory', 'powershell', 'excel',
+        'word', 'powerpoint', 'access', 'skype', 'lync', 'intune', 'autopilot'
+    ]
+
+    google_keywords = [
+        'google workspace', 'gmail', 'google docs', 'google sheets', 'google drive',
+        'google calendar', 'google meet', 'chrome', 'android', 'gsuite', 'g suite'
+    ]
+
+    tips_keywords = [
+        'tip', 'trick', 'shortcut', 'productivity', 'efficiency', 'quick', 'easy',
+        'best practice', 'optimize', 'improve', 'enhance'
+    ]
+
+    # Count keyword matches
+    microsoft_score = sum(1 for keyword in microsoft_keywords if keyword in content_lower or keyword in query_lower)
+    google_score = sum(1 for keyword in google_keywords if keyword in content_lower or keyword in query_lower)
+    tips_score = sum(1 for keyword in tips_keywords if keyword in content_lower or keyword in query_lower)
+
+    # Determine best section
+    max_score = max(microsoft_score, google_score, tips_score)
+
+    if max_score == 0:
+        # No specific keywords found, use Solutions as default
+        return "200392289", "Solutions (general area for solutions)"
+    elif microsoft_score == max_score:
+        return "115001399286", "Microsoft 365"
+    elif google_score == max_score:
+        return "115001312963", "Google Workspace"
+    else:  # tips_score == max_score
+        return "200392299", "Tips & Tricks"
+
+def get_section_choice(article_html, search_query):
+    """Get section choice - automatically determined or user override."""
+    auto_section_id, auto_section_name = determine_best_section(article_html, search_query)
+
+    print(f"\nAutomatically selected section: {auto_section_name} (ID: {auto_section_id})")
+
+    # Show all available sections
     sections = {
         "1": ("200392289", "Solutions (general area for solutions)"),
         "2": ("200392299", "Tips & Tricks"),
@@ -500,17 +545,16 @@ def get_section_choice():
         "4": ("115001312963", "Google Workspace")
     }
 
-    print("\nAvailable Zendesk Help Center sections:")
-    for key, (section_id, description) in sections.items():
-        print(f"{key}. {description} (ID: {section_id})")
-
-    while True:
-        choice = input("\nChoose a section (1-4) or 'skip' to skip uploading: ").strip().lower()
-        if choice == 'skip':
-            return None
-        if choice in sections:
-            return sections[choice][0]
-        print("Invalid choice. Please select 1-4 or 'skip'.")
+    override = input("Press Enter to use auto-selected section, or choose different section (1-4) or 'skip': ").strip().lower()
+    if not override:
+        return auto_section_id
+    elif override == 'skip':
+        return None
+    elif override in sections:
+        return sections[override][0]
+    else:
+        print("Invalid choice, using auto-selected section.")
+        return auto_section_id
 
 def main():
     """Main function to generate KB article from ticket search."""
@@ -583,7 +627,7 @@ def main():
     article_title = title_match.group(1) if title_match else f"KB Article - {search_query}"
 
     # Upload to Zendesk Help Center
-    section_id = get_section_choice()
+    section_id = get_section_choice(article_html, search_query)
     if section_id:
         article_id = upload_to_zendesk_help_center(article_html, article_title, section_id)
         if article_id:
