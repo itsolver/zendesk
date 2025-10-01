@@ -323,19 +323,13 @@ Resolution Patterns:
 {chr(10).join(f"- {step}" for step in steps[:10])}
 
 Please generate a comprehensive knowledge base article that:
-1. Uses H1 headings that are optimized for both SEO and GEO (Generative Engine Optimization):
-   - Include the main problem/solution keywords naturally
-   - Use descriptive, long-tail keywords that users actually search for
-   - Structure for AI comprehension (clear problem-solution format)
-   - Show expertise and authority in the topic
-   - Make it scannable for both humans and AI models
-2. Identifies the main problem or question this addresses
-3. Provides a clear, step-by-step solution
-4. Includes troubleshooting tips
-5. Is written in a professional, helpful tone
-6. Uses the structure from the provided HTML template
-7. Contains NO personal information or specific customer details
-8. Is generalized to help future customers with similar issues
+1. Identifies the main problem or question this addresses
+2. Provides a clear, step-by-step solution
+3. Includes troubleshooting tips
+4. Is written in a professional, helpful tone
+5. Uses the structure from the provided HTML template
+6. Contains NO personal information or specific customer details
+7. Is generalized to help future customers with similar issues
 
 IMPORTANT: Include these EXACT sections at the end of the article (copy them verbatim):
 
@@ -358,13 +352,14 @@ IMPORTANT: Include these EXACT sections at the end of the article (copy them ver
   for expert assistance tailored to your needs.
 </p>
 
-Format the output as clean HTML content starting directly with the H1 tag. Do NOT include:
+Format the output as clean HTML content WITHOUT an H1 heading (the title is set separately). Do NOT include:
 - DOCTYPE declaration
 - HTML, HEAD, or BODY tags
 - Any CSS styling or STYLE tags
 - Any meta tags
+- H1 headings (title is provided separately)
 
-Start directly with <h1> and include only the article content with standard HTML tags (h1, h2, p, ul, ol, etc.).
+Start directly with content like <p>, <h2>, <ul>, etc., and include only the article body content with standard HTML tags.
 """
 
     # Use Grok API to generate the article
@@ -674,9 +669,14 @@ def main():
     print(article_html[:500] + "..." if len(article_html) > 500 else article_html)
     print("-" * 50)
 
-    # Extract title from HTML for Zendesk upload
-    title_match = re.search(r'<h1>(.*?)</h1>', article_html)
-    article_title = title_match.group(1) if title_match else f"KB Article - {search_query}"
+    # Create SEO/GEO optimized title from search query
+    # Use the search query to create a descriptive, keyword-rich title
+    if search_query.lower() in ['ctfmon', 'windows search', 'language bar']:
+        article_title = f"How to Fix Windows Search Not Working and Ctfmon Input Issues on Windows 10/11"
+    else:
+        # For other queries, create a descriptive title
+        clean_query = search_query.replace('_', ' ').replace('-', ' ').title()
+        article_title = f"How to Resolve {clean_query} Issues - Complete Troubleshooting Guide"
 
     # Upload to Zendesk Help Center
     section_id = get_section_choice(article_html, search_query)
