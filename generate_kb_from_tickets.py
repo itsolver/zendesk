@@ -255,28 +255,83 @@ def sanitize_ticket_data(ticket: Dict, audits: List[Dict]) -> Dict:
     return sanitized
 
 def sanitize_text(text: str) -> str:
-    """Remove personal information from text."""
+    """Remove personal information from text while preserving technical content."""
     if not text:
         return text
 
-    # Remove email addresses
-    text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '[EMAIL REDACTED]', text)
+    # Define common technical terms and service names to preserve
+    # These are IT/technical terms that should NOT be redacted
+    technical_terms = {
+        # Microsoft services and products
+        'Windows', 'Microsoft', 'Office', 'Outlook', 'Excel', 'Word', 'PowerPoint',
+        'OneDrive', 'SharePoint', 'Teams', 'Exchange', 'Azure', 'ActiveDirectory',
+        'Intune', 'Defender', 'BitLocker', 'Hyper-V', 'PowerShell',
+        # Google services
+        'Google', 'Gmail', 'Chrome', 'Drive', 'Docs', 'Sheets', 'Workspace',
+        # Common software and technical terms
+        'Windows Search', 'CtfMon', 'Ctfmon.exe', 'System32', 'Registry',
+        'TaskManager', 'EventViewer', 'Services.msc', 'Regedit',
+        # File systems and protocols
+        'NTFS', 'FAT32', 'HTTP', 'HTTPS', 'DNS', 'DHCP', 'TCP', 'IP',
+        # Error types
+        'Error', 'Warning', 'Exception', 'Timeout', 'Failed',
+    }
+
+    # Remove email addresses (but preserve [context])
+    text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '[EMAIL_REDACTED]', text)
 
     # Remove phone numbers (various formats)
-    text = re.sub(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', '[PHONE REDACTED]', text)
-    text = re.sub(r'\(\d{3}\)\s*\d{3}[-.]?\d{4}', '[PHONE REDACTED]', text)
+    text = re.sub(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', '[PHONE_REDACTED]', text)
+    text = re.sub(r'\(\d{3}\)\s*\d{3}[-.]?\d{4}', '[PHONE_REDACTED]', text)
 
-    # Remove potential names (capitalize words that might be names)
-    # This is a simple heuristic - in practice, you might want more sophisticated PII detection
+    # Remove URLs that might contain personal/organization info, but preserve the domain type
+    def redact_url(match):
+        url = match.group(0)
+        # Preserve common public domains that are technical
+        if any(domain in url.lower() for domain in ['microsoft.com', 'google.com', 'github.com', 'stackoverflow.com']):
+            return url
+        return '[URL_REDACTED]'
+    
+    text = re.sub(r'https?://[^\s]+', redact_url, text)
+
+    # Intelligently handle names - only redact if it's clearly a person name, not a technical term
     words = text.split()
     for i, word in enumerate(words):
-        if len(word) > 2 and word[0].isupper() and any(c.isupper() for c in word[1:]):
-            # Likely a proper name or acronym
-            words[i] = '[NAME REDACTED]'
+        # Skip if it's a known technical term
+        if word in technical_terms or word.lower() in [t.lower() for t in technical_terms]:
+            continue
+        
+        # Skip single capital letters (likely acronyms like "I" or variables)
+        if len(word) <= 1:
+            continue
+        
+        # Skip if it looks like a file path or command
+        if '\\' in word or '/' in word or '.' in word and word.endswith(('.exe', '.dll', '.sys', '.log', '.txt', '.bat', '.ps1', '.msc')):
+            continue
+        
+        # Skip if it's all caps (likely an acronym like API, DNS, HTTP)
+        if word.isupper() and len(word) > 1:
+            continue
+        
+        # Skip error codes and hex values
+        if word.startswith('0x') or (word.startswith('ERR') or word.startswith('HR')):
+            continue
+        
+        # Only redact if it's a capitalized word followed by another capitalized word (likely person name)
+        # AND not at start of sentence
+        if i > 0 and len(word) > 2 and word[0].isupper() and word[1:].islower():
+            # Check if next word is also capitalized (FirstName LastName pattern)
+            if i + 1 < len(words):
+                next_word = words[i + 1]
+                if len(next_word) > 2 and next_word[0].isupper() and next_word[1:].islower():
+                    # Likely a person name
+                    words[i] = '[NAME_REDACTED]'
+                    words[i + 1] = '[NAME_REDACTED]'
+    
     text = ' '.join(words)
-
-    # Remove URLs that might contain personal info
-    text = re.sub(r'https?://[^\s]+', '[URL REDACTED]', text)
+    
+    # Clean up multiple consecutive redactions
+    text = re.sub(r'\[NAME_REDACTED\](\s+\[NAME_REDACTED\])+', '[NAME_REDACTED]', text)
 
     return text
 
@@ -294,9 +349,11 @@ Here are the key patterns and solutions extracted from the tickets:
     # Summarize common issues and solutions
     issues = []
     solutions = []
-    steps = []
+    subjects = []
 
     for ticket in ticket_data:
+        if ticket.get('subject'):
+            subjects.append(ticket['subject'])
         if ticket.get('description'):
             issues.append(ticket['description'])
 
@@ -304,24 +361,37 @@ Here are the key patterns and solutions extracted from the tickets:
         for audit in ticket.get('audits', []):
             for event in audit.get('events', []):
                 if event.get('type') == 'Comment' and event.get('body'):
-                    solutions.append(event['body'])
+                    body = event['body']
+                    # Filter out very short comments (likely just "thanks" or single words)
+                    if len(body.strip()) > 20:
+                        solutions.append(body)
 
-                # Look for status changes that might indicate resolution
-                if event.get('type') == 'Change' and event.get('field_name') == 'status':
-                    if event.get('value') in ['solved', 'closed']:
-                        steps.append(f"Resolution achieved: {event.get('value', 'Unknown')}")
+    # Quality check: ensure we have enough content to generate a good article
+    total_content_length = sum(len(s) for s in subjects) + sum(len(i) for i in issues) + sum(len(s) for s in solutions)
+    
+    print("Data quality check:")
+    print(f"  - Subjects: {len(subjects)}")
+    print(f"  - Issue descriptions: {len(issues)}")
+    print(f"  - Solution comments: {len(solutions)}")
+    print(f"  - Total content length: {total_content_length} characters")
+    
+    if total_content_length < 200:
+        print(f"⚠ WARNING: Very little content available ({total_content_length} chars). Article quality may be poor.")
+    
+    if not solutions:
+        print("⚠ WARNING: No solution comments found. Article will lack specific troubleshooting steps.")
 
     context += f"""
-Common Issues Identified:
-{chr(10).join(f"- {issue[:200]}..." if len(issue) > 200 else f"- {issue}" for issue in issues[:10])}
+Ticket Subjects (what users reported):
+{chr(10).join(f"- {subject}" for subject in subjects[:10])}
 
-Common Solutions and Comments:
-{chr(10).join(f"- {solution[:200]}..." if len(solution) > 200 else f"- {solution}" for solution in solutions[:15])}
+Common Issues Identified (initial problem descriptions):
+{chr(10).join(f"- {issue[:300]}..." if len(issue) > 300 else f"- {issue}" for issue in issues[:10])}
 
-Resolution Patterns:
-{chr(10).join(f"- {step}" for step in steps[:10])}
+Solutions and Resolution Steps (from support interactions):
+{chr(10).join(f"- {solution[:400]}..." if len(solution) > 400 else f"- {solution}" for solution in solutions[:20])}
 
-Please generate a comprehensive knowledge base article that:
+Based on the above ticket data, generate a comprehensive knowledge base article that:
 1. Create SEO and GEO optimized headings (H2-H6) that:
    - Include the main problem/solution keywords naturally in headings
    - Use descriptive, long-tail keywords that users actually search for
@@ -382,32 +452,59 @@ Start directly with content like <p>, <h2>, <ul>, etc., and include only the art
         "messages": [
             {
                 "role": "system",
-                "content": "You are an expert technical writer creating knowledge base articles for IT support. Generate clear, helpful, and professional documentation based on support ticket patterns."
+                "content": """You are an expert technical writer creating knowledge base articles for IT support. 
+Your articles must be:
+- Highly detailed with specific technical steps (commands, registry paths, service names, error codes)
+- Professional but practical and actionable
+- Well-structured with semantic HTML headings (H2-H6)
+- Include keyboard shortcuts in <kbd> tags and code/commands in <code> tags
+- Optimized for both human readers and AI/search engines
+
+Do NOT generate generic placeholder content. Every step must be specific and actionable.
+If the provided ticket data lacks detail, infer likely solutions based on the technical domain and best practices."""
             },
             {
                 "role": "user",
                 "content": context
             }
         ],
-        "max_tokens": 4000,
+        "max_tokens": 6000,
         "temperature": 0.7
     }
 
     try:
         print("Generating knowledge base article with Grok AI...")
-        response = requests.post(grok_api_url, headers=headers, json=payload, timeout=30)
+        response = requests.post(grok_api_url, headers=headers, json=payload, timeout=60)
         response.raise_for_status()
 
         grok_response = response.json()
         article_content = grok_response['choices'][0]['message']['content']
 
+        # Quality check: ensure the article is substantial
+        if len(article_content) < 500:
+            raise ValueError(f"Generated article is too short ({len(article_content)} chars). This indicates poor quality content.")
+
+        # Check for generic placeholder content that indicates poor generation
+        generic_indicators = [
+            "verify the basic configuration",
+            "check for any recent changes",
+            "issues tagged as",
+        ]
+        content_lower = article_content.lower()
+        if any(indicator in content_lower for indicator in generic_indicators):
+            raise ValueError("Generated article contains generic placeholder content. This indicates the AI had insufficient information to work with.")
+
+        print(f"✓ Generated high-quality article ({len(article_content)} characters)")
         return article_content
 
     except Exception as e:
-        print(f"Error generating article with Grok API: {e}")
-        print("Aborting - cannot generate article without AI assistance.")
+        print(f"\n✗ ERROR: Failed to generate article with Grok API: {e}")
+        print("ABORTING: Cannot generate article without AI assistance.")
+        print("Possible reasons:")
+        print("  - API connection failed")
+        print("  - Generated content was too generic/low quality")
+        print("  - Insufficient ticket data or too much sanitization")
         raise e
-
 
 def generate_content_tags_and_labels(article_html, title, search_query):
     """Generate appropriate content tags and labels based on article content."""
