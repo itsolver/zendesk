@@ -582,17 +582,13 @@ def main():
     title_match = re.search(r'<h1>(.*?)</h1>', article_html)
     article_title = title_match.group(1) if title_match else f"KB Article - {search_query}"
 
-    # Ask user if they want to upload to Zendesk Help Center
-    upload_choice = input(f"\nUpload article '{article_title}' to Zendesk Help Center? (y/n): ").strip().lower()
-    if upload_choice == 'y':
-        section_id = get_section_choice()
-        if section_id:
-            article_id = upload_to_zendesk_help_center(article_html, article_title, section_id)
-            if article_id:
-                print(f"\n🎉 Article successfully uploaded to Zendesk Help Center!")
-                print(f"You can review/edit it at: https://support.itsolver.net/hc/en-au/articles/{article_id}")
-        else:
-            print("Upload skipped.")
+    # Upload to Zendesk Help Center
+    section_id = get_section_choice()
+    if section_id:
+        article_id = upload_to_zendesk_help_center(article_html, article_title, section_id)
+        if article_id:
+            print(f"\n🎉 Article successfully uploaded to Zendesk Help Center as a draft!")
+            print(f"You can review/edit it at: https://support.itsolver.net/hc/en-au/articles/{article_id}")
     else:
         print("Upload skipped.")
 
