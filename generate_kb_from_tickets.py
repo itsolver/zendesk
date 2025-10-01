@@ -453,6 +453,65 @@ def generate_fallback_article(ticket_data: List[Dict], search_query: str) -> str
 
     return article
 
+def upload_to_zendesk_help_center(article_html, title, section_id):
+    """Upload the generated article to Zendesk Help Center."""
+    print(f"\nUploading article to Zendesk Help Center section {section_id}...")
+
+    # Get permission_group_id from examples (48395 appears most common)
+    permission_group_id = 48395  # From recent examples
+
+    article_data = {
+        "article": {
+            "title": title,
+            "body": article_html,
+            "locale": "en-au",  # Based on subdomain and examples
+            "permission_group_id": permission_group_id,
+            "user_segment_id": None,  # null in examples
+            "draft": True  # Start as draft for review
+        },
+        "notify_subscribers": False
+    }
+
+    url = f"https://{zendesk_subdomain}/api/v2/help_center/sections/{section_id}/articles"
+
+    try:
+        response = session.post(url, json=article_data)
+        response.raise_for_status()
+
+        result = response.json()
+        article_id = result['article']['id']
+        print(f"✅ Article uploaded successfully! Article ID: {article_id}")
+        print(f"Article URL: https://support.itsolver.net/hc/en-au/articles/{article_id}")
+
+        return article_id
+
+    except requests.RequestException as e:
+        print(f"❌ Failed to upload article: {e}")
+        if hasattr(e, 'response') and e.response:
+            print(f"Response: {e.response.text}")
+        return None
+
+def get_section_choice():
+    """Get section choice from user."""
+    sections = {
+        "1": ("200392289", "Solutions (general area for solutions)"),
+        "2": ("200392299", "Tips & Tricks"),
+        "3": ("115001399286", "Microsoft 365"),
+        "4": ("115001312963", "Google Workspace")
+    }
+
+    print("\nAvailable Zendesk Help Center sections:")
+    for key, (section_id, description) in sections.items():
+        print(f"{key}. {description} (ID: {section_id})")
+
+    while True:
+        choice = input("\nChoose a section (1-4) or 'skip' to skip uploading: ").strip().lower()
+        if choice == 'skip':
+            return None
+        if choice in sections:
+            return sections[choice][0]
+        print("Invalid choice. Please select 1-4 or 'skip'.")
+
 def main():
     """Main function to generate KB article from ticket search."""
     print("=== Zendesk Knowledge Base Article Generator ===")
@@ -518,6 +577,24 @@ def main():
     print("-" * 50)
     print(article_html[:500] + "..." if len(article_html) > 500 else article_html)
     print("-" * 50)
+
+    # Extract title from HTML for Zendesk upload
+    title_match = re.search(r'<h1>(.*?)</h1>', article_html)
+    article_title = title_match.group(1) if title_match else f"KB Article - {search_query}"
+
+    # Ask user if they want to upload to Zendesk Help Center
+    upload_choice = input(f"\nUpload article '{article_title}' to Zendesk Help Center? (y/n): ").strip().lower()
+    if upload_choice == 'y':
+        section_id = get_section_choice()
+        if section_id:
+            article_id = upload_to_zendesk_help_center(article_html, article_title, section_id)
+            if article_id:
+                print(f"\n🎉 Article successfully uploaded to Zendesk Help Center!")
+                print(f"You can review/edit it at: https://support.itsolver.net/hc/en-au/articles/{article_id}")
+        else:
+            print("Upload skipped.")
+    else:
+        print("Upload skipped.")
 
     # Print statistics
     stats = rate_limiter.get_stats()
