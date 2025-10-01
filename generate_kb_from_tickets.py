@@ -81,7 +81,7 @@ if not test_gcloud_access():
     exit(1)
 
 zendesk_secret = access_secret_version("billing-sync", "ZENDESK_API_TOKEN", "latest")
-grok_api_key = access_secret_version("billing-sync", "GROK_API_KEY", "latest")
+grok_api_key = access_secret_version("billing-sync", "ZENDESK_GROK_API_KEY", "latest")
 session = requests.Session()
 session.auth = (zendesk_user, zendesk_secret)
 session.headers.update({
