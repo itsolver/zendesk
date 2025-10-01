@@ -704,48 +704,171 @@ def get_section_choice(article_html, search_query):
     # Always use auto-selected section without user input
     return auto_section_id
 
+def parse_text_file_content(file_path: str) -> List[Dict]:
+    """Parse a text file containing forum posts, Q&A, or support content into ticket-like format."""
+    print(f"Reading content from text file: {file_path}")
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except Exception as e:
+        print(f"Error reading file: {e}")
+        raise e
+    
+    if not content.strip():
+        raise ValueError("Text file is empty")
+    
+    # Split content into sections (simple heuristic: double newlines or numbered sections)
+    lines = content.strip().split('\n')
+    
+    # Try to identify structure
+    # Format 1: Title on first line, then Q&A sections
+    # Format 2: Question and multiple answers
+    
+    title = lines[0].strip() if lines else "Untitled Issue"
+    
+    # Collect the main question/issue description
+    issue_description = []
+    solutions = []
+    current_section = []
+    
+    in_question = True
+    for i, line in enumerate(lines[1:], 1):
+        line = line.strip()
+        
+        # Skip empty lines at boundaries
+        if not line:
+            if current_section:
+                if in_question:
+                    issue_description.extend(current_section)
+                else:
+                    solutions.append('\n'.join(current_section))
+                current_section = []
+            continue
+        
+        # Detect answer markers (common patterns)
+        if any(marker in line.lower() for marker in ['accepted answer', 'answer:', 'solution:', 'reply:', 'additional answers']):
+            if current_section and in_question:
+                issue_description.extend(current_section)
+                current_section = []
+            in_question = False
+            continue
+        
+        # Detect metadata/noise to skip
+        if any(skip in line.lower() for skip in ['anonymous', 'please sign in', 'people found this', '{count}', 'locked question', 'i have the same']):
+            continue
+        
+        # Detect dates (skip)
+        if re.match(r'[A-Z][a-z]{2} \d{1,2}, \d{4}', line):
+            continue
+        
+        current_section.append(line)
+    
+    # Add remaining content
+    if current_section:
+        if in_question:
+            issue_description.extend(current_section)
+        else:
+            solutions.append('\n'.join(current_section))
+    
+    # Structure as a single "ticket"
+    ticket_data = [{
+        'ticket_id': 'text-file',
+        'subject': title,
+        'description': '\n'.join(issue_description),
+        'status': 'solved',
+        'priority': 'normal',
+        'type': 'question',
+        'tags': ['external_content', 'forum_post'],
+        'created_at': datetime.now().isoformat(),
+        'updated_at': datetime.now().isoformat(),
+        'solved_at': datetime.now().isoformat(),
+        'audits': [
+            {
+                'id': i,
+                'created_at': datetime.now().isoformat(),
+                'events': [
+                    {
+                        'type': 'Comment',
+                        'body': solution,
+                        'field_name': None,
+                        'value': None,
+                        'previous_value': None
+                    }
+                ]
+            }
+            for i, solution in enumerate(solutions, 1)
+        ]
+    }]
+    
+    print("Parsed content:")
+    print(f"  - Title: {title}")
+    print(f"  - Issue description: {len(issue_description)} lines")
+    print(f"  - Solutions/answers: {len(solutions)} found")
+    
+    return ticket_data
+
 def main():
-    """Main function to generate KB article from ticket search."""
+    """Main function to generate KB article from ticket search or text file."""
     print("=== Zendesk Knowledge Base Article Generator ===")
-    print("This tool searches Zendesk tickets and generates generalized KB articles.")
+    print("This tool searches Zendesk tickets OR processes text files to generate KB articles.")
     print()
 
-    # Get user input - support command line args for testing
+    # Get user input - support command line args
+    input_source = None
+    search_query = None
+    
     if len(sys.argv) > 1:
-        search_query = sys.argv[1]
-        max_results = 10  # Fixed maximum for optimal analysis
+        input_source = sys.argv[1]
     else:
-        search_query = input("Enter the search query for tickets: ").strip()
-        if not search_query:
-            print("Search query cannot be empty.")
+        input_source = input("Enter search query for tickets OR path to text file (e.g., content.txt): ").strip()
+        if not input_source:
+            print("Input cannot be empty.")
             return
+
+    # Determine if input is a file path or search query
+    is_file = input_source.endswith('.txt') or input_source.endswith('.md') or '/' in input_source or '\\' in input_source
+    
+    if is_file:
+        # Text file mode
+        print("\n[MODE: Text File Input]")
+        try:
+            ticket_data = parse_text_file_content(input_source)
+            search_query = ticket_data[0]['subject']  # Use title as search query for section determination
+        except Exception as e:
+            print(f"Failed to parse text file: {e}")
+            return
+    else:
+        # Zendesk search mode
+        print("\n[MODE: Zendesk Ticket Search]")
+        search_query = input_source
         max_results = 10  # Fixed maximum for optimal analysis
+        
+        # Search tickets
+        print(f"\nSearching for up to {max_results} tickets matching: '{search_query}'")
+        tickets = search_tickets(search_query, max_results)
 
-    # Search tickets
-    print(f"\nSearching for up to {max_results} tickets matching: '{search_query}'")
-    tickets = search_tickets(search_query, max_results)
+        if not tickets:
+            print("No tickets found matching the search query.")
+            return
 
-    if not tickets:
-        print("No tickets found matching the search query.")
-        return
+        print(f"\nFound {len(tickets)} tickets. Fetching audit data...")
 
-    print(f"\nFound {len(tickets)} tickets. Fetching audit data...")
+        # Fetch audits for all tickets
+        ticket_data = []
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            audit_results = list(executor.map(get_ticket_audits, [t['id'] for t in tickets]))
 
-    # Fetch audits for all tickets
-    ticket_data = []
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        audit_results = list(executor.map(get_ticket_audits, [t['id'] for t in tickets]))
+        # Process and sanitize data
+        print("Processing and sanitizing ticket data...")
+        for i, (ticket, audits) in enumerate(zip(tickets, audit_results)):
+            sanitized = sanitize_ticket_data(ticket, audits)
+            ticket_data.append(sanitized)
 
-    # Process and sanitize data
-    print("Processing and sanitizing ticket data...")
-    for i, (ticket, audits) in enumerate(zip(tickets, audit_results)):
-        sanitized = sanitize_ticket_data(ticket, audits)
-        ticket_data.append(sanitized)
+            if (i + 1) % 10 == 0:
+                print(f"Processed {i + 1}/{len(tickets)} tickets")
 
-        if (i + 1) % 10 == 0:
-            print(f"Processed {i + 1}/{len(tickets)} tickets")
-
-    print(f"\nProcessed {len(ticket_data)} tickets successfully.")
+        print(f"\nProcessed {len(ticket_data)} tickets successfully.")
 
     # Generate KB article
     print("\nGenerating knowledge base article...")
@@ -764,10 +887,17 @@ def main():
     print(article_html[:500] + "..." if len(article_html) > 500 else article_html)
     print("-" * 50)
 
-    # Create SEO/GEO optimized title from search query
-    # Use the search query to create a descriptive, keyword-rich title
-    clean_query = search_query.replace('_', ' ').replace('-', ' ').title()
-    article_title = f"How to Resolve {clean_query} Issues - Complete Troubleshooting Guide"
+    # Create SEO/GEO optimized title
+    if is_file:
+        # For text files, use the title as-is if it's already a how-to, otherwise enhance it
+        if search_query.lower().startswith(('how to', 'fix', 'troubleshoot', 'resolve', 'stop', 'disable')):
+            article_title = search_query
+        else:
+            article_title = f"How to Fix: {search_query}"
+    else:
+        # For Zendesk search, create descriptive title from query
+        clean_query = search_query.replace('_', ' ').replace('-', ' ').title()
+        article_title = f"How to Resolve {clean_query} Issues - Complete Troubleshooting Guide"
 
     # Upload to Zendesk Help Center
     section_id = get_section_choice(article_html, search_query)
