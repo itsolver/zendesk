@@ -454,12 +454,63 @@ def generate_fallback_article(ticket_data: List[Dict], search_query: str) -> str
 
     return article
 
-def upload_to_zendesk_help_center(article_html, title, section_id):
+def generate_content_tags_and_labels(article_html, title, search_query):
+    """Generate appropriate content tags and labels based on article content."""
+    content_lower = article_html.lower()
+    title_lower = title.lower()
+    query_lower = search_query.lower()
+
+    # Content tags - these should be existing tag IDs in Zendesk
+    # For now, we'll use descriptive names that could match existing tags
+    content_tags = []
+
+    # Labels - visible in search results for better ranking
+    labels = []
+
+    # Analyze content for relevant tags and labels
+    if any(keyword in content_lower or keyword in title_lower or keyword in query_lower
+           for keyword in ['windows', 'microsoft', 'office', 'outlook', 'search', 'ctfmon']):
+        labels.extend(['windows', 'microsoft', 'troubleshooting', 'search'])
+        content_tags.extend(['microsoft', 'windows'])
+
+    if any(keyword in content_lower or keyword in title_lower or keyword in query_lower
+           for keyword in ['search', 'taskbar', 'input', 'language']):
+        labels.extend(['search', 'taskbar', 'input', 'language'])
+        content_tags.extend(['search', 'input'])
+
+    if any(keyword in content_lower or keyword in title_lower or keyword in query_lower
+           for keyword in ['update', 'configuration', 'service', 'restart']):
+        labels.extend(['updates', 'configuration', 'services'])
+        content_tags.extend(['configuration', 'services'])
+
+    if any(keyword in content_lower or keyword in title_lower or keyword in query_lower
+           for keyword in ['google', 'workspace', 'gmail', 'docs', 'sheets']):
+        labels.extend(['google', 'workspace', 'gmail'])
+        content_tags.extend(['google', 'workspace'])
+
+    if any(keyword in content_lower or keyword in title_lower or keyword in query_lower
+           for keyword in ['email', 'exchange', '365', 'office']):
+        labels.extend(['email', 'exchange', 'office365'])
+        content_tags.extend(['email', 'microsoft365'])
+
+    # Remove duplicates and limit to reasonable number
+    labels = list(set(labels))[:8]  # Max 8 labels for good SEO
+    content_tags = list(set(content_tags))[:5]  # Reasonable limit for content tags
+
+    return content_tags, labels
+
+def upload_to_zendesk_help_center(article_html, title, section_id, search_query):
     """Upload the generated article to Zendesk Help Center."""
     print(f"\nUploading article to Zendesk Help Center section {section_id}...")
 
     # Get permission_group_id from examples (48395 appears most common)
     permission_group_id = 48395  # From recent examples
+
+    # Generate content tags and labels based on article content
+    content_tags, labels = generate_content_tags_and_labels(article_html, title, search_query)
+
+    print(f"Content tags: {', '.join(content_tags)}")
+    print(f"Labels: {', '.join(labels)}")
 
     article_data = {
         "article": {
@@ -468,7 +519,8 @@ def upload_to_zendesk_help_center(article_html, title, section_id):
             "locale": "en-au",  # Based on subdomain and examples
             "permission_group_id": permission_group_id,
             "user_segment_id": None,  # null in examples
-            "draft": True  # Start as draft for review
+            "draft": True,  # Start as draft for review
+            "label_names": labels  # Labels for search ranking (content tags require existing tag IDs)
         },
         "notify_subscribers": False
     }
@@ -681,7 +733,7 @@ def main():
     # Upload to Zendesk Help Center
     section_id = get_section_choice(article_html, search_query)
     if section_id:
-        article_id = upload_to_zendesk_help_center(article_html, article_title, section_id)
+        article_id = upload_to_zendesk_help_center(article_html, article_title, section_id, search_query)
         if article_id:
             print(f"\nArticle successfully uploaded to Zendesk Help Center as a draft!")
             print(f"You can review/edit it at: https://support.itsolver.net/hc/en-au/articles/{article_id}")
