@@ -647,80 +647,6 @@ def backup_guide_articles(backup_path, cache_path):
     print(f"Guide articles backup completed: {len(log)} articles processed ({total_downloaded} downloaded, {total_cached} cached)")
     return log
 
-def backup_webhooks(backup_path, cache_path):
-    """Backup all webhooks using persistent local cache."""
-    print("=== Backing up Webhooks ===")
-    
-    # Set up directories
-    cache_webhooks_path = os.path.join(cache_path, "webhooks")
-    backup_webhooks_path = os.path.join(backup_path, "webhooks")
-    create_directory(cache_webhooks_path)
-    create_directory(backup_webhooks_path)
-    
-    webhooks_endpoint = f"https://{zendesk_subdomain}/api/v2/webhooks.json"
-    log = []
-    
-    def process_webhook(webhook):
-        """Process and save a single webhook."""
-        webhook_id = str(webhook['id'])
-        
-        # Use webhook name if available, otherwise use ID
-        title = webhook.get('name', f"webhook_{webhook_id}")
-        safe_title = slugify(title)
-        filename = f"{webhook_id}_{safe_title}.json"
-        cache_file_path = os.path.join(cache_webhooks_path, filename)
-        backup_file_path = os.path.join(backup_webhooks_path, filename)
-        
-        try:
-            # Save to cache
-            with open(cache_file_path, 'w', encoding='utf-8') as f:
-                json.dump(webhook, f, indent=2)
-            
-            # Copy to backup
-            shutil.copy2(cache_file_path, backup_file_path)
-            
-            return (filename, webhook.get('name', 'unnamed'), webhook.get('status', 'unknown'), 
-                   webhook.get('endpoint', ''), webhook.get('created_at', ''), webhook.get('updated_at', ''))
-        except Exception as e:
-            print(f"Error saving {filename}: {e}")
-            return (f"error_{webhook_id}.json", f"ERROR: {str(e)}", 'error', '', '', '')
-    
-    page_count = 0
-    while webhooks_endpoint:
-        page_count += 1
-        
-        try:
-            data = fetch_data_with_retries(webhooks_endpoint)
-        except Exception as e:
-            print(f"Failed to retrieve webhooks page {page_count}: {e}")
-            break
-        
-        if not data.get('webhooks'):
-            print(f"No webhooks found on page {page_count}")
-            break
-        
-        print(f"Processing webhooks page {page_count}: {len(data['webhooks'])} webhooks")
-        
-        # Process each webhook
-        for webhook in data['webhooks']:
-            result = process_webhook(webhook)
-            if result:
-                log.append(result)
-        
-        # Print rate limiting stats every 2 pages
-        if page_count % 2 == 0:
-            stats = rate_limiter.get_stats()
-            print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
-                  f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
-        
-        webhooks_endpoint = data.get('next_page')
-        if webhooks_endpoint:
-            print(f"Moving to next webhooks page: {page_count + 1}")
-    
-    write_log(backup_webhooks_path, log, ("File", "Name", "Status", "Endpoint", "Date Created", "Date Updated"))
-    print(f"Webhooks backup completed: {len(log)} webhooks processed")
-    return log
-
 def backup_support_assets(backup_path, cache_path):
     """Backup all support assets (triggers, automations, macros, etc.) using persistent local cache."""
     print("=== Backing up Support Assets ===")
@@ -741,7 +667,8 @@ def backup_support_assets(backup_path, cache_path):
          'ticket_forms': {'name': 'ticket_forms', 'response_key': 'ticket_forms'},
         'triggers': {'name': 'triggers', 'response_key': 'triggers'},
         'user_fields': {'name': 'user_fields', 'response_key': 'user_fields'},
-        'views': {'name': 'views', 'response_key': 'views'}
+        'views': {'name': 'views', 'response_key': 'views'},
+        'webhooks': {'name': 'webhooks', 'response_key': 'webhooks'}
     }
     
     all_logs = []
@@ -761,7 +688,7 @@ def backup_support_assets(backup_path, cache_path):
         def backup_asset(asset, asset_type, cache_path, backup_path):
             """Backup a single asset."""
             # Determine the title key based on asset type
-            title_key = 'name' if asset_type in ['triggers', 'automations', 'macros', 'ticket_forms', 'views'] else 'title'
+            title_key = 'name' if asset_type in ['triggers', 'automations', 'macros', 'ticket_forms', 'views', 'webhooks'] else 'title'
             
             # Try to find a valid title
             title = None
@@ -874,7 +801,6 @@ def main():
         # Backup faster items first
         assets_log = backup_support_assets(backup_path, persistent_cache_path)
         articles_log = backup_guide_articles(backup_path, persistent_cache_path)
-        webhooks_log = backup_webhooks(backup_path, persistent_cache_path)
 
         # Backup longest-running items last
         orgs_log = backup_organizations(backup_path, persistent_cache_path)
@@ -889,7 +815,7 @@ def main():
             summary_file.write(f"Zendesk Subdomain: {zendesk_subdomain}\n\n")
             
             # Count cache vs download stats from logs
-            total_items = len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log) + len(webhooks_log)
+            total_items = len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log)
             cached_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'cached')
             downloaded_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'downloaded')
             
@@ -897,8 +823,7 @@ def main():
             summary_file.write(f"Users: {len(users_log)} processed\n")
             summary_file.write(f"Organizations: {len(orgs_log)} processed\n")
             summary_file.write(f"Guide Articles: {len(articles_log)} processed\n")
-            summary_file.write(f"Support Assets: {len(assets_log)} processed\n")
-            summary_file.write(f"Webhooks: {len(webhooks_log)} processed\n\n")
+            summary_file.write(f"Support Assets: {len(assets_log)} processed (includes triggers, automations, macros, webhooks, etc.)\n\n")
             summary_file.write(f"Total items: {total_items}\n")
             summary_file.write(f"Cache efficiency: {cached_items} cached, {downloaded_items} downloaded\n")
             if total_items > 0:
@@ -942,7 +867,7 @@ def main():
         duration = end_time - start_time
         
         # Calculate cache efficiency
-        total_items = len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log) + len(webhooks_log)
+        total_items = len(tickets_log) + len(users_log) + len(orgs_log) + len(articles_log) + len(assets_log)
         cached_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'cached')
         downloaded_items = sum(1 for log in [tickets_log, users_log, orgs_log, articles_log] for item in log if len(item) > 4 and item[4] == 'downloaded')
         cache_rate = (cached_items / (cached_items + downloaded_items)) * 100 if (cached_items + downloaded_items) > 0 else 0
