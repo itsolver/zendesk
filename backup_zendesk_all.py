@@ -699,7 +699,7 @@ def backup_support_assets(backup_path, cache_path):
         log = []
         
         def backup_asset(asset, asset_type, cache_path, backup_path):
-            """Backup a single asset."""
+            """Backup a single asset to active/inactive subfolder based on status."""
             # Determine the title key based on asset type
             title_key = 'name' if asset_type in ['triggers', 'automations', 'macros', 'ticket_forms', 'views', 'webhooks'] else 'title'
             
@@ -713,10 +713,20 @@ def backup_support_assets(backup_path, cache_path):
             if not title:
                 title = f"untitled_{asset.get('id', 'unknown')}"
             
+            # Determine if asset is active or inactive
+            is_active = asset.get('active', True)
+            status_folder = 'active' if is_active else 'inactive'
+            
+            # Create status subdirectories
+            cache_status_path = os.path.join(cache_path, status_folder)
+            backup_status_path = os.path.join(backup_path, status_folder)
+            create_directory(cache_status_path)
+            create_directory(backup_status_path)
+            
             safe_title = slugify(title)
             filename = f"{safe_title}.json"
-            cache_file_path = os.path.join(cache_path, filename)
-            backup_file_path = os.path.join(backup_path, filename)
+            cache_file_path = os.path.join(cache_status_path, filename)
+            backup_file_path = os.path.join(backup_status_path, filename)
             
             try:
                 # Save to cache
@@ -726,7 +736,7 @@ def backup_support_assets(backup_path, cache_path):
                 # Copy to backup
                 shutil.copy2(cache_file_path, backup_file_path)
                 
-                return (filename, title, asset.get('active', True), asset.get('created_at'), asset.get('updated_at'))
+                return (filename, title, is_active, asset.get('created_at'), asset.get('updated_at'))
             except Exception as e:
                 print(f"Error saving {filename}: {e}")
                 return (f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None)
