@@ -180,6 +180,12 @@ def handle_rate_limit(response):
     """Handle API rate limiting - now uses global rate limiter."""
     return rate_limiter.handle_rate_limit_response(response)
 
+class ZendeskAPIError(requests.RequestException):
+    """Custom exception for Zendesk API errors that includes status code."""
+    def __init__(self, message, status_code=None):
+        super().__init__(message)
+        self.status_code = status_code
+
 def fetch_data(endpoint):
     """Fetch data from API endpoint with proactive rate limiting."""
     while True:
@@ -199,8 +205,9 @@ def fetch_data(endpoint):
                 f"Headers: {dict(response.headers)}\n"
                 f"Body preview: {resp_preview}"
             )
-            raise requests.RequestException(
-                f'Failed to retrieve data from {endpoint} with error {response.status_code}'
+            raise ZendeskAPIError(
+                f'Failed to retrieve data from {endpoint} with error {response.status_code}',
+                status_code=response.status_code
             )
         return response.json()
 
@@ -658,17 +665,18 @@ def backup_support_assets(backup_path, cache_path):
     create_directory(backup_assets_path)
     
     # Define asset types with their API endpoints and response keys
+    # 'optional' flag indicates endpoints that may return 404 (not available for all accounts)
     asset_types = {
-        'apps/installations': {'name': 'app_installations', 'response_key': 'installations'},
-        'automations': {'name': 'automations', 'response_key': 'automations'},
-        'macros': {'name': 'macros', 'response_key': 'macros'},
-        'organization_fields': {'name': 'organization_fields', 'response_key': 'organization_fields'},
-        'ticket_fields': {'name': 'ticket_fields', 'response_key': 'ticket_fields'},
-         'ticket_forms': {'name': 'ticket_forms', 'response_key': 'ticket_forms'},
-        'triggers': {'name': 'triggers', 'response_key': 'triggers'},
-        'user_fields': {'name': 'user_fields', 'response_key': 'user_fields'},
-        'views': {'name': 'views', 'response_key': 'views'},
-        'webhooks': {'name': 'webhooks', 'response_key': 'webhooks'}
+        'apps/installations': {'name': 'app_installations', 'response_key': 'installations', 'optional': False},
+        'automations': {'name': 'automations', 'response_key': 'automations', 'optional': False},
+        'macros': {'name': 'macros', 'response_key': 'macros', 'optional': False},
+        'organization_fields': {'name': 'organization_fields', 'response_key': 'organization_fields', 'optional': False},
+        'ticket_fields': {'name': 'ticket_fields', 'response_key': 'ticket_fields', 'optional': False},
+         'ticket_forms': {'name': 'ticket_forms', 'response_key': 'ticket_forms', 'optional': False},
+        'triggers': {'name': 'triggers', 'response_key': 'triggers', 'optional': False},
+        'user_fields': {'name': 'user_fields', 'response_key': 'user_fields', 'optional': False},
+        'views': {'name': 'views', 'response_key': 'views', 'optional': False},
+        'webhooks': {'name': 'webhooks', 'response_key': 'webhooks', 'optional': True}
     }
     
     all_logs = []
@@ -676,6 +684,7 @@ def backup_support_assets(backup_path, cache_path):
     for endpoint, config in asset_types.items():
         asset_name = config['name']
         response_key = config['response_key']
+        is_optional = config.get('optional', False)
         cache_asset_type_path = os.path.join(cache_assets_path, asset_name)
         backup_asset_type_path = os.path.join(backup_assets_path, asset_name)
         create_directory(cache_asset_type_path)
@@ -718,42 +727,60 @@ def backup_support_assets(backup_path, cache_path):
                 print(f"Error saving {filename}: {e}")
                 return (f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None)
         
-        page_count = 0
-        while endpoint_url:
-            page_count += 1
-            data = fetch_data_with_retries(endpoint_url)
-            
-            print(f"Processing {asset_name} page {page_count}: {len(data[response_key])} items")
-            
-            # Process assets in smaller batches to avoid overwhelming the rate limiter
-            batch_size = min(20, len(data[response_key]))  # Process in smaller batches
-            for i in range(0, len(data[response_key]), batch_size):
-                batch = data[response_key][i:i + batch_size]
+        try:
+            page_count = 0
+            while endpoint_url:
+                page_count += 1
+                data = fetch_data_with_retries(endpoint_url)
                 
-                # Process assets sequentially to be more conservative with rate limits
-                batch_results = []
-                for asset in batch:
-                    try:
-                        result = backup_asset(asset, asset_name, cache_asset_type_path, backup_asset_type_path)
-                        batch_results.append(result)
-                    except (IOError, OSError, json.JSONDecodeError) as e:
-                        print(f"Error processing asset {asset.get('id', 'unknown')}: {str(e)}")
-                        batch_results.append((f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None))
-                log.extend(batch_results)
+                print(f"Processing {asset_name} page {page_count}: {len(data[response_key])} items")
+                
+                # Process assets in smaller batches to avoid overwhelming the rate limiter
+                batch_size = min(20, len(data[response_key]))  # Process in smaller batches
+                for i in range(0, len(data[response_key]), batch_size):
+                    batch = data[response_key][i:i + batch_size]
+                    
+                    # Process assets sequentially to be more conservative with rate limits
+                    batch_results = []
+                    for asset in batch:
+                        try:
+                            result = backup_asset(asset, asset_name, cache_asset_type_path, backup_asset_type_path)
+                            batch_results.append(result)
+                        except (IOError, OSError, json.JSONDecodeError) as e:
+                            print(f"Error processing asset {asset.get('id', 'unknown')}: {str(e)}")
+                            batch_results.append((f"error_{asset.get('id', 'unknown')}.json", f"ERROR: {str(e)}", False, None, None))
+                    log.extend(batch_results)
+                
+                # Print rate limiting stats every 2 pages for assets
+                if page_count % 2 == 0:
+                    stats = rate_limiter.get_stats()
+                    print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
+                          f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
+                
+                endpoint_url = data.get('next_page')
+                if endpoint_url:
+                    print(f"Moving to next {asset_name} page: {page_count + 1}")
             
-            # Print rate limiting stats every 2 pages for assets
-            if page_count % 2 == 0:
-                stats = rate_limiter.get_stats()
-                print(f"Rate limiter stats: {stats['requests_last_minute']}/min, "
-                      f"total: {stats['total_requests']}, rate limited: {stats['rate_limited_count']}")
-            
-            endpoint_url = data.get('next_page')
-            if endpoint_url:
-                print(f"Moving to next {asset_name} page: {page_count + 1}")
+            write_log(backup_asset_type_path, log, ("File", "Title", "Active", "Date Created", "Date Updated"))
+            all_logs.extend([(asset_name, *entry) for entry in log])
+            print(f"{asset_name} backup completed: {len(log)} items processed")
         
-        write_log(backup_asset_type_path, log, ("File", "Title", "Active", "Date Created", "Date Updated"))
-        all_logs.extend([(asset_name, *entry) for entry in log])
-        print(f"{asset_name} backup completed: {len(log)} items processed")
+        except ZendeskAPIError as e:
+            # Check if this is a 404 error and the endpoint is optional
+            if is_optional and e.status_code == 404:
+                print(f"Warning: {asset_name} endpoint not available (404). This may be normal if the feature is not enabled for your Zendesk account.")
+                print(f"Skipping {asset_name} backup and continuing with other assets...")
+                # Create an empty log entry to indicate this was skipped
+                write_log(backup_asset_type_path, [], ("File", "Title", "Active", "Date Created", "Date Updated"))
+                all_logs.extend([(asset_name, "N/A - Endpoint not available", "N/A", "N/A", "N/A")])
+            else:
+                # For non-optional endpoints or non-404 errors, re-raise the exception
+                print(f"Error backing up {asset_name}: {e}")
+                raise
+        except requests.RequestException as e:
+            # Fallback for other request exceptions
+            print(f"Error backing up {asset_name}: {e}")
+            raise
     
     # Write master log for all support assets
     master_log_path = os.path.join(backup_assets_path, '_master_log.csv')
