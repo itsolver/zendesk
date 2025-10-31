@@ -676,7 +676,7 @@ def backup_support_assets(backup_path, cache_path):
         'triggers': {'name': 'triggers', 'response_key': 'triggers', 'optional': False},
         'user_fields': {'name': 'user_fields', 'response_key': 'user_fields', 'optional': False},
         'views': {'name': 'views', 'response_key': 'views', 'optional': False},
-        'webhooks': {'name': 'webhooks', 'response_key': 'webhooks', 'optional': True}
+        'webhooks': {'name': 'webhooks', 'response_key': 'webhooks', 'optional': False}
     }
     
     all_logs = []
@@ -691,7 +691,11 @@ def backup_support_assets(backup_path, cache_path):
         create_directory(backup_asset_type_path)
         
         print(f"Backing up {asset_name}...")
-        endpoint_url = f"https://{zendesk_subdomain}/api/v2/{endpoint}.json?per_page=100"
+        # Webhooks endpoint doesn't use .json extension
+        if endpoint == 'webhooks':
+            endpoint_url = f"https://{zendesk_subdomain}/api/v2/{endpoint}?per_page=100"
+        else:
+            endpoint_url = f"https://{zendesk_subdomain}/api/v2/{endpoint}.json?per_page=100"
         log = []
         
         def backup_asset(asset, asset_type, cache_path, backup_path):
