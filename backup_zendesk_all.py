@@ -2,6 +2,7 @@ import requests
 from requests.adapters import HTTPAdapter
 import json
 import os
+import sys
 import time
 import csv
 import shutil
@@ -13,9 +14,22 @@ from concurrent.futures import ThreadPoolExecutor
 from config import zendesk_subdomain, zendesk_user
 from secret_manager import access_secret_version, test_gcloud_access
 
-# Configuration
-LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups")
-BACKUP_DESTINATION_PATH = os.environ.get("BACKUP_PATH", r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Suppliers\Zendesk\Backups")
+# Platform-specific path configuration
+def get_default_paths():
+    """Return platform-appropriate default paths for cache and backup."""
+    if sys.platform == "darwin":  # macOS
+        cache_path = "/Users/angusmclauchlan/.cache/itsolver/zendesk_backups"
+        backup_path = "/Users/angusmclauchlan/Library/CloudStorage/OneDrive-SharedLibraries-ITSolver/IT Solver - Documents/Admin/Suppliers/Zendesk/Backups"
+    elif sys.platform == "win32":  # Windows
+        cache_path = r"C:\Users\AngusMcLauchlan\AppData\Local\ITSolver\Cache\Zendesk_backups"
+        backup_path = r"C:\Users\AngusMcLauchlan\IT Solver\IT Solver - Documents\Admin\Suppliers\Zendesk\Backups"
+    else:
+        raise RuntimeError(f"Unsupported platform: {sys.platform}")
+    return cache_path, backup_path
+
+_default_cache, _default_backup = get_default_paths()
+LOCAL_CACHE_PATH = os.environ.get("LOCAL_CACHE_PATH", _default_cache)
+BACKUP_DESTINATION_PATH = os.environ.get("BACKUP_PATH", _default_backup)
 BATCH_SIZE = 100  # Process items in batches to reduce memory usage
 
 # Rate Limiting Configuration for Zendesk Suite Professional
