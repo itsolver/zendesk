@@ -2,6 +2,7 @@ from google.cloud import secretmanager
 from google.auth.exceptions import DefaultCredentialsError
 from google.api_core.exceptions import PermissionDenied, NotFound
 import subprocess
+import os
 
 # Import the Secret Manager client library.
 
@@ -38,10 +39,13 @@ def test_gcloud_access():
                     print("Press Enter when you have completed the authentication in the browser.")
                     input("Press Enter to continue after authentication...")
 
-                    # Try to find gcloud in PATH first, then fallback to specific path
+                    # Try to find gcloud in PATH first, then fallback to platform-specific paths
+                    macos_gcloud = os.path.expanduser("~/Library/Application Support/cloud-code/installer/google-cloud-sdk/bin/gcloud")
+                    windows_gcloud = r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
                     gcloud_commands = [
                         ["gcloud", "auth", "application-default", "login"],
-                        [r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd", "auth", "application-default", "login"]
+                        [macos_gcloud, "auth", "application-default", "login"],
+                        [windows_gcloud, "auth", "application-default", "login"]
                     ]
 
                     success = False
@@ -92,19 +96,19 @@ def test_gcloud_access():
             return False
     except Exception as e:
         error_message = str(e)
-        # Check if this is a reauthentication error
-        if "Reauthentication is needed" in error_message and "gcloud auth application-default login" in error_message:
-            print("Google Cloud authentication expired. Starting interactive authentication...")
+        # Check if this is a reauthentication error or invalid grant (expired credentials)
+        if ("Reauthentication is needed" in error_message or "invalid_grant" in error_message):
+            print("Google Cloud authentication expired or invalid. Starting interactive authentication...")
             try:
                 print("Opening browser for Google Cloud authentication...")
-                print("Please complete the authentication in your browser.")
-                print("Press Enter when you have completed the authentication in the browser.")
-                input("Press Enter to continue after authentication...")
 
-                # Try to find gcloud in PATH first, then fallback to specific path
+                # Try to find gcloud in PATH first, then fallback to platform-specific paths
+                macos_gcloud = os.path.expanduser("~/Library/Application Support/cloud-code/installer/google-cloud-sdk/bin/gcloud")
+                windows_gcloud = r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
                 gcloud_commands = [
                     ["gcloud", "auth", "application-default", "login"],
-                    [r"C:\Users\AngusMcLauchlan\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd", "auth", "application-default", "login"]
+                    [macos_gcloud, "auth", "application-default", "login"],
+                    [windows_gcloud, "auth", "application-default", "login"]
                 ]
 
                 success = False
