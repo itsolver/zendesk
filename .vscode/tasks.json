@@ -1,28 +1,43 @@
 {
     "version": "2.0.0",
-    "tasks": [{
-        "label": "Run Zendesk Backup",
-        "type": "shell",
-        "command": "cmd",
-        "args": [
-            "/c",
-            "${workspaceFolder}\\.venv\\Scripts\\python.exe C:\\Users\\angusmclauchlan\\Projects\\itsolver\\zendesk\\backup_zendesk_all.py"
-        ],
-        "group": {
-            "kind": "build",
-            "isDefault": true
+    "tasks": [
+        {
+            "label": "Run Zendesk Backup",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "${workspaceFolder}\\.venv\\Scripts\\python.exe C:\\Users\\angusmclauchlan\\Projects\\itsolver\\zendesk\\backup_zendesk_all.py"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
         },
-        "presentation": {
-            "reveal": "always",
-            "panel": "new"
+        {
+            "label": "Run Zendesk Backup (macOS -> KB raw)",
+            "type": "shell",
+            "command": "/bin/zsh",
+            "args": [
+                "-lc",
+                "set -euo pipefail\nRAW_DIR=\"/Users/angusmclauchlan/Projects/itsolver/itsolver-toolkit/itsolver-kb/raw\"\nexport BACKUP_PATH=\"$RAW_DIR\"\npython3 \"${workspaceFolder}/backup_zendesk_all.py\"\nLATEST_ZIP=$(ls -t \"$RAW_DIR\"/zendesk_backup_*.zip 2>/dev/null | head -n 1)\nif [ -z \"$LATEST_ZIP\" ]; then\n  echo \"No backup zip found in $RAW_DIR\" >&2\n  exit 1\nfi\nEXTRACT_DIR=\"${LATEST_ZIP%.zip}\"\nrm -rf \"$EXTRACT_DIR\"\nmkdir -p \"$EXTRACT_DIR\"\nditto -x -k \"$LATEST_ZIP\" \"$EXTRACT_DIR\"\nrm \"$LATEST_ZIP\"\necho \"Extracted backup to $EXTRACT_DIR\""
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
         },
-        "runOptions": {
-            "runOn": "folderOpen"
+        {
+            "label": "GCloud Auth",
+            "type": "shell",
+            "command": "gcloud auth application-default login"
         }
-    },
-    {
-        "label": "GCloud Auth",
-        "type": "shell",
-        "command": "gcloud auth application-default login"
-    }]
+    ]
 }
